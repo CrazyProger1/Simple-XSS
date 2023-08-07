@@ -1,0 +1,235 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="154" name="JavaScript" />
+        <language minSize="350" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="css" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HttpUrlsUsage" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredUrls">
+        <list>
+          <option value="http://localhost" />
+          <option value="http://127.0.0.1" />
+          <option value="http://0.0.0.0" />
+          <option value="http://www.w3.org/" />
+          <option value="http://json-schema.org/draft" />
+          <option value="http://java.sun.com/" />
+          <option value="http://xmlns.jcp.org/" />
+          <option value="http://javafx.com/javafx/" />
+          <option value="http://javafx.com/fxml" />
+          <option value="http://maven.apache.org/xsd/" />
+          <option value="http://maven.apache.org/POM/" />
+          <option value="http://www.springframework.org/schema/" />
+          <option value="http://www.springframework.org/tags" />
+          <option value="http://www.springframework.org/security/tags" />
+          <option value="http://www.thymeleaf.org" />
+          <option value="http://www.jboss.org/j2ee/schema/" />
+          <option value="http://www.jboss.com/xml/ns/" />
+          <option value="http://www.ibm.com/webservices/xsd" />
+          <option value="http://activemq.apache.org/schema/" />
+          <option value="http://schema.cloudfoundry.org/spring/" />
+          <option value="http://schemas.xmlsoap.org/" />
+          <option value="http://cxf.apache.org/schemas/" />
+          <option value="http://primefaces.org/ui" />
+          <option value="http://tiles.apache.org/" />
+          <option value="http://" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyChainedComparisonsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoreConstantInTheMiddle" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyInterpreterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="83">
+            <item index="0" class="java.lang.String" itemvalue="telebot" />
+            <item index="1" class="java.lang.String" itemvalue="idna" />
+            <item index="2" class="java.lang.String" itemvalue="environ" />
+            <item index="3" class="java.lang.String" itemvalue="channels-redis-3.4.0" />
+            <item index="4" class="java.lang.String" itemvalue="discord" />
+            <item index="5" class="java.lang.String" itemvalue="altgraph" />
+            <item index="6" class="java.lang.String" itemvalue="Automat" />
+            <item index="7" class="java.lang.String" itemvalue="greenlet" />
+            <item index="8" class="java.lang.String" itemvalue="pygame" />
+            <item index="9" class="java.lang.String" itemvalue="python-dotenv" />
+            <item index="10" class="java.lang.String" itemvalue="PyQt5-sip" />
+            <item index="11" class="java.lang.String" itemvalue="MarkupSafe" />
+            <item index="12" class="java.lang.String" itemvalue="pycparser" />
+            <item index="13" class="java.lang.String" itemvalue="twisted-iocpsupport" />
+            <item index="14" class="java.lang.String" itemvalue="constantly" />
+            <item index="15" class="java.lang.String" itemvalue="frozenlist" />
+            <item index="16" class="java.lang.String" itemvalue="pyasn1-modules" />
+            <item index="17" class="java.lang.String" itemvalue="PyQt5-Qt5" />
+            <item index="18" class="java.lang.String" itemvalue="filelock" />
+            <item index="19" class="java.lang.String" itemvalue="PyQt5" />
+            <item index="20" class="java.lang.String" itemvalue="certifi" />
+            <item index="21" class="java.lang.String" itemvalue="soupsieve" />
+            <item index="22" class="java.lang.String" itemvalue="daphne" />
+            <item index="23" class="java.lang.String" itemvalue="beautifulsoup4" />
+            <item index="24" class="java.lang.String" itemvalue="pywin32" />
+            <item index="25" class="java.lang.String" itemvalue="hyperlink" />
+            <item index="26" class="java.lang.String" itemvalue="service-identity" />
+            <item index="27" class="java.lang.String" itemvalue="requests-mock" />
+            <item index="28" class="java.lang.String" itemvalue="asgiref" />
+            <item index="29" class="java.lang.String" itemvalue="cryptography" />
+            <item index="30" class="java.lang.String" itemvalue="zope.interface" />
+            <item index="31" class="java.lang.String" itemvalue="google" />
+            <item index="32" class="java.lang.String" itemvalue="pexpect" />
+            <item index="33" class="java.lang.String" itemvalue="click" />
+            <item index="34" class="java.lang.String" itemvalue="attrs" />
+            <item index="35" class="java.lang.String" itemvalue="pefile" />
+            <item index="36" class="java.lang.String" itemvalue="psutil" />
+            <item index="37" class="java.lang.String" itemvalue="pyinstaller-hooks-contrib" />
+            <item index="38" class="java.lang.String" itemvalue="dirhunt" />
+            <item index="39" class="java.lang.String" itemvalue="platformdirs" />
+            <item index="40" class="java.lang.String" itemvalue="PySocks" />
+            <item index="41" class="java.lang.String" itemvalue="virtualenv" />
+            <item index="42" class="java.lang.String" itemvalue="charset-normalizer" />
+            <item index="43" class="java.lang.String" itemvalue="distlib" />
+            <item index="44" class="java.lang.String" itemvalue="humanize" />
+            <item index="45" class="java.lang.String" itemvalue="django-environ" />
+            <item index="46" class="java.lang.String" itemvalue="async-timeout" />
+            <item index="47" class="java.lang.String" itemvalue="pyaes" />
+            <item index="48" class="java.lang.String" itemvalue="ptyprocess" />
+            <item index="49" class="java.lang.String" itemvalue="SQLAlchemy" />
+            <item index="50" class="java.lang.String" itemvalue="cffi" />
+            <item index="51" class="java.lang.String" itemvalue="pyasn1" />
+            <item index="52" class="java.lang.String" itemvalue="requests" />
+            <item index="53" class="java.lang.String" itemvalue="buildozer" />
+            <item index="54" class="java.lang.String" itemvalue="Jinja2" />
+            <item index="55" class="java.lang.String" itemvalue="sqlparse" />
+            <item index="56" class="java.lang.String" itemvalue="pyOpenSSL" />
+            <item index="57" class="java.lang.String" itemvalue="sh" />
+            <item index="58" class="java.lang.String" itemvalue="pywin32-ctypes" />
+            <item index="59" class="java.lang.String" itemvalue="txaio" />
+            <item index="60" class="java.lang.String" itemvalue="discord.py" />
+            <item index="61" class="java.lang.String" itemvalue="urllib3" />
+            <item index="62" class="java.lang.String" itemvalue="pyinstaller" />
+            <item index="63" class="java.lang.String" itemvalue="six" />
+            <item index="64" class="java.lang.String" itemvalue="pyTelegramBotAPI" />
+            <item index="65" class="java.lang.String" itemvalue="tzdata" />
+            <item index="66" class="java.lang.String" itemvalue="incremental" />
+            <item index="67" class="java.lang.String" itemvalue="TgCrypto" />
+            <item index="68" class="java.lang.String" itemvalue="django-grappelli" />
+            <item index="69" class="java.lang.String" itemvalue="autobahn" />
+            <item index="70" class="java.lang.String" itemvalue="colorama" />
+            <item index="71" class="java.lang.String" itemvalue="Django" />
+            <item index="72" class="java.lang.String" itemvalue="future" />
+            <item index="73" class="java.lang.String" itemvalue="typing_extensions" />
+            <item index="74" class="java.lang.String" itemvalue="Pyrogram" />
+            <item index="75" class="java.lang.String" itemvalue="aiohttp" />
+            <item index="76" class="java.lang.String" itemvalue="multidict" />
+            <item index="77" class="java.lang.String" itemvalue="yarl" />
+            <item index="78" class="java.lang.String" itemvalue="proxy-db" />
+            <item index="79" class="java.lang.String" itemvalue="pycryptodome" />
+            <item index="80" class="java.lang.String" itemvalue="aiosignal" />
+            <item index="81" class="java.lang.String" itemvalue="Twisted" />
+            <item index="82" class="java.lang.String" itemvalue="djangorestframework-simplejwt" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E722" />
+          <option value="E275" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+          <option value="N801" />
+          <option value="N806" />
+          <option value="N811" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="list.__getitem__" />
+          <option value="flask_sqlalchemy.SQLAlchemy.ForeignKey" />
+          <option value="map.__getitem__" />
+          <option value="set.items" />
+          <option value="typing.KeysView.__getitem__" />
+          <option value="str.__setitem__" />
+          <option value="Exception.TracebackException" />
+          <option value="django.core.handlers.wsgi.WSGIRequest" />
+          <option value="django.db.models.fields.related.ForeignKey.username" />
+          <option value="django.db.models.fields.related.OneToOneField.username" />
+          <option value="users.models.UserProfile.objects" />
+          <option value="django.db.models.fields.related.ForeignKey.pk" />
+          <option value="type.__getitem__" />
+          <option value="SerializableObject" />
+          <option value="server.reports.models.abandoned" />
+          <option value="server.reports.models.AbandonedObject" />
+          <option value="property.setter" />
+          <option value="bots.models.Bot.DoesNotExist" />
+          <option value="bots.models.Bot.objects" />
+          <option value="commands.models.Command.objects" />
+          <option value="django.contrib.auth.models.User.profile" />
+          <option value="django.contrib.auth.models.User.ban" />
+          <option value="users.models.UserBan.objects" />
+          <option value="django.contrib.auth.models.User.rank" />
+          <option value="users.models.UserComplaint.objects" />
+          <option value="users.models.Language.objects" />
+          <option value="users.models.UserRank.objects" />
+          <option value="etac.utils.json.jsonable_field.JsonableField.__add__" />
+          <option value="etac.utils.json.jsonable_field.JsonableField.profile" />
+          <option value="etac.utils.rest.field.APIField.user" />
+          <option value="psycopg2.__version__" />
+          <option value="crf.orm.types.IModel.meta" />
+          <option value="property.table_name" />
+          <option value="crf.orm.types.IModel._meta" />
+          <option value="crf.orm.model.Model._meta" />
+          <option value="main.User.Meta.table" />
+          <option value="property.name" />
+          <option value="property.db_connection" />
+          <option value="crf.orm.types.IField.foreign_field" />
+          <option value="crf.orm.types.IField.on_delete" />
+          <option value="neolite.utils.config.JSONConfig.W" />
+          <option value="neolite.server.room.Room.opponent" />
+          <option value="neolite.server.room.Room.map" />
+          <option value="app.settings" />
+          <option value="app.settings.settings" />
+          <option value="cv2.VideoCapture" />
+          <option value="cv2.imwrite" />
+          <option value="property.capitalize" />
+          <option value="docx.shared" />
+          <option value="docx.enum" />
+          <option value="int.isdigit" />
+          <option value="docx.image" />
+          <option value="typing.Coroutine.__await__" />
+          <option value="crf.serializer.SerializerMeta.Meta" />
+          <option value="database.model.Model.Meta.fields" />
+          <option value="tbf.view.ViewMeta.Meta" />
+          <option value="crf.serializer.MetaChecker.Meta" />
+          <option value="utils.cls_utils.MetaChecker.Meta" />
+          <option value="aiogram.utils.exceptions" />
+          <option value="functools._lru_cache_wrapper" />
+          <option value="usb_hid.devices" />
+          <option value="wifi" />
+          <option value="socketpool" />
+          <option value="app.gui.main.open_dlg_modal" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
