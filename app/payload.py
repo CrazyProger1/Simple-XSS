@@ -6,6 +6,7 @@ from settings import (
     PAYLOAD_INIT_FILE
 )
 from dataclasses import dataclass
+from loguru import logger
 from app.exceptions import (
     PayloadLoadingError,
     InitFileImportError

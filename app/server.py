@@ -3,10 +3,10 @@ import websockets
 
 from loguru import logger
 from app.session import ClientSession
-from app.utils import observer, clss
+from app.utils import observer
 
 
-class LocalServer(metaclass=clss.SingletonMeta):
+class LocalWebsocketServer:
     client_connected = observer.AsyncEvent()
     client_disconnected = observer.AsyncEvent()
     message_received = observer.AsyncEvent()
@@ -19,8 +19,10 @@ class LocalServer(metaclass=clss.SingletonMeta):
         raise NotImplementedError
 
 
-class DefaultLocalServer(LocalServer):
-    def __init__(self):
+class DefaultWebsocketServer(LocalWebsocketServer):
+    def __init__(self, host: str, port: int):
+        self._host = host
+        self._port = port
         self._connected = set()
 
     async def _handle_connection(self, connection):
@@ -45,8 +47,6 @@ class DefaultLocalServer(LocalServer):
         return self._connected
 
     async def run(self):
-        host = 'localhost'
-        port = 4444
-        async with websockets.serve(self._handle_connection, host, port):
-            logger.info(f'Server is running on {host}:{port}')
+        async with websockets.serve(self._handle_connection, self._host, self._port):
+            logger.info(f'Server is running on {self._host}:{self._port}')
             await asyncio.Future()
