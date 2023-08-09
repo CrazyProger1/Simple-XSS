@@ -2,12 +2,17 @@ import os
 import toml
 from settings import (
     PAYLOAD_DATA_FILE,
-    PAYLOAD_MAIN_FILE
+    PAYLOAD_MAIN_FILE,
+    PAYLOAD_INIT_FILE
 )
 from dataclasses import dataclass
-from app.exceptions import HookLoadingError
+from app.exceptions import (
+    PayloadLoadingError,
+    InitFileImportError
+)
 from app.utils.helpers import jinja
 from app.environment import Environment
+from app.utils import imputils
 
 
 @dataclass
@@ -60,10 +65,17 @@ class DefaultPayload(Payload):
     @classmethod
     def load(cls, path: str, environment: Environment):
         if not cls.is_valid(path):
-            raise HookLoadingError(path)
+            raise PayloadLoadingError(path)
 
         main_file = os.path.join(path, PAYLOAD_MAIN_FILE)
         data_file = os.path.join(path, PAYLOAD_DATA_FILE)
+        init_file = os.path.join(path, PAYLOAD_INIT_FILE)
+
+        if os.path.isfile(init_file):
+            try:
+                imputils.import_module_by_filepath(init_file)
+            except ImportError:
+                raise InitFileImportError(init_file)
 
         template = jinja.get_template(main_file)
 
