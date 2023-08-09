@@ -1,7 +1,7 @@
 from app.hook import DefaultHook
 from app.payload import DefaultPayload
 from app.environment import Environment
-from app.server import LocalServer
+from app.server import DefaultLocalServer
 
 # env = Environment('wss://test')
 # hook = DefaultHook.load('hooks/default', env)
@@ -14,12 +14,6 @@ from app.server import LocalServer
 # print(payload.metadata.author)
 import asyncio
 
+serv = DefaultLocalServer()
 
-def test(subj):
-    print(subj)
-
-
-LocalServer.ev.add_listener(test, pass_subject=True)
-
-serv = LocalServer()
-serv2 = LocalServer()
+asyncio.run(serv.run())
