@@ -1,7 +1,7 @@
 try:
     import colorama
 except ImportError:
-    raise ImportError('Colorama not installed. Run `python3 -m pip install colorama` to install colorama')
+    raise ImportError('Colorama not installed. Run `pip install colorama` to install colorama')
 
 from .ask import (
     ask,
