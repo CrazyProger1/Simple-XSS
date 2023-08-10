@@ -7,10 +7,14 @@ from app.tunneling import HTTPTunnelingAppWrapper
 from app.session import ClientSession
 
 
-async def load_payload(session: ClientSession):
+async def on_client_connected(session: ClientSession):
+    payload = DefaultPayload.load('payloads/chat', environment=env)
+    session.environment = env
+    session.payload = payload
+    session.hook = hook
     await session.connection.send(
         str(
-            DefaultPayload.load('payloads/chat', environment=env)
+            payload
         )
     )
 
@@ -19,6 +23,8 @@ env = Environment()
 t = HTTPTunnelingAppWrapper.get_wrapper('ngrok')('localhost', 4444)
 asyncio.run(t.run())
 env.public_url = t.public_url.replace('https://', 'wss://')
-print(DefaultHook.load('hooks/default', env))
-DefaultWebsocketServer.client_connected.add_listener(load_payload)
+hook = DefaultHook.load('hooks/default', env)
+print(hook)
+DefaultWebsocketServer.client_connected.add_listener(on_client_connected)
+
 asyncio.run(DefaultWebsocketServer('localhost', 4444).run())

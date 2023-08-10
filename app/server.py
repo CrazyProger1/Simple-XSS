@@ -76,9 +76,9 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         self._connected = set()
 
     @staticmethod
-    @cache
-    def _get_cons_from_sessions(sessions: Iterable[ClientSession]) -> set:
-        return set(session.connection for session in sessions)
+    def _get_cons_from_sessions(sessions: Iterable[ClientSession]) -> list:
+        connections = list([session.connection for session in sessions])
+        return connections
 
     async def _handle_event(self, session: ClientSession, event: Event):
         await self.event_received(
@@ -137,7 +137,7 @@ class DefaultWebsocketServer(LocalWebsocketServer):
     async def broadcast(self, sessions: Iterable[ClientSession], message: str):
         logger.debug(f'Message broadcasted: {message}')
         connections = self._get_cons_from_sessions(sessions)
-        await websockets.broadcast(connections)
+        websockets.broadcast(connections, message)
 
     async def broadcast_event(self, sessions: Iterable[ClientSession], event: Event):
         logger.debug(f'Event broadcasted: {event.__dict__}')
@@ -146,7 +146,7 @@ class DefaultWebsocketServer(LocalWebsocketServer):
     async def broadcast_all(self, message: str):
         logger.debug(f'Message broadcasted to all: {message}')
         connections = self._get_cons_from_sessions(self.connected)
-        await websockets.broadcast(connections)
+        websockets.broadcast(connections)
 
     async def broadcast_event_to_all(self, event: Event):
         await self.broadcast_all(encode_message(event=event))
