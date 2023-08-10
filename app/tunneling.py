@@ -22,15 +22,15 @@ class HTTPTunnelingAppWrapper:
                 return subcls
 
     @property
-    def host(self):
+    def host(self) -> str:
         return self._host
 
     @property
-    def port(self):
+    def port(self) -> int:
         return self._port
 
     @property
-    def public_url(self):
+    def public_url(self) -> str:
         raise NotImplementedError
 
     async def run(self):

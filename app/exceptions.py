@@ -17,3 +17,10 @@ class HTTPTunnelError(Exception):
     def __init__(self, host: str, port: int):
         super().__init__(f'Failed to open tunnel: {host}:{port}')
 
+
+class MessageDecodeError(ValueError):
+    pass
+
+
+class MessageEncodeError(ValueError):
+    pass
