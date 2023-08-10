@@ -1,7 +1,7 @@
 import os
 import toml
 from settings import (
-    PAYLOAD_DATA_FILE,
+    PAYLOAD_PACKAGE_FILE,
     PAYLOAD_MAIN_FILE,
     PAYLOAD_INIT_FILE
 )
@@ -66,11 +66,16 @@ class DefaultPayload(Payload):
 
     @classmethod
     def load(cls, path: str, environment: Environment):
+        if not isinstance(environment, Environment):
+            raise ValueError(f'environment must be type of Environment not {type(environment).__name__}')
+
+        path = str(path)
+
         if not cls.is_valid(path):
             raise PayloadLoadingError(path)
 
         main_file = os.path.join(path, PAYLOAD_MAIN_FILE)
-        data_file = os.path.join(path, PAYLOAD_DATA_FILE)
+        package_file = os.path.join(path, PAYLOAD_PACKAGE_FILE)
         init_file = os.path.join(path, PAYLOAD_INIT_FILE)
 
         if os.path.isfile(init_file):
@@ -82,8 +87,8 @@ class DefaultPayload(Payload):
         template = jinja.get_template(main_file)
 
         try:
-            data = toml.load(data_file)
-            metadata = PayloadMetadata(**data)
+            package_data = toml.load(package_file)
+            metadata = PayloadMetadata(**package_data)
         except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
             metadata = PayloadMetadata()
 

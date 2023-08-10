@@ -2,7 +2,7 @@ import os
 import toml
 from settings import (
     HOOK_MAIN_FILE,
-    HOOK_DATA_FILE
+    HOOK_PACKAGE_FILE
 )
 from dataclasses import dataclass
 from loguru import logger
@@ -65,13 +65,13 @@ class DefaultHook(Hook):
             raise HookLoadingError(path)
 
         main_file = os.path.join(path, HOOK_MAIN_FILE)
-        data_file = os.path.join(path, HOOK_DATA_FILE)
+        package_file = os.path.join(path, HOOK_PACKAGE_FILE)
 
         template = jinja.get_template(main_file)
 
         try:
-            data = toml.load(data_file)
-            metadata = HookMetadata(**data)
+            package_data = toml.load(package_file)
+            metadata = HookMetadata(**package_data)
         except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
             metadata = HookMetadata()
 
