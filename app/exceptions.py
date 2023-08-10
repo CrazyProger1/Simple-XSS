@@ -11,3 +11,9 @@ class PayloadLoadingError(ValueError):
 class InitFileImportError(ImportError):
     def __init__(self, path: str):
         super().__init__(f'Failed to import payload init file: {path}')
+
+
+class HTTPTunnelError(Exception):
+    def __init__(self, host: str, port: int):
+        super().__init__(f'Failed to open tunnel: {host}:{port}')
+

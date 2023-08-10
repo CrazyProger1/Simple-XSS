@@ -5,6 +5,8 @@ from functools import cache
 
 @cache
 def import_module(path: str, sep='.'):
+    """Imports module from path separated by sep"""
+
     try:
         components = path.split(sep)
         imported_module = __import__(components[0])
@@ -17,9 +19,11 @@ def import_module(path: str, sep='.'):
 
 @cache
 def import_module_by_filepath(path: str):
-    if not os.path.exists(path):
-        raise ImportError(f'Failed to import module: {path}')
+    """Imports module from .py file path"""
+
     try:
+        if not os.path.exists(path):
+            raise
         *_, filename = os.path.split(path)
         spec = importlib.util.spec_from_file_location(filename.replace('.py', ''), path)
         imported_module = importlib.util.module_from_spec(spec)

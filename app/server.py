@@ -4,6 +4,7 @@ import websockets
 from loguru import logger
 from app.session import ClientSession
 from app.utils import observer
+from app.validators import validate_port, validate_host
 
 
 class LocalWebsocketServer:
@@ -21,6 +22,8 @@ class LocalWebsocketServer:
 
 class DefaultWebsocketServer(LocalWebsocketServer):
     def __init__(self, host: str, port: int):
+        validate_port(port)
+        validate_host(host)
         self._host = host
         self._port = port
         self._connected = set()
@@ -48,5 +51,5 @@ class DefaultWebsocketServer(LocalWebsocketServer):
 
     async def run(self):
         async with websockets.serve(self._handle_connection, self._host, self._port):
-            logger.info(f'Server is running on {self._host}:{self._port}')
+            logger.info(f'Server is up on {self._host}:{self._port}')
             await asyncio.Future()

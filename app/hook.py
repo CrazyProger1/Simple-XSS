@@ -5,6 +5,7 @@ from settings import (
     HOOK_DATA_FILE
 )
 from dataclasses import dataclass
+from loguru import logger
 from app.exceptions import HookLoadingError
 from app.utils.helpers import jinja
 from app.environment import Environment
@@ -15,6 +16,7 @@ class HookMetadata:
     author: str = None
     description: str = None
     version: str = None
+    name: str = None
 
 
 class Hook:

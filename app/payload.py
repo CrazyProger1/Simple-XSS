@@ -21,6 +21,7 @@ class PayloadMetadata:
     author: str = None
     description: str = None
     version: str = None
+    name: str = None
 
 
 class Payload:
