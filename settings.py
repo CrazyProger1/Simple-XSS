@@ -8,3 +8,7 @@ PAYLOADS_DIR = './payloads'
 PAYLOAD_MAIN_FILE = 'payload.js'
 PAYLOAD_PACKAGE_FILE = 'package.toml'
 PAYLOAD_INIT_FILE = 'init.py'
+
+# app
+APP = 'Simple-XSS'
+VERSION = '0.1'

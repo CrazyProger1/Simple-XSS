@@ -1,30 +1,37 @@
 import asyncio
-from app.hook import DefaultHook
-from app.payload import DefaultPayload
-from app.environment import Environment
-from app.server import DefaultWebsocketServer
-from app.tunneling import HTTPTunnelingAppWrapper
-from app.session import ClientSession
+import argparse
+
+from app.cli import CLI
+from app.gui import GUI
+from settings import (
+    VERSION,
+    APP
+)
 
 
-async def on_client_connected(session: ClientSession):
-    payload = DefaultPayload.load('payloads/chat', environment=env)
-    session.environment = env
-    session.payload = payload
-    session.hook = hook
-    await session.connection.send(
-        str(
-            payload
-        )
+def parse_args() -> argparse.Namespace:
+    """Parses console arguments"""
+
+    parser = argparse.ArgumentParser(APP, description='XSS vulnerability payload builder')
+    parser.add_argument(
+        '-g',
+        '--graphic',
+        action='store_true',
+        help='graphic interface'
     )
+    return parser.parse_args()
 
 
-env = Environment()
-t = HTTPTunnelingAppWrapper.get_wrapper('ngrok')('localhost', 4444)
-asyncio.run(t.run())
-env.public_url = t.public_url.replace('https://', 'wss://')
-hook = DefaultHook.load('hooks/default', env)
-print(hook)
-DefaultWebsocketServer.client_connected.add_listener(on_client_connected)
+async def main():
+    args = parse_args()
+    if args.graphic:
+        gui = GUI(args)
+        await gui.run()
 
-asyncio.run(DefaultWebsocketServer('localhost', 4444).run())
+    else:
+        cli = CLI(args)
+        await cli.run()
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

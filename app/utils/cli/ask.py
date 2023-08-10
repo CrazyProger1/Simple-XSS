@@ -42,6 +42,15 @@ def ask_validated(
         )
 
 
+def ask_bool(prompt: str, default: bool = False):
+    value = ask(
+        prompt=prompt,
+        default=default
+    )
+
+    return value and str(value).lower() in {'1', 'y', 'yes', 'true', 't', True}
+
+
 def ask_option(
         prompt: str,
         options: Iterable,

@@ -22,14 +22,14 @@ def print_colored(*values, sep=' ', end='\n', color=colorama.Fore.WHITE, bg_colo
     reset_styles()
 
 
-def print_prefixed(prefix, *values, sep='', end='\n'):
+def print_prefixed(prefix, *values, sep=' ', end='\n'):
     """Prints prefix and values. Needed for print_pos, print_neg, ..."""
 
     print(f'{prefix} ', sep='', end='')
     print(*values, sep=sep, end=end)
 
 
-def print_pos(*values, sep='', end='\n'):
+def print_pos(*values, sep=' ', end='\n'):
     """Prints positive info with prefix [+]"""
 
     colorize(color=PRINT_STYLES['positive'])
@@ -37,7 +37,7 @@ def print_pos(*values, sep='', end='\n'):
     reset_styles()
 
 
-def print_neg(*values, sep='', end='\n'):
+def print_neg(*values, sep=' ', end='\n'):
     """Prints negative info with prefix [-]"""
 
     colorize(color=PRINT_STYLES['negative'])
@@ -45,7 +45,7 @@ def print_neg(*values, sep='', end='\n'):
     reset_styles()
 
 
-def print_question(*values, sep='', end='\n'):
+def print_question(*values, sep=' ', end='\n'):
     """Prints question with prefix [?]"""
 
     colorize(color=PRINT_STYLES['question'])

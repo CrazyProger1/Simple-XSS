@@ -7,8 +7,8 @@ from app.utils.cli import exceptions
 
 @cache
 def validate_host(host: str):
-    if not re.match(r'^\w+$', host):
-        raise exceptions.ValidationError(f'host is invalid: {host}')
+    if not re.match(r'^\w+$', str(host)):
+        raise exceptions.ValidationError(f'Host is invalid: {host}')
 
     return True
 
@@ -16,9 +16,21 @@ def validate_host(host: str):
 @cache
 def validate_port(port: int):
     if not isinstance(port, int):
-        raise exceptions.ValidationError(f'port must be type of integer not {type(port).__name__}')
+        raise exceptions.ValidationError(f'Port must be type of integer not {type(port).__name__}')
 
     if not 0 < port < 65536:
-        raise exceptions.ValidationError('port must be in range (0, 65536)')
+        raise exceptions.ValidationError('Port must be in range (0, 65536)')
+
+    return True
+
+
+@cache
+def validate_url(url: str, protocols: list | tuple = ('http', 'https', 'ws', 'wss')):
+    url = str(url)
+    if not re.match(r'^\w+://\S+$', url):
+        raise exceptions.ValidationError('Url has wrong format')
+
+    if not any(url.startswith(proto) for proto in protocols):
+        raise exceptions.ValidationError('Url has unallowed protocol')
 
     return True

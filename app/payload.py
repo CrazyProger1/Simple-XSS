@@ -62,7 +62,7 @@ class DefaultPayload(Payload):
 
     @classmethod
     def is_valid(cls, path: str) -> bool:
-        return os.path.isfile(os.path.join(path, PAYLOAD_MAIN_FILE))
+        return path and os.path.isfile(os.path.join(path, PAYLOAD_MAIN_FILE))
 
     @classmethod
     def load(cls, path: str, environment: Environment):
@@ -72,6 +72,7 @@ class DefaultPayload(Payload):
         path = str(path)
 
         if not cls.is_valid(path):
+            logger.error(f'Failed to load payload: {path}')
             raise PayloadLoadingError(path)
 
         main_file = os.path.join(path, PAYLOAD_MAIN_FILE)
@@ -92,6 +93,7 @@ class DefaultPayload(Payload):
         except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
             metadata = PayloadMetadata()
 
+        logger.debug(f'Payload loaded: {path}')
         return cls(
             code=template.render(
                 environment=environment,

@@ -6,7 +6,8 @@ except ImportError:
 from .ask import (
     ask,
     ask_option,
-    ask_validated
+    ask_validated,
+    ask_bool
 )
 from .printutils import (
     print_colored,
@@ -21,6 +22,7 @@ __all__ = [
     'ask',
     'ask_option',
     'ask_validated',
+    'ask_bool',
     'exceptions',
     'print_question',
     'print_pos',

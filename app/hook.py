@@ -57,11 +57,12 @@ class DefaultHook(Hook):
 
     @classmethod
     def is_valid(cls, path: str) -> bool:
-        return os.path.isfile(os.path.join(path, HOOK_MAIN_FILE))
+        return path and os.path.isfile(os.path.join(path, HOOK_MAIN_FILE))
 
     @classmethod
     def load(cls, path: str, environment: Environment):
         if not cls.is_valid(path):
+            logger.error(f'Failed to load hook: {path}')
             raise HookLoadingError(path)
 
         main_file = os.path.join(path, HOOK_MAIN_FILE)
@@ -75,6 +76,7 @@ class DefaultHook(Hook):
         except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
             metadata = HookMetadata()
 
+        logger.debug(f'Hook loaded: {path}')
         return cls(
             code=template.render(
                 environment=environment,

@@ -21,6 +21,11 @@ class HTTPTunnelingAppWrapper:
             if subcls._app == app:
                 return subcls
 
+    @classmethod
+    @property
+    def app(cls):
+        return cls._app
+
     @property
     def host(self) -> str:
         return self._host
