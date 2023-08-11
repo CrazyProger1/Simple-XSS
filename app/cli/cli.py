@@ -9,38 +9,47 @@ from app.session import ClientSession
 from app.tunneling import HTTPTunnelingAppWrapper
 from app.utils import cli, url
 from app.validators import validate_url
-from settings import OPTIONS_FILE
 
 
 class CLI(App):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         try:
-            self._options = Options.load(OPTIONS_FILE)
+            self._options = Options.load()
         except OptionsLoadingError:
             self._options = Options()
 
         self._server = DefaultWebsocketServer(self._options.host, self._options.port)
+
         self._hook = None
         self._env = Environment()
+
         LocalWebsocketServer.client_connected.add_listener(self._on_client_connected)
+        LocalWebsocketServer.client_connected.add_listener(self._on_client_disconnected)
 
     async def _on_client_connected(self, session: ClientSession):
+        cli.print_pos(f'Client hooked: {session.connection.origin}')
         payload = DefaultPayload.load(self._options.payload_path, environment=self._env)
         session.environment = self._env
         session.payload = payload
         session.hook = self._hook
         await self._server.send(session=session, message=str(payload))
+        cli.print_pos(f'Payload sent: {payload.metadata.name}')
+
+    async def _on_client_disconnected(self, session: ClientSession):
+        cli.print_pos(f'Client disconnected: {session.connection.origin}')
 
     async def _run_tunneling_app(self, app: str):
         try:
             wrapper = HTTPTunnelingAppWrapper.get_wrapper(app)(self._options.host, self._options.port)
             await wrapper.run()
-            self._public_url = wrapper.public_url
-        except HTTPTunnelError:
-            pass
+            self._options.public_url = wrapper.public_url
+            cli.print_pos(f'Tunneling app is up: {self._options.public_url}')
+        except HTTPTunnelError as e:
+            cli.print_neg(f'Failed to open tunnel: {type(e).__class__}: {e}')
 
     async def _run_server(self):
+        cli.print_pos(f'Server is up: {self._options.host}:{self._options.port}')
         await self._server.run()
 
     async def _load_hook(self, hook_path: str):

@@ -1,4 +1,4 @@
 version = '0.1'
-name = 'Default Hook'
+name = 'hello_world'
 author = 'crazyproger1'
-description = 'Default hook'
+description = 'Hello world payload'
