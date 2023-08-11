@@ -24,3 +24,8 @@ class MessageDecodeError(ValueError):
 
 class MessageEncodeError(ValueError):
     pass
+
+
+class OptionsLoadingError(ValueError):
+    def __init__(self, path: str):
+        super().__init__(f'Failed to load options: {path}')
