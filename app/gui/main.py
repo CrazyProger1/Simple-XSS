@@ -1,6 +1,12 @@
 import flet as ft
 from settings import APP, VERSION
 
+MESSAGE_FONT_SIZE = 15
+TITLE_FONT_SIZE = 20
+BUTTON_ICON_SIZE = 35
+CONTAINER_PADDING = 15
+MESSAGE_SPACING = 15
+
 
 def main(page: ft.Page):
     page.title = f'{APP} - V{VERSION}'
@@ -8,7 +14,7 @@ def main(page: ft.Page):
 
     def add_message(message: str):
         message_box.controls.append(
-            ft.Text(value=message, size=15)
+            ft.Text(value=message, size=MESSAGE_FONT_SIZE)
         )
         page.update()
 
@@ -25,23 +31,76 @@ def main(page: ft.Page):
     def send(e):
         pass
 
+    def hook_dir_picked(e):
+        path = e.path
+        if path:
+            hook_path_field.value = path
+            hook_path_field.update()
+
+            hook_description_text.value = 'Some perfect hook.'
+            hook_description_text.visible = True
+            hook_description_text.update()
+
+    def payload_dir_picked(e):
+        path = e.path
+        if path:
+            payload_path_field.value = path
+            payload_path_field.update()
+
+            payload_description_text.value = 'Some perfect payload.'
+            payload_description_text.visible = True
+            payload_description_text.update()
+
+    hook_picker = ft.FilePicker(on_result=hook_dir_picked)
+    payload_picker = ft.FilePicker(on_result=payload_dir_picked)
+
+    choose_hook_btn = ft.IconButton(
+        icon=ft.icons.FOLDER_OPEN,
+        on_click=lambda _: hook_picker.get_directory_path()
+
+    )
+    hook_path_field = ft.TextField(
+        expand=True,
+        border_color=ft.colors.OUTLINE,
+        read_only=True
+    )
+
+    hook_description_text = ft.Text(
+        visible=False
+    )
+
+    choose_payload_btn = ft.IconButton(
+        icon=ft.icons.FOLDER_OPEN,
+        on_click=lambda _: payload_picker.get_directory_path()
+
+    )
+    payload_path_field = ft.TextField(
+        expand=True,
+        border_color=ft.colors.OUTLINE,
+        read_only=True
+    )
+
+    payload_description_text = ft.Text(
+        visible=False
+    )
+
     hook_box_title = ft.Text(
         value='Hook',
-        size=20,
+        size=TITLE_FONT_SIZE,
         expand=True,
         text_align=ft.TextAlign.CENTER
     )
 
     payload_box_title = ft.Text(
         value='Payload',
-        size=20,
+        size=TITLE_FONT_SIZE,
         expand=True,
         text_align=ft.TextAlign.CENTER
     )
 
     networking_box_title = ft.Text(
         value='Networking',
-        size=20,
+        size=TITLE_FONT_SIZE,
         expand=True,
         text_align=ft.TextAlign.CENTER
     )
@@ -50,7 +109,18 @@ def main(page: ft.Page):
         controls=[
             ft.Row(
                 controls=[
-                    hook_box_title
+                    hook_box_title,
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    hook_path_field,
+                    choose_hook_btn,
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    hook_description_text
                 ]
             )
 
@@ -62,9 +132,21 @@ def main(page: ft.Page):
         controls=[
             ft.Row(
                 controls=[
-                    payload_box_title
+                    payload_box_title,
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    payload_path_field,
+                    choose_payload_btn,
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    payload_description_text
                 ]
             )
+
         ]
     )
 
@@ -80,7 +162,7 @@ def main(page: ft.Page):
     )
     run_btn = ft.IconButton(
         icon=ft.icons.PLAY_ARROW,
-        icon_size=35,
+        icon_size=BUTTON_ICON_SIZE,
         icon_color=ft.colors.GREEN,
         on_click=run,
         tooltip='Run'
@@ -88,7 +170,7 @@ def main(page: ft.Page):
     )
     stop_btn = ft.IconButton(
         icon=ft.icons.STOP,
-        icon_size=35,
+        icon_size=BUTTON_ICON_SIZE,
         icon_color=ft.colors.RED,
         disabled=True,
         on_click=stop,
@@ -126,21 +208,21 @@ def main(page: ft.Page):
         content=hook_box,
         border=ft.border.all(1, ft.colors.OUTLINE),
         border_radius=5,
-        padding=10,
+        padding=CONTAINER_PADDING,
         expand=True,
     )
     payload_box_container = ft.Container(
         content=payload_box,
         border=ft.border.all(1, ft.colors.OUTLINE),
         border_radius=5,
-        padding=10,
+        padding=CONTAINER_PADDING,
         expand=True,
     )
     networking_box_container = ft.Container(
         content=networking_box,
         border=ft.border.all(1, ft.colors.OUTLINE),
         border_radius=5,
-        padding=10,
+        padding=CONTAINER_PADDING,
         expand=True,
     )
     message_field = ft.TextField(
@@ -152,7 +234,7 @@ def main(page: ft.Page):
 
     send_btn = ft.IconButton(
         icon=ft.icons.SEND,
-        icon_size=35,
+        icon_size=BUTTON_ICON_SIZE,
         icon_color=ft.colors.BLUE_200,
         tooltip='Send',
         disabled=True,
@@ -161,14 +243,14 @@ def main(page: ft.Page):
 
     message_box = ft.ListView(
         expand=True,
-        spacing=15,
+        spacing=MESSAGE_SPACING,
         auto_scroll=True,
     )
     message_box_container = ft.Container(
         content=message_box,
         border=ft.border.all(1, ft.colors.OUTLINE),
         border_radius=5,
-        padding=10,
+        padding=CONTAINER_PADDING,
         expand=True,
     )
 
@@ -205,6 +287,8 @@ def main(page: ft.Page):
         ]
     )
 
+    page.overlay.append(hook_picker)
+    page.overlay.append(payload_picker)
     page.add(main_box)
 
     # file_picker = ft.FilePicker()
