@@ -51,6 +51,14 @@ def main(page: ft.Page):
             payload_description_text.visible = True
             payload_description_text.update()
 
+    def checkbox_value_changed(e):
+        val = use_tunneling_app_checkbox.value
+        tunneling_apps_dropdown.visible = val
+        public_url_field.visible = not val
+
+        tunneling_apps_dropdown.update()
+        public_url_field.update()
+
     hook_picker = ft.FilePicker(on_result=hook_dir_picked)
     payload_picker = ft.FilePicker(on_result=payload_dir_picked)
 
@@ -84,6 +92,28 @@ def main(page: ft.Page):
         visible=False
     )
 
+    use_tunneling_app_checkbox = ft.Checkbox(
+        value=False,
+        on_change=checkbox_value_changed,
+        label='Use tunneling app'
+    )
+
+    tunneling_apps_dropdown = ft.Dropdown(
+        visible=False,
+        expand=True,
+        disabled=False,
+        border_color=ft.colors.OUTLINE,
+        options=[
+            ft.dropdown.Option('ngrok')
+        ]
+    )
+    public_url_field = ft.TextField(
+        visible=True,
+        expand=True,
+        disabled=False,
+        border_color=ft.colors.OUTLINE,
+        hint_text='Public URL'
+    )
     hook_box_title = ft.Text(
         value='Hook',
         size=TITLE_FONT_SIZE,
@@ -156,6 +186,17 @@ def main(page: ft.Page):
             ft.Row(
                 controls=[
                     networking_box_title
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    use_tunneling_app_checkbox
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    tunneling_apps_dropdown,
+                    public_url_field
                 ]
             )
         ]
