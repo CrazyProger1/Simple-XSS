@@ -1,5 +1,10 @@
 import flet as ft
-from settings import APP, VERSION
+
+from app.hook import DefaultHook
+from app.payload import DefaultPayload
+from app.options import Options
+from app.exceptions import OptionsLoadingError
+from settings import APP, VERSION, OPTIONS_FILE
 
 MESSAGE_FONT_SIZE = 15
 TITLE_FONT_SIZE = 20
@@ -11,6 +16,10 @@ MESSAGE_SPACING = 15
 def main(page: ft.Page):
     page.title = f'{APP} - V{VERSION}'
     page.theme_mode = 'dark'
+    try:
+        options = Options.load(OPTIONS_FILE)
+    except OptionsLoadingError:
+        options = Options()
 
     def add_message(message: str):
         message_box.controls.append(
@@ -31,25 +40,59 @@ def main(page: ft.Page):
     def send(e):
         pass
 
+    def load_hook_data(path: str):
+        if path:
+            if DefaultHook.is_valid(path):
+                metadata = DefaultHook.load_metadata(path)
+
+                if metadata.name:
+                    hook_box_title.value = str(metadata.name)
+
+                    if metadata.version:
+                        hook_box_title.value += f' - V{metadata.version}'
+
+                if metadata.author:
+                    hook_author_text.visible = True
+                    hook_author_text.value = f'©{metadata.author}'
+
+                hook_path_field.value = path
+
+                if metadata.description:
+                    hook_description_text.value = str(metadata.description)
+                    hook_description_text.visible = True
+
+                page.update()
+
+    def load_payload_data(path: str):
+        if path:
+            if DefaultPayload.is_valid(path):
+                metadata = DefaultPayload.load_metadata(path)
+
+                if metadata.name:
+                    payload_box_title.value = str(metadata.name)
+
+                    if metadata.version:
+                        payload_box_title.value += f' - V{metadata.version}'
+
+                if metadata.author:
+                    payload_author_text.visible = True
+                    payload_author_text.value = f'©{metadata.author}'
+
+                payload_path_field.value = path
+
+                if metadata.description:
+                    payload_description_text.value = str(metadata.description)
+                    payload_description_text.visible = True
+
+                page.update()
+
     def hook_dir_picked(e):
         path = e.path
-        if path:
-            hook_path_field.value = path
-            hook_path_field.update()
-
-            hook_description_text.value = 'Some perfect hook.'
-            hook_description_text.visible = True
-            hook_description_text.update()
+        load_hook_data(path)
 
     def payload_dir_picked(e):
         path = e.path
-        if path:
-            payload_path_field.value = path
-            payload_path_field.update()
-
-            payload_description_text.value = 'Some perfect payload.'
-            payload_description_text.visible = True
-            payload_description_text.update()
+        load_payload_data(path)
 
     def checkbox_value_changed(e):
         val = use_tunneling_app_checkbox.value
@@ -61,6 +104,30 @@ def main(page: ft.Page):
 
     hook_picker = ft.FilePicker(on_result=hook_dir_picked)
     payload_picker = ft.FilePicker(on_result=payload_dir_picked)
+
+    hook_author_text = ft.Text(
+        visible=False,
+        text_align=ft.TextAlign.RIGHT,
+        italic=True
+    )
+
+    hook_author_text_container = ft.Container(
+        content=hook_author_text,
+        alignment=ft.alignment.bottom_right,
+        expand=True
+    )
+
+    payload_author_text = ft.Text(
+        visible=False,
+        text_align=ft.TextAlign.RIGHT,
+        italic=True
+    )
+
+    payload_author_text_container = ft.Container(
+        content=payload_author_text,
+        alignment=ft.alignment.bottom_right,
+        expand=True
+    )
 
     choose_hook_btn = ft.IconButton(
         icon=ft.icons.FOLDER_OPEN,
@@ -74,7 +141,10 @@ def main(page: ft.Page):
     )
 
     hook_description_text = ft.Text(
-        visible=False
+        visible=False,
+        max_lines=3,
+        overflow=ft.TextOverflow.ELLIPSIS
+
     )
 
     choose_payload_btn = ft.IconButton(
@@ -89,7 +159,9 @@ def main(page: ft.Page):
     )
 
     payload_description_text = ft.Text(
-        visible=False
+        visible=False,
+        max_lines=3,
+        overflow=ft.TextOverflow.ELLIPSIS
     )
 
     use_tunneling_app_checkbox = ft.Checkbox(
@@ -125,14 +197,14 @@ def main(page: ft.Page):
         value='Payload',
         size=TITLE_FONT_SIZE,
         expand=True,
-        text_align=ft.TextAlign.CENTER
+        text_align=ft.TextAlign.CENTER,
     )
 
     networking_box_title = ft.Text(
         value='Networking',
         size=TITLE_FONT_SIZE,
         expand=True,
-        text_align=ft.TextAlign.CENTER
+        text_align=ft.TextAlign.CENTER,
     )
 
     hook_box = ft.Column(
@@ -148,11 +220,8 @@ def main(page: ft.Page):
                     choose_hook_btn,
                 ]
             ),
-            ft.Row(
-                controls=[
-                    hook_description_text
-                ]
-            )
+            hook_description_text,
+            hook_author_text_container
 
         ]
     )
@@ -171,11 +240,9 @@ def main(page: ft.Page):
                     choose_payload_btn,
                 ]
             ),
-            ft.Row(
-                controls=[
-                    payload_description_text
-                ]
-            )
+
+            payload_description_text,
+            payload_author_text_container,
 
         ]
     )
@@ -330,273 +397,8 @@ def main(page: ft.Page):
 
     page.overlay.append(hook_picker)
     page.overlay.append(payload_picker)
-    page.add(main_box)
 
-    # file_picker = ft.FilePicker()
-    # page.overlay.append(file_picker)
-    # page.update()
-    #
-    # message_box = ft.ListView(
-    #     expand=True,
-    #     spacing=15,
-    #     auto_scroll=True,
-    #
-    # )
-    #
-    # hook_box = ft.Column(
-    #     expand=True,
-    #     controls=[
-    #         ft.Row(
-    #             controls=[
-    #                 ft.Text(
-    #                     text_align=ft.TextAlign.CENTER,
-    #                     value='Hook',
-    #                     expand=True,
-    #                     size=20
-    #                 ),
-    #             ]
-    #         ),
-    #         ft.Container(
-    #             border=ft.border.all(
-    #                 1,
-    #                 ft.colors.OUTLINE
-    #             ),
-    #             border_radius=20,
-    #             padding=10,
-    #             content=ft.Row(
-    #                 controls=[
-    #                     ft.Text(
-    #                         value='C:\\user\\',
-    #                         size=18,
-    #                         expand=True
-    #                     ),
-    #                     ft.TextButton(
-    #                         "Choose dir...",
-    #                         on_click=lambda _: file_picker.pick_files(allow_multiple=False),
-    #                         icon=ft.icons.FOLDER_OPEN,
-    #
-    #                     )
-    #                 ]
-    #             )
-    #         )
-    #
-    #     ])
-    # payload_box = ft.Column(
-    #     expand=True,
-    #     controls=[
-    #         ft.Row(
-    #             controls=[
-    #                 ft.Text(
-    #                     text_align=ft.TextAlign.CENTER,
-    #                     value='Payload',
-    #                     expand=True,
-    #                     size=20
-    #                 ),
-    #             ]
-    #         ),
-    #
-    #         ft.Container(
-    #             border=ft.border.all(
-    #                 1,
-    #                 ft.colors.OUTLINE
-    #             ),
-    #             border_radius=20,
-    #             padding=10,
-    #             content=ft.Row(
-    #                 controls=[
-    #                     ft.Text(
-    #                         value='C:\\user\\',
-    #                         size=18,
-    #                         expand=True
-    #                     ),
-    #                     ft.TextButton(
-    #                         "Choose dir...",
-    #                         on_click=lambda _: file_picker.pick_files(allow_multiple=False),
-    #                         icon=ft.icons.FOLDER_OPEN,
-    #
-    #                     )
-    #                 ]
-    #             )
-    #         )
-    #
-    #     ])
-    # checked = False
-    #
-    # def on_change(e):
-    #     nonlocal checked
-    #     checked = not checked
-    #     dropdown.disabled = not checked
-    #     dropdown.update()
-    #
-    # dropdown = ft.Dropdown(
-    #     expand=True,
-    #     disabled=True,
-    #     options=[
-    #         ft.dropdown.Option("ngrok"),
-    #         ft.dropdown.Option("Green"),
-    #         ft.dropdown.Option("Blue"),
-    #     ]
-    # )
-    #
-    # networking_box = ft.Column(
-    #     controls=[
-    #         ft.Row(
-    #             expand=True,
-    #             controls=[
-    #                 ft.Text(
-    #                     text_align=ft.TextAlign.CENTER,
-    #                     value='Networking',
-    #                     expand=True,
-    #                     size=20
-    #                 ),
-    #             ]
-    #         ),
-    #         ft.Row(
-    #             expand=True,
-    #             controls=[
-    #                 dropdown,
-    #                 ft.Checkbox(label="Use tunneling app", value=False, on_change=on_change, expand=True)
-    #             ]
-    #         ),
-    #         ft.Row(
-    #             expand=True,
-    #             controls=[
-    #                 ft.TextField(hint_text='Public url', expand=True)
-    #             ]
-    #         )
-    #
-    #     ])
-    #
-    # launch_button = ft.TextButton(
-    #     # text='Launch',
-    #     expand=True,
-    #     height=55,
-    #     content=ft.Text(
-    #         'Launch',
-    #         size=20
-    #     )
-    # )
-    # # stop_button = ft.IconButton(
-    # #     icon=ft.icons.SEND_ROUNDED,
-    # #     tooltip='Send message',
-    # #     scale=1.3
-    # # ),
-    #
-    # stop_button = ft.TextButton(
-    #     # text='Launch',
-    #     expand=True,
-    #     height=55,
-    #     disabled=True,
-    #     content=ft.Text(
-    #         'STOP',
-    #         size=20
-    #     )
-    # )
-    #
-    # # stop_button = ft.IconButton(
-    # #     icon=ft.icons.STOP,
-    # #     tooltip='Stop',
-    # #     scale=1.3
-    # # ),
-    #
-    # def add_message(message):
-    #     message_box.controls.append(
-    #         ft.Text(value=message, selectable=True)
-    #     )
-    #
-    # def add_copiable(message):
-    #     message_box.controls.append(
-    #         ft.Row(
-    #             controls=[
-    #                 ft.Text(
-    #                     value=message
-    #                 ),
-    #                 ft.IconButton(
-    #                     icon=ft.icons.COPY,
-    #                     tooltip='Send message',
-    #                     scale=0.7,
-    #                 )
-    #             ]
-    #         )
-    #         # ft.Text(
-    #         #     value=message,
-    #         #     selectable=True,
-    #         #     italic=True,
-    #         #
-    #         # ),
-    #     )
-    #
-    # for i in range(100):
-    #     add_message(f'msg{i}')
-    #
-    # add_copiable('test')
-    #
-    # # launch_button
-    #
-    # page.add(
-    #     ft.Row(
-    #         expand=True,
-    #         controls=[
-    #             ft.Column(
-    #                 expand=True,
-    #                 controls=[
-    #                     ft.Container(
-    #                         content=hook_box,
-    #                         border=ft.border.all(1, ft.colors.OUTLINE),
-    #                         border_radius=5,
-    #                         padding=10,
-    #                         expand=True,
-    #                     ),
-    #                     ft.Container(
-    #                         content=payload_box,
-    #                         border=ft.border.all(1, ft.colors.OUTLINE),
-    #                         border_radius=5,
-    #                         padding=10,
-    #                         expand=True,
-    #                     ),
-    #                     ft.Container(
-    #                         content=networking_box,
-    #                         border=ft.border.all(1, ft.colors.OUTLINE),
-    #                         border_radius=5,
-    #                         padding=10,
-    #                         expand=True,
-    #                     ),
-    #                     ft.Row(
-    #                         controls=[
-    #                             launch_button,
-    #                             stop_button
-    #                         ]
-    #                     )
-    #                 ]
-    #             ),
-    #             ft.Column(
-    #                 expand=True,
-    #                 controls=[
-    #                     ft.Container(
-    #                         content=message_box,
-    #                         border=ft.border.all(1, ft.colors.OUTLINE),
-    #                         border_radius=5,
-    #                         padding=10,
-    #                         expand=True,
-    #                     ),
-    #                     ft.Row(
-    #                         controls=[
-    #                             ft.TextField(
-    #                                 expand=True,
-    #                                 hint_text='Message'
-    #                             ),
-    #                             ft.IconButton(
-    #                                 icon=ft.icons.SEND_ROUNDED,
-    #                                 tooltip='Send message',
-    #                                 scale=1.3
-    #                             ),
-    #                         ]
-    #                     )
-    #
-    #                 ]
-    #             )
-    #
-    #         ]
-    #     ),
-    #
-    # )
+    load_payload_data(options.payload_path)
+    load_hook_data(options.hook_path)
+
+    page.add(main_box)
