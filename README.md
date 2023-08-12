@@ -15,7 +15,8 @@ for this because the application will take care of tunneling the connection betw
 
 ## Usage
 
-_To run application see [installation](#Installation) section._
+> Use `--help` argument to get help.
+![commandline help](docs/help.png)
 
 ### Hook
 
@@ -148,8 +149,6 @@ And finally you can run it:
 python main.py
 ```
 
-> Use `--help` argument to get help.
-
 ### Linux
 
 First you need to clone the repository:
@@ -170,8 +169,6 @@ And finally you can run it:
 ```commandline
 python main.py
 ```
-
-> Use `--help` argument to get help.
 
 ## License
 

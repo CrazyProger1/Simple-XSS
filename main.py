@@ -28,7 +28,10 @@ def setup_logging():
 def parse_args() -> argparse.Namespace:
     """Parses console arguments"""
 
-    parser = argparse.ArgumentParser(APP, description='XSS vulnerability payload builder')
+    parser = argparse.ArgumentParser(
+        APP,
+        description='Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool.'
+    )
     parser.add_argument(
         '-g',
         '--graphic',
