@@ -1,10 +1,13 @@
 # Simple-XSS
 
-
-
 <p align="center">
-  <img src="xss_big.png" />
+  <img src="res/big_logo.png"  alt="logo"/>
 </p>
+
+<a href="https://github.com/CrazyProger1/Simle-XSS/releases/download/V0.1/Simle-XSS-buildV0.1.exe"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/CrazyProger1/Simle-XSS/total"></a>
+<a href="https://github.com/CrazyProger1/Simle-XSS/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/CrazyProger1/Simle-XSS"></a>
+<a href="https://github.com/CrazyProger1/Simle-XSS/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CrazyProger1/Simle-XSS"></a>
+
 
 Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool. This application will help you
 create a hook that can easily
