@@ -79,7 +79,7 @@ class DefaultRunner(Runner):
             self._options.public_url = url.convert_url(self._tunneling_app.public_url)
 
             await self.tunneling_app_launched(public_url=self._options.public_url)
-        except HTTPTunnelError as e:
+        except (HTTPTunnelError, TypeError) as e:
             await self.tunneling_app_launching_error(error=e)
 
     async def _run_server(self):
@@ -109,8 +109,7 @@ class DefaultRunner(Runner):
     async def run(self):
         if self._options.use_tunneling_app:
             await self._run_tunneling_app()
-
-        if not self._options.public_url:
+        else:
             await self.public_url_unspecified_error()
 
         self._env.public_url = url.convert_url(self._options.public_url)

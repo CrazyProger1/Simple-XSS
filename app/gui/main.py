@@ -3,17 +3,15 @@ import asyncio
 from app.hook import DefaultHook
 from app.payload import DefaultPayload
 from app.options import Options
-from app.exceptions import OptionsLoadingError, HTTPTunnelError
-from app.environment import Environment
+from app.exceptions import OptionsLoadingError
 from app.tunneling import HTTPTunnelingAppWrapper
-from app.server import DefaultWebsocketServer
-from app.session import ClientSession
-from app.utils import url
 from app.runner import DefaultRunner
 from settings import (
     APP,
     VERSION,
-    OPTIONS_FILE
+    OPTIONS_FILE,
+    HOOKS_DIR,
+    PAYLOADS_DIR
 )
 from .constants import *
 
@@ -46,6 +44,8 @@ def main(page: ft.Page):
         options.use_tunneling_app = use_tunneling_app_checkbox.value
         if options.use_tunneling_app:
             options.tunneling_app = tunneling_apps_dropdown.value
+        else:
+            options.public_url = public_url_field.value
 
         networking_box.disabled = True
         payload_box.disabled = True
@@ -56,6 +56,9 @@ def main(page: ft.Page):
     def stop(e):
         run_btn.disabled = False
         stop_btn.disabled = True
+        networking_box.disabled = False
+        payload_box.disabled = False
+        hook_box.disabled = False
         asyncio.run(runner.stop())
         page.update()
 
@@ -157,7 +160,10 @@ def main(page: ft.Page):
 
     choose_hook_btn = ft.IconButton(
         icon=ft.icons.FOLDER_OPEN,
-        on_click=lambda _: hook_picker.get_directory_path()
+        on_click=lambda _: hook_picker.get_directory_path(
+            initial_directory=HOOKS_DIR,
+            dialog_title='Choose hook'
+        )
 
     )
     hook_path_field = ft.TextField(
@@ -175,7 +181,10 @@ def main(page: ft.Page):
 
     choose_payload_btn = ft.IconButton(
         icon=ft.icons.FOLDER_OPEN,
-        on_click=lambda _: payload_picker.get_directory_path()
+        on_click=lambda _: payload_picker.get_directory_path(
+            initial_directory=PAYLOADS_DIR,
+            dialog_title='Choose payload'
+        )
 
     )
     payload_path_field = ft.TextField(
@@ -195,14 +204,12 @@ def main(page: ft.Page):
         on_change=checkbox_value_changed,
         label='Use tunneling app'
     )
-
     tunneling_apps_dropdown = ft.Dropdown(
         visible=options.use_tunneling_app,
         expand=True,
         border_color=ft.colors.OUTLINE,
-        options=[
-            ft.dropdown.Option('ngrok')
-        ]
+        options=list(ft.dropdown.Option(wrapper.app) for wrapper in HTTPTunnelingAppWrapper.__subclasses__()),
+        value=options.tunneling_app
     )
     public_url_field = ft.TextField(
         visible=not options.use_tunneling_app,

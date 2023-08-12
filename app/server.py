@@ -1,8 +1,8 @@
 import asyncio
+
 import websockets
 import json
 
-from functools import cache
 from dataclasses import dataclass
 from typing import Iterable, Generator
 from loguru import logger
@@ -77,11 +77,11 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         self._host = host
         self._port = port
         self._connected = set()
-        self._stop = False
+        self._running = False
 
     async def _mainloop(self):
-        while not self._stop:
-            pass
+        while self._running:
+            await asyncio.sleep(1)
 
     @staticmethod
     def _get_cons_from_sessions(sessions: Iterable[ClientSession]) -> list:
@@ -160,9 +160,10 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         await self.broadcast_all(encode_message(event=event))
 
     async def stop(self):
-        self._stop = True
+        self._running = False
 
     async def run(self):
+        self._running = True
         async with websockets.serve(self._handle_connection, self._host, self._port) as server:
             logger.info(f'Server is up: {self._host}:{self._port}')
             await self._mainloop()
