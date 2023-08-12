@@ -141,7 +141,7 @@ connection.onmessage = (e) => {
 
 let name = null;
 
-while (!name){
+while (!name) {
     name = prompt('Enter your name to start chatting:')
 }
 setName(name)

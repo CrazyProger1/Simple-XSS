@@ -1,11 +1,14 @@
-import flet as ft
 import asyncio
-from app.hook import DefaultHook
-from app.payload import DefaultPayload
-from app.options import Options
+from time import sleep
+
+import flet as ft
+
 from app.exceptions import OptionsLoadingError
-from app.tunneling import HTTPTunnelingAppWrapper
+from app.hook import DefaultHook
+from app.options import Options
+from app.payload import DefaultPayload
 from app.runner import DefaultRunner
+from app.tunneling import HTTPTunnelingAppWrapper
 from settings import (
     APP,
     VERSION,
@@ -13,13 +16,14 @@ from settings import (
     HOOKS_DIR,
     PAYLOADS_DIR
 )
-from .io import GUIIOManager
 from .constants import *
+from .io import GUIIOManager
 
 
 def main(page: ft.Page):
     page.title = f'{APP} - V{VERSION}'
     page.theme_mode = 'dark'
+    message_entered = False
 
     try:
         options = Options.load(OPTIONS_FILE)
@@ -29,11 +33,30 @@ def main(page: ft.Page):
     runner = DefaultRunner(options=options)
 
     def on_print(args: tuple[str]):
-        add_message(' '.join(args))
+        add_message(' '.join(map(str, args)))
+
+    def on_input(prompt: str):
+        nonlocal message_entered
+
+        send_btn.disabled = False
+        message_field.disabled = False
+        message_field.hint_text = prompt
+        page.update()
+
+        while not message_entered:
+            sleep(1)
+
+        message_entered = False
+        message = message_field.value
+        add_message(message)
+        message_field.disabled = True
+        message_field.value = None
+        page.update()
+        return message
 
     def add_message(message: str):
         message_box.controls.append(
-            ft.Text(value=message, size=MESSAGE_FONT_SIZE)
+            ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
         )
         page.update()
 
@@ -69,7 +92,8 @@ def main(page: ft.Page):
         page.update()
 
     def send(e):
-        pass
+        nonlocal message_entered
+        message_entered = True
 
     def load_hook_data(path: str):
         if path:
@@ -440,6 +464,8 @@ def main(page: ft.Page):
     public_url_field.value = options.public_url
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
+
     GUIIOManager.printed.add_listener(on_print)
+    GUIIOManager.wait_input.set_listener(on_input)
 
     page.add(main_box)

@@ -67,6 +67,6 @@ class ResultEvent:
     def __call__(self, **kwargs):
         if self._listener:
             if self._pass_subject:
-                self._listener(self._last_instance, **kwargs)
+                return self._listener(self._last_instance, **kwargs)
             else:
-                self._listener(**kwargs)
+                return self._listener(**kwargs)

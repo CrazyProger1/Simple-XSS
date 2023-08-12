@@ -1,3 +1,3 @@
 from payload import io
 
-io.print('Hello')
+io.print('Hello, World!')
