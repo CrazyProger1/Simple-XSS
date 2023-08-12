@@ -1,5 +1,7 @@
 # Simple-XSS
 
+
+![](xss_big.png)
 Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool. This application will help you
 create a hook that can easily
 and reliably catch a client by downloading a payload to their browser and executing it. You don't even need a white IP
