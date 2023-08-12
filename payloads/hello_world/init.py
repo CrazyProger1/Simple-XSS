@@ -1,1 +1,3 @@
-import payload
+from payload import io
+
+io.print('Hello')

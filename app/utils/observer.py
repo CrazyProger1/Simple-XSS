@@ -45,3 +45,28 @@ class AsyncEvent(Event):
                 await listener(self._last_instance, **kwargs)
             else:
                 await listener(**kwargs)
+
+
+class ResultEvent:
+    def __init__(self, ):
+        self._last_instance = None
+        self._listener = None
+        self._pass_subject = False
+
+    def __get__(self, instance, owner):
+        self._last_instance = instance
+        return self
+
+    def set_listener(self, listener: Callable, pass_subject: bool = False):
+        if not callable(listener):
+            raise ValueError('listener must be callable')
+
+        self._listener = listener
+        self._pass_subject = pass_subject
+
+    def __call__(self, **kwargs):
+        if self._listener:
+            if self._pass_subject:
+                self._listener(self._last_instance, **kwargs)
+            else:
+                self._listener(**kwargs)

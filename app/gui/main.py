@@ -13,6 +13,7 @@ from settings import (
     HOOKS_DIR,
     PAYLOADS_DIR
 )
+from .io import GUIIOManager
 from .constants import *
 
 
@@ -26,6 +27,9 @@ def main(page: ft.Page):
         options = Options()
 
     runner = DefaultRunner(options=options)
+
+    def on_print(args: tuple[str]):
+        add_message(' '.join(args))
 
     def add_message(message: str):
         message_box.controls.append(
@@ -59,6 +63,8 @@ def main(page: ft.Page):
         networking_box.disabled = False
         payload_box.disabled = False
         hook_box.disabled = False
+        hook_field.value = None
+        hook_field.disabled = True
         asyncio.run(runner.stop())
         page.update()
 
@@ -164,7 +170,6 @@ def main(page: ft.Page):
             initial_directory=HOOKS_DIR,
             dialog_title='Choose hook'
         )
-
     )
     hook_path_field = ft.TextField(
         expand=True,
@@ -435,5 +440,6 @@ def main(page: ft.Page):
     public_url_field.value = options.public_url
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
+    GUIIOManager.printed.add_listener(on_print)
 
     page.add(main_box)

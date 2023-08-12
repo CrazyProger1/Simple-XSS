@@ -1,3 +1,4 @@
+import payload
 from app.app import App
 from app.exceptions import OptionsLoadingError
 from app.hook import DefaultHook
@@ -7,6 +8,7 @@ from app.session import ClientSession
 from app.utils import cli, url
 from app.validators import validate_url
 from app.runner import DefaultRunner
+from .io import CLIIOManager
 
 
 class CLI(App):
@@ -14,6 +16,7 @@ class CLI(App):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
 
         try:
             self._options = Options.load()
@@ -28,7 +31,7 @@ class CLI(App):
         DefaultRunner.hook_loaded.add_listener(self._on_hook_loaded)
         DefaultRunner.payload_uploaded.add_listener(self._on_payload_uploaded)
         DefaultRunner.client_hooked.add_listener(self._on_client_hooked)
-        DefaultRunner.before_server_launching.add_listener(self._on_server_launching)
+        DefaultRunner.server_launched.add_listener(self._on_server_launched)
 
     async def _on_client_hooked(self, session: ClientSession):
         cli.print_pos(f'Client hooked: {session.connection.origin}')
@@ -55,10 +58,11 @@ class CLI(App):
     async def _on_tunneling_app_error(self, error: Exception):
         cli.print_neg(f'Failed to open tunnel')
 
-    async def _on_server_launching(self):
+    async def _on_server_launched(self, host, port):
         cli.print_pos(f'Local server app is listening: {self._options.host}:{self._options.port}')
 
     async def run(self):
+        payload.io = CLIIOManager()
         self._options.hook_path = cli.ask_validated(
             f'Hook path ({self._options.hook_path}):',
             validator=DefaultHook.is_valid,

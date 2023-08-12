@@ -139,8 +139,11 @@ connection.onmessage = (e) => {
     }
 }
 
+let name = null;
 
-const name = prompt('Enter your name to start chatting:')
+while (!name){
+    name = prompt('Enter your name to start chatting:')
+}
 setName(name)
 document.open()
 document.write(chatPage)

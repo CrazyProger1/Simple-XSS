@@ -38,13 +38,18 @@ class Runner:
 class DefaultRunner(Runner):
     tunneling_app_launched = observer.AsyncEvent()
     tunneling_app_launching_error = observer.AsyncEvent()  # event because it is non-critical
+    tunneling_app_stopped = observer.AsyncEvent()
+
     public_url_unspecified_error = observer.AsyncEvent()  # event because it is non-critical
+
     server_launched = observer.AsyncEvent()
+    server_stopped = observer.AsyncEvent()
+
     hook_loaded = observer.AsyncEvent()
-    client_hooked = observer.AsyncEvent()
     payload_uploaded = observer.AsyncEvent()
+
+    client_hooked = observer.AsyncEvent()
     client_escaped = observer.AsyncEvent()
-    before_server_launching = observer.AsyncEvent()
 
     def __init__(self, options: Options):
         self._options = options
@@ -53,8 +58,11 @@ class DefaultRunner(Runner):
         self._tunneling_app: HTTPTunnelingAppWrapper | None = None
         self._hook = None
         self._stop = False
+
         LocalWebsocketServer.client_connected.add_listener(self._on_client_connected)
         LocalWebsocketServer.client_disconnected.add_listener(self.client_escaped)
+        LocalWebsocketServer.stopped.add_listener(self.server_stopped)
+        LocalWebsocketServer.launched.add_listener(self.server_launched)
 
     async def _on_client_connected(self, session: ClientSession):
         await self.client_hooked(session=session)
@@ -83,7 +91,6 @@ class DefaultRunner(Runner):
             await self.tunneling_app_launching_error(error=e)
 
     async def _run_server(self):
-        await self.before_server_launching()
         await self._server.run()
 
     async def _load_hook(self):

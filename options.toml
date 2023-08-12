@@ -1,5 +1,5 @@
-public_url = "https://2a6c-185-175-238-250.ngrok-free.app"
-payload_path = "D:\\CyberSecirity\\MyUtils\\Simple-XSS\\payloads\\chat"
+public_url = "wss://367f-185-175-238-250.ngrok-free.app"
+payload_path = "D:\\CyberSecirity\\MyUtils\\Simple-XSS\\payloads\\hello_world"
 hook_path = "D:\\CyberSecirity\\MyUtils\\Simple-XSS\\hooks\\default"
-use_tunneling_app = false
+use_tunneling_app = true
 tunneling_app = "ngrok"
