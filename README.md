@@ -7,7 +7,6 @@ Simple-XSS is a multiplatform XSS vulnerability exploiter.
 ## Usage
 
 ### Hook
-
 > _Hooks folder: [hooks](hooks)_
 
 
@@ -19,7 +18,7 @@ Simple-XSS is a multiplatform XSS vulnerability exploiter.
 ```
 
 **NOTE:** _As you can see here is a variable: {{environment.public_url}}. You can read more about
-this [below](#Internal-Objects)._
+this below._
 
 This is a [default](hooks/default) hook. When it's embedded in the vulnerable form, it downloads the JS
 code ([payload](#payload)) via
@@ -102,9 +101,9 @@ echo "print('Hello, World!')" > init.py
 **Internal objects** are transferred to hook & payload main files using [Jinja](https://jinja.palletsprojects.com/)
 templating engine. It contains additional information that may be needed when loading a hook or payload.
 
-As you can see above it's used in example of hook code.
-
 #### Environment
+
+
 
 #### Metadata
 
