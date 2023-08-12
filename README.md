@@ -4,15 +4,18 @@ Simple-XSS is a multiplatform XSS vulnerability exploiter.
 
 ## Algorithm
 
-## How to use
+## Usage
 
-### Hooks
+### Hook
 
 > _Hooks folder: [hooks](hooks)_
 
-### Payloads
+### Payload
 
 > _Payloads folder: [payloads](payloads)_
+
+
+Firstly you need to choose hook:
 
 ## Interface
 
