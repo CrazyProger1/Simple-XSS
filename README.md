@@ -8,7 +8,6 @@
 <a href="https://github.com/CrazyProger1/Simle-XSS/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/CrazyProger1/Simle-XSS"></a>
 <a href="https://github.com/CrazyProger1/Simle-XSS/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CrazyProger1/Simle-XSS"></a>
 
-
 Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool. This application will help you
 create a hook that can easily
 and reliably catch a client by downloading a payload to their browser and executing it. You don't even need a white IP
@@ -54,8 +53,6 @@ Hook has the following structure:
 
 **package.toml** - metadata file, contains data about hook such as name, description, author and version.
 
-_To create custom hook, follow these steps:_
-
 ### Payload
 
 > _Payloads folder: [payloads](payloads)_
@@ -83,37 +80,9 @@ Payload has the following structure:
 **init.py** - python file, imported when loading payload. Allows you to interact with the client side of payload
 (payload.js) via WebSockets protocol.
 
-_To create custom payload, follow these steps:_
-
-- Create payload folder in [.\payloads](payloads) and go into
-
-```shell
-cd payloads
-mkdir my_payload
-cd my_payload
-```
-
-- Then create main file
-
-```shell
-echo "alert(1)" > payload.js
-```
-
-- Create package file (not required)
-
-```shell
-echo "name = 'My Payload'" > package.toml
-```
-
-- Create init python file (not required)
-
-```shell
-echo "print('Hello, World!')" > init.py
-```
-
 ### Templating
 
-**Inbuilt objects** is an objects passed into hook & payload main files
+**Built-in objects** is an objects passed into hook & payload main files
 using [Jinja](https://jinja.palletsprojects.com/)
 templating engine. It contains additional information that may be needed when loading a hook or payload.
 
