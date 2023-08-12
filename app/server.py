@@ -1,8 +1,8 @@
 import asyncio
+import textwrap
 import websockets
 import json
 
-from functools import cache
 from dataclasses import dataclass
 from typing import Iterable, Generator
 from loguru import logger
@@ -43,6 +43,16 @@ class LocalWebsocketServer:
     message_received = observer.AsyncEvent()
     event_received = observer.AsyncEvent()
     decode_error = observer.AsyncEvent()
+    launched = observer.AsyncEvent()
+    stopped = observer.AsyncEvent()
+
+    @property
+    def host(self) -> str:
+        raise NotImplementedError
+
+    @property
+    def port(self) -> int:
+        raise NotImplementedError
 
     @property
     def connected(self) -> set[ClientSession]:
@@ -66,6 +76,9 @@ class LocalWebsocketServer:
     async def run(self):
         raise NotImplementedError
 
+    async def stop(self):
+        raise NotImplementedError
+
 
 class DefaultWebsocketServer(LocalWebsocketServer):
     def __init__(self, host: str, port: int):
@@ -74,6 +87,11 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         self._host = host
         self._port = port
         self._connected = set()
+        self._running = False
+
+    async def _mainloop(self):
+        while self._running:
+            await asyncio.sleep(1)
 
     @staticmethod
     def _get_cons_from_sessions(sessions: Iterable[ClientSession]) -> list:
@@ -123,11 +141,19 @@ class DefaultWebsocketServer(LocalWebsocketServer):
             await self.client_disconnected(session=session)
 
     @property
+    def host(self):
+        return self._host
+
+    @property
+    def port(self) -> int:
+        return self._port
+
+    @property
     def connected(self) -> set[ClientSession]:
         return self._connected
 
     async def send(self, session: ClientSession, message: str):
-        logger.debug(f'Message sent: {message}')
+        logger.debug(f'Message sent: {textwrap.shorten(message, 100)}')
         await session.connection.send(str(message))
 
     async def send_event(self, session: ClientSession, event: Event):
@@ -135,7 +161,7 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         await session.connection.send(encode_message(event=event))
 
     async def broadcast(self, sessions: Iterable[ClientSession], message: str):
-        logger.debug(f'Message broadcasted: {message}')
+        logger.debug(f'Message broadcasted: {textwrap.shorten(message, 100)}')
         connections = self._get_cons_from_sessions(sessions)
         websockets.broadcast(connections, message)
 
@@ -144,14 +170,22 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         await self.broadcast(sessions, encode_message(event=event))
 
     async def broadcast_all(self, message: str):
-        logger.debug(f'Message broadcasted to all: {message}')
+        logger.debug(f'Message broadcasted to all: {textwrap.shorten(message, 100)}')
         connections = self._get_cons_from_sessions(self.connected)
         websockets.broadcast(connections)
 
     async def broadcast_event_to_all(self, event: Event):
         await self.broadcast_all(encode_message(event=event))
 
+    async def stop(self):
+        self._running = False
+
     async def run(self):
-        async with websockets.serve(self._handle_connection, self._host, self._port):
-            logger.info(f'Server is up on {self._host}:{self._port}')
-            await asyncio.Future()
+        self._running = True
+        async with websockets.serve(self._handle_connection, self._host, self._port) as server:
+            logger.info(f'Server is up: {self._host}:{self._port}')
+            await self.launched(host=self._host, port=self._port)
+            await self._mainloop()
+            server.close(close_connections=True)
+            logger.info(f'Server is down: {self._host}:{self._port}')
+            await self.stopped(host=self._host, port=self._port)

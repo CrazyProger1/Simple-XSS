@@ -1,8 +1,11 @@
 import inspect
-from typing import Iterable, Callable
+from typing import Iterable
 from app.session import ClientSession
-from app.server import Event, encode_message, decode_message
+from app.server import Event
 from app.server import LocalWebsocketServer
+from app.io import IOManager
+
+io: IOManager | None = None
 
 
 def event_handler(events: Iterable[str]):
@@ -26,7 +29,6 @@ __all__ = [
     'ClientSession',
     'Event',
     'LocalWebsocketServer',
-    'encode_message',
-    'decode_message',
-    'event_handler'
+    'event_handler',
+    'io'
 ]

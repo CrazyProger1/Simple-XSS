@@ -7,7 +7,8 @@ from app.validators import validate_port, validate_host
 
 class HTTPTunnelingAppWrapper:
     _app: str = None
-    access_provided = observer.AsyncEvent()
+    launched = observer.AsyncEvent()
+    stopped = observer.AsyncEvent()
 
     def __init__(self, host: str, port: int):
         validate_host(host)
@@ -41,6 +42,9 @@ class HTTPTunnelingAppWrapper:
     async def run(self):
         raise NotImplementedError
 
+    async def stop(self):
+        raise NotImplementedError
+
 
 class NgrokWrapper(HTTPTunnelingAppWrapper):
     _app: str = 'ngrok'
@@ -59,7 +63,13 @@ class NgrokWrapper(HTTPTunnelingAppWrapper):
             self._tunnel = ngrok.connect(self.port)
             self._public_url = self._tunnel.public_url
             logger.info(f'Tunneling app is up: {self.host}:{self.port} -> {self._public_url}')
-            await self.access_provided(public_url=self._public_url)
+            await self.launched(public_url=self._public_url)
         except ngexecptions.PyngrokNgrokError as e:
             logger.error(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
             raise HTTPTunnelError(self.host, self.port)
+
+    async def stop(self):
+        ngrok.disconnect(self.public_url)
+        ngrok.kill()
+        logger.info(f'Tunneling app is down: {self.host}:{self.port} -> {self._public_url}')
+        await self.stopped(public_url=self.public_url)

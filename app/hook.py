@@ -35,6 +35,11 @@ class Hook:
         """Returns hook dir path"""
         raise NotImplementedError
 
+    @classmethod
+    def load_metadata(cls, hook_path: str) -> HookMetadata:
+        """Loads hook metadata"""
+        raise NotImplementedError
+
     @property
     def metadata(self) -> HookMetadata:
         """Returns hook metadata"""
@@ -60,21 +65,28 @@ class DefaultHook(Hook):
         return path and os.path.isfile(os.path.join(path, HOOK_MAIN_FILE))
 
     @classmethod
-    def load(cls, path: str, environment: Environment):
-        if not cls.is_valid(path):
-            logger.error(f'Failed to load hook: {path}')
-            raise HookLoadingError(path)
-
-        main_file = os.path.join(path, HOOK_MAIN_FILE)
-        package_file = os.path.join(path, HOOK_PACKAGE_FILE)
-
-        template = jinja.get_template(main_file)
+    def load_metadata(cls, hook_path: str) -> HookMetadata:
+        package_file = os.path.join(hook_path, HOOK_PACKAGE_FILE)
 
         try:
             package_data = toml.load(package_file)
             metadata = HookMetadata(**package_data)
         except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
             metadata = HookMetadata()
+
+        return metadata
+
+    @classmethod
+    def load(cls, path: str, environment: Environment):
+        if not cls.is_valid(path):
+            logger.error(f'Failed to load hook: {path}')
+            raise HookLoadingError(path)
+
+        main_file = os.path.join(path, HOOK_MAIN_FILE)
+
+        template = jinja.get_template(main_file)
+
+        metadata = cls.load_metadata(path)
 
         logger.debug(f'Hook loaded: {path}')
         return cls(

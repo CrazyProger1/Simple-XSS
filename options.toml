@@ -1,4 +1,0 @@
-public_url = "https://2fed-185-175-238-250.ngrok-free.app"
-payload_path = ".\\payloads\\hello_world"
-hook_path = ".\\hooks\\default"
-tunneling_app = "ngrok"

@@ -31,6 +31,11 @@ class Payload:
         raise NotImplementedError
 
     @classmethod
+    def load_metadata(cls, payload_path: str) -> PayloadMetadata:
+        """Loads payload metadata"""
+        raise NotImplementedError
+
+    @classmethod
     def is_valid(cls, path: str) -> bool:
         """Determines if payload is valid"""
         raise NotImplementedError
@@ -65,6 +70,16 @@ class DefaultPayload(Payload):
         return path and os.path.isfile(os.path.join(path, PAYLOAD_MAIN_FILE))
 
     @classmethod
+    def load_metadata(cls, payload_path: str) -> PayloadMetadata:
+        package_file = os.path.join(payload_path, PAYLOAD_PACKAGE_FILE)
+        try:
+            package_data = toml.load(package_file)
+            metadata = PayloadMetadata(**package_data)
+        except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
+            metadata = PayloadMetadata()
+        return metadata
+
+    @classmethod
     def load(cls, path: str, environment: Environment):
         if not isinstance(environment, Environment):
             raise ValueError(f'environment must be type of Environment not {type(environment).__name__}')
@@ -76,7 +91,7 @@ class DefaultPayload(Payload):
             raise PayloadLoadingError(path)
 
         main_file = os.path.join(path, PAYLOAD_MAIN_FILE)
-        package_file = os.path.join(path, PAYLOAD_PACKAGE_FILE)
+
         init_file = os.path.join(path, PAYLOAD_INIT_FILE)
 
         if os.path.isfile(init_file):
@@ -87,11 +102,7 @@ class DefaultPayload(Payload):
 
         template = jinja.get_template(main_file)
 
-        try:
-            package_data = toml.load(package_file)
-            metadata = PayloadMetadata(**package_data)
-        except (ValueError, TypeError, toml.TomlDecodeError, FileNotFoundError):
-            metadata = PayloadMetadata()
+        metadata = cls.load_metadata(path)
 
         logger.debug(f'Payload loaded: {path}')
         return cls(
