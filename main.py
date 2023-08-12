@@ -35,13 +35,19 @@ def parse_args() -> argparse.Namespace:
         action='store_true',
         help='graphic interface'
     )
+    parser.add_argument(
+        '-b',
+        '--browser',
+        action='store_true',
+        help='browser interface'
+    )
     return parser.parse_args()
 
 
 async def main():
     setup_logging()
     args = parse_args()
-    if args.graphic:
+    if args.graphic or args.browser:
         gui = GUI(args)
         await gui.run()
 

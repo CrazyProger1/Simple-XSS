@@ -66,6 +66,9 @@ class LocalWebsocketServer:
     async def run(self):
         raise NotImplementedError
 
+    async def stop(self):
+        raise NotImplementedError
+
 
 class DefaultWebsocketServer(LocalWebsocketServer):
     def __init__(self, host: str, port: int):
@@ -74,6 +77,11 @@ class DefaultWebsocketServer(LocalWebsocketServer):
         self._host = host
         self._port = port
         self._connected = set()
+        self._stop = False
+
+    async def _mainloop(self):
+        while not self._stop:
+            pass
 
     @staticmethod
     def _get_cons_from_sessions(sessions: Iterable[ClientSession]) -> list:
@@ -151,7 +159,12 @@ class DefaultWebsocketServer(LocalWebsocketServer):
     async def broadcast_event_to_all(self, event: Event):
         await self.broadcast_all(encode_message(event=event))
 
+    async def stop(self):
+        self._stop = True
+
     async def run(self):
-        async with websockets.serve(self._handle_connection, self._host, self._port):
-            logger.info(f'Server is up on {self._host}:{self._port}')
-            await asyncio.Future()
+        async with websockets.serve(self._handle_connection, self._host, self._port) as server:
+            logger.info(f'Server is up: {self._host}:{self._port}')
+            await self._mainloop()
+            server.close(close_connections=True)
+            logger.info(f'Server is down: {self._host}:{self._port}')

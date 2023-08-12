@@ -31,7 +31,7 @@ class AsyncEvent(Event):
     """Async event"""
 
     def add_listener(self, listener: Callable, pass_subject: bool = False):
-        if not inspect.iscoroutinefunction(listener):
+        if not inspect.iscoroutinefunction(listener) and inspect.ismethod(listener):
             raise ValueError('listener must be coroutine')
 
         super().add_listener(

@@ -1,25 +1,33 @@
 import flet as ft
-
+import asyncio
 from app.hook import DefaultHook
 from app.payload import DefaultPayload
 from app.options import Options
-from app.exceptions import OptionsLoadingError
-from settings import APP, VERSION, OPTIONS_FILE
-
-MESSAGE_FONT_SIZE = 15
-TITLE_FONT_SIZE = 20
-BUTTON_ICON_SIZE = 35
-CONTAINER_PADDING = 15
-MESSAGE_SPACING = 15
+from app.exceptions import OptionsLoadingError, HTTPTunnelError
+from app.environment import Environment
+from app.tunneling import HTTPTunnelingAppWrapper
+from app.server import DefaultWebsocketServer
+from app.session import ClientSession
+from app.utils import url
+from app.runner import DefaultRunner
+from settings import (
+    APP,
+    VERSION,
+    OPTIONS_FILE
+)
+from .constants import *
 
 
 def main(page: ft.Page):
     page.title = f'{APP} - V{VERSION}'
     page.theme_mode = 'dark'
+
     try:
         options = Options.load(OPTIONS_FILE)
     except OptionsLoadingError:
         options = Options()
+
+    runner = DefaultRunner(options=options)
 
     def add_message(message: str):
         message_box.controls.append(
@@ -27,14 +35,28 @@ def main(page: ft.Page):
         )
         page.update()
 
+    async def on_hook_loaded(hook):
+        hook_field.value = hook
+        hook_field.disabled = False
+        hook_field.update()
+
     def run(e):
         run_btn.disabled = True
         stop_btn.disabled = False
+        options.use_tunneling_app = use_tunneling_app_checkbox.value
+        if options.use_tunneling_app:
+            options.tunneling_app = tunneling_apps_dropdown.value
+
+        networking_box.disabled = True
+        payload_box.disabled = True
+        hook_box.disabled = True
         page.update()
+        asyncio.run(runner.run())
 
     def stop(e):
         run_btn.disabled = False
         stop_btn.disabled = True
+        asyncio.run(runner.stop())
         page.update()
 
     def send(e):
@@ -44,6 +66,8 @@ def main(page: ft.Page):
         if path:
             if DefaultHook.is_valid(path):
                 metadata = DefaultHook.load_metadata(path)
+
+                options.hook_path = path
 
                 if metadata.name:
                     hook_box_title.value = str(metadata.name)
@@ -67,6 +91,8 @@ def main(page: ft.Page):
         if path:
             if DefaultPayload.is_valid(path):
                 metadata = DefaultPayload.load_metadata(path)
+
+                options.payload_path = path
 
                 if metadata.name:
                     payload_box_title.value = str(metadata.name)
@@ -165,24 +191,22 @@ def main(page: ft.Page):
     )
 
     use_tunneling_app_checkbox = ft.Checkbox(
-        value=False,
+        value=options.use_tunneling_app,
         on_change=checkbox_value_changed,
         label='Use tunneling app'
     )
 
     tunneling_apps_dropdown = ft.Dropdown(
-        visible=False,
+        visible=options.use_tunneling_app,
         expand=True,
-        disabled=False,
         border_color=ft.colors.OUTLINE,
         options=[
             ft.dropdown.Option('ngrok')
         ]
     )
     public_url_field = ft.TextField(
-        visible=True,
+        visible=not options.use_tunneling_app,
         expand=True,
-        disabled=False,
         border_color=ft.colors.OUTLINE,
         hint_text='Public URL'
     )
@@ -400,5 +424,9 @@ def main(page: ft.Page):
 
     load_payload_data(options.payload_path)
     load_hook_data(options.hook_path)
+
+    public_url_field.value = options.public_url
+
+    DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
     page.add(main_box)

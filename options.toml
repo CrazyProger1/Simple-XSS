@@ -1,4 +1,5 @@
-public_url = "https://2fed-185-175-238-250.ngrok-free.app"
+public_url = "wss://6de0-185-175-238-250.ngrok-free.app"
 payload_path = ".\\payloads\\hello_world"
 hook_path = ".\\hooks\\default"
+use_tunneling_app = true
 tunneling_app = "ngrok"

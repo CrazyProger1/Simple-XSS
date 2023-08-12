@@ -41,6 +41,9 @@ class HTTPTunnelingAppWrapper:
     async def run(self):
         raise NotImplementedError
 
+    async def stop(self):
+        raise NotImplementedError
+
 
 class NgrokWrapper(HTTPTunnelingAppWrapper):
     _app: str = 'ngrok'
@@ -63,3 +66,7 @@ class NgrokWrapper(HTTPTunnelingAppWrapper):
         except ngexecptions.PyngrokNgrokError as e:
             logger.error(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
             raise HTTPTunnelError(self.host, self.port)
+
+    async def stop(self):
+        ngrok.disconnect(self.public_url)
+        logger.info(f'Tunneling app is down: {self.host}:{self.port} -> {self._public_url}')

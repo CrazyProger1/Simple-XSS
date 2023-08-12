@@ -1,4 +1,4 @@
 version = '0.1'
-name = 'hello_world'
+name = 'Hello world'
 author = 'crazyproger1'
-description = 'Hello world payload'
+description = 'Hello world payload. Alerts hello world'

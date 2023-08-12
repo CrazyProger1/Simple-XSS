@@ -19,6 +19,7 @@ class Options:
     public_url: str = None
     payload_path: str = DEFAULT_PAYLOAD
     hook_path: str = DEFAULT_HOOK
+    use_tunneling_app: bool = False
     tunneling_app: str = DEFAULT_TUNNELING_APP
     host = DEFAULT_HOST
     port = DEFAULT_PORT

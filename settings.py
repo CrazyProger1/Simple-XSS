@@ -29,5 +29,5 @@ VERSION = '0.1'
 
 # logging
 LOGGING_LEVEL = 0
-LOGGING_VERBOSITY = False
+LOGGING_VERBOSITY = True
 LOG_FILE = f'{APP}.log'
