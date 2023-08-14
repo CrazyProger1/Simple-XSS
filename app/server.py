@@ -14,11 +14,15 @@ from app.exceptions import MessageDecodeError, MessageEncodeError
 
 @dataclass
 class Event:
+    """Attacker and client exchange events"""
+
     name: str
     data: dict
 
 
 def decode_message(message: str) -> Event:
+    """Decodes message to event"""
+
     try:
         data = json.loads(message)
         name = data.pop('event')
@@ -30,6 +34,8 @@ def decode_message(message: str) -> Event:
 
 
 def encode_message(event: Event) -> str:
+    """Encodes event to message"""
+
     try:
         data = {'event': event.name, **event.data}
         return json.dumps(data)
@@ -38,6 +44,12 @@ def encode_message(event: Event) -> str:
 
 
 class LocalWebsocketServer:
+    """
+    Local server on the attacker PC.
+    When a new connection is created, the server sends a payload to the client.
+    After the payload is loaded, the client and the attacker can exchange events.
+    """
+
     client_connected = observer.AsyncEvent()
     client_disconnected = observer.AsyncEvent()
     message_received = observer.AsyncEvent()

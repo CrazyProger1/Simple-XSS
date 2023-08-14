@@ -1,6 +1,9 @@
 import re
 
+from functools import cache
 
+
+@cache
 def convert_url(url: str, protocol: str = 'wss') -> str:
     url = str(url)
 

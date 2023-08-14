@@ -21,9 +21,13 @@ from .io import GUIIOManager
 
 
 def main(page: ft.Page):
+    # To refactor
+
     page.title = f'{APP} - V{VERSION}'
     page.theme_mode = 'dark'
+
     message_entered = False
+    message_value: str | None = None
 
     try:
         options = Options.load(OPTIONS_FILE)
@@ -47,12 +51,7 @@ def main(page: ft.Page):
             sleep(1)
 
         message_entered = False
-        message = message_field.value
-        add_message(message)
-        message_field.disabled = True
-        message_field.value = None
-        page.update()
-        return message
+        return message_value
 
     async def on_hook_loaded(hook):
         hook_field.value = hook
@@ -92,8 +91,13 @@ def main(page: ft.Page):
         page.update()
 
     def send(e):
-        nonlocal message_entered
+        nonlocal message_entered, message_value
         message_entered = True
+        message_value = message_field.value
+        message_field.disabled = True
+        message_field.value = None
+        add_message(message_value)
+        page.update()
 
     def load_hook_data(path: str):
         if path:
@@ -101,6 +105,10 @@ def main(page: ft.Page):
                 metadata = DefaultHook.load_metadata(path)
 
                 options.hook_path = path
+
+                hook_box_title.value = 'Hook'
+                hook_description_text.value = None
+                hook_author_text.value = None
 
                 if metadata.name:
                     hook_box_title.value = str(metadata.name)
@@ -126,6 +134,10 @@ def main(page: ft.Page):
                 metadata = DefaultPayload.load_metadata(path)
 
                 options.payload_path = path
+
+                payload_box_title.value = 'Payload'
+                payload_author_text.value = None
+                payload_description_text.value = None
 
                 if metadata.name:
                     payload_box_title.value = str(metadata.name)

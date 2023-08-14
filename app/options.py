@@ -11,11 +11,12 @@ from settings import (
 )
 
 from loguru import logger
-from app.exceptions import OptionsLoadingError
+from app.exceptions import OptionsLoadingError, OptionsSavingError
 
 
 @dataclass
 class Options:
+    """"""
     public_url: str = None
     payload_path: str = DEFAULT_PAYLOAD
     hook_path: str = DEFAULT_HOOK
@@ -47,4 +48,4 @@ class Options:
             with open(path, 'w') as of:
                 toml.dump(self.__dict__, of)
         except Exception as e:
-            pass
+            raise OptionsSavingError(path)

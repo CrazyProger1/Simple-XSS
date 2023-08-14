@@ -14,6 +14,8 @@ from settings import (
 
 
 def setup_logging():
+    """Sets up logging"""
+
     if not LOGGING_VERBOSITY:
         logger.remove()
 
