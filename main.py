@@ -52,12 +52,12 @@ def parse_args() -> argparse.Namespace:
         action='store_true',
         help='runs hook creation script'
     )
-    # parser.add_argument(
-    #     '-p',
-    #     '--create-payload',
-    #     action='store_true',
-    #     help='runs payload creation script'
-    # )
+    parser.add_argument(
+        '-p',
+        '--create-payload',
+        action='store_true',
+        help='runs payload creation script'
+    )
     return parser.parse_args()
 
 
@@ -67,8 +67,8 @@ async def main():
 
     if args.create_hook:
         import scripts.create_hook
-    # elif args.create_payload:
-    #     import scripts.create_payload
+    elif args.create_payload:
+        import scripts.create_payload
 
     elif args.graphic or args.browser:
         gui = GUI(args)
