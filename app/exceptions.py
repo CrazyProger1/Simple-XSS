@@ -29,3 +29,8 @@ class MessageEncodeError(ValueError):
 class OptionsLoadingError(ValueError):
     def __init__(self, path: str):
         super().__init__(f'Failed to load options: {path}')
+
+
+class OptionsSavingError(ValueError):
+    def __init__(self, path: str):
+        super().__init__(f'Failed to save options: {path}')

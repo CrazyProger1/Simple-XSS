@@ -6,6 +6,8 @@ from app.validators import validate_port, validate_host
 
 
 class HTTPTunnelingAppWrapper:
+    """A wrapper for a tunneling application such as ngrok"""
+
     _app: str = None
     launched = observer.AsyncEvent()
     stopped = observer.AsyncEvent()
@@ -18,6 +20,8 @@ class HTTPTunnelingAppWrapper:
 
     @classmethod
     def get_wrapper(cls, app: str) -> type["HTTPTunnelingAppWrapper"] | None:
+        """Returns the tunneling application wrapper, if it exists"""
+
         for subcls in cls.__subclasses__():
             if subcls._app == app:
                 return subcls

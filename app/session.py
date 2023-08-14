@@ -6,6 +6,8 @@ from app.environment import Environment
 
 @dataclass
 class ClientSession:
+    """Client session is created after the client has hooked"""
+
     connection: any = None
     payload: Payload = None
     hook: Hook = None

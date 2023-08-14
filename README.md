@@ -140,7 +140,7 @@ Then go to the folder & install requirements:
 
 ```commandline
 cd Simple-XSS
-pip install -r requirements.txt
+pip install -r windows_requirements.txt
 ```
 
 And finally you can run it:
@@ -161,7 +161,7 @@ Then go to the folder & install requirements:
 
 ```commandline
 cd Simple-XSS
-pip install -r requirements.txt
+pip install -r linux_requirements.txt
 ```
 
 And finally you can run it:
