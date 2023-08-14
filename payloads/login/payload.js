@@ -6,7 +6,7 @@ const html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+    <title>Sign Up</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,21 +68,21 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 <div class="container">
-    <h1>Регистрация</h1>
+    <h1>Sign Up</h1>
     <form id="signup-form">
         <div class="input-group">
-            <label for="email">Эл. почта:</label>
+            <label for="email">Email:</label>
             <input type="email" id="email" placeholder="example@gmail.com" required>
         </div>
         <div class="input-group">
-            <label for="password">Пароль:</label>
+            <label for="password">Password:</label>
             <input type="password" id="password" required>
         </div>
         <div class="input-group">
-            <label for="phone">Телефон:</label>
+            <label for="phone">Phone:</label>
             <input type="tel" id="phone">
         </div>
-        <button type="submit">Продолжить</button>
+        <button type="submit">Sign Up</button>
     </form>
 </div>
 </body>

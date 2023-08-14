@@ -54,16 +54,16 @@ def main(page: ft.Page):
         page.update()
         return message
 
+    async def on_hook_loaded(hook):
+        hook_field.value = hook
+        hook_field.disabled = False
+        hook_field.update()
+
     def add_message(message: str):
         message_box.controls.append(
             ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
         )
         page.update()
-
-    async def on_hook_loaded(hook):
-        hook_field.value = hook
-        hook_field.disabled = False
-        hook_field.update()
 
     def run(e):
         run_btn.disabled = True
