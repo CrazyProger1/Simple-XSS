@@ -58,11 +58,21 @@ def main(page: ft.Page):
         hook_field.disabled = False
         hook_field.update()
 
-    def add_message(message: str):
-        message_box.controls.append(
-            ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
-        )
-        page.update()
+    def on_hook_dir_picked(e):
+        path = e.path
+        load_hook_data(path)
+
+    def on_payload_dir_picked(e):
+        path = e.path
+        load_payload_data(path)
+
+    def on_checkbox_value_changed(e):
+        val = use_tunneling_app_checkbox.value
+        tunneling_apps_dropdown.visible = val
+        public_url_field.visible = not val
+
+        tunneling_apps_dropdown.update()
+        public_url_field.update()
 
     def run(e):
         run_btn.disabled = True
@@ -90,7 +100,13 @@ def main(page: ft.Page):
         asyncio.run(runner.stop())
         page.update()
 
-    def send(e):
+    def add_message(message: str):
+        message_box.controls.append(
+            ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
+        )
+        page.update()
+
+    def send_message(e):
         nonlocal message_entered, message_value
         message_entered = True
         message_value = message_field.value
@@ -100,81 +116,63 @@ def main(page: ft.Page):
         page.update()
 
     def load_hook_data(path: str):
-        if path:
-            if DefaultHook.is_valid(path):
-                metadata = DefaultHook.load_metadata(path)
+        if DefaultHook.is_valid(path):
+            metadata = DefaultHook.load_metadata(path)
 
-                options.hook_path = path
+            options.hook_path = path
 
-                hook_box_title.value = 'Hook'
-                hook_description_text.value = None
-                hook_author_text.value = None
+            hook_box_title.value = 'Hook'
+            hook_description_text.value = None
+            hook_author_text.value = None
 
-                if metadata.name:
-                    hook_box_title.value = str(metadata.name)
+            if metadata.name:
+                hook_box_title.value = str(metadata.name)
 
-                    if metadata.version:
-                        hook_box_title.value += f' - V{metadata.version}'
+                if metadata.version:
+                    hook_box_title.value += f' - V{metadata.version}'
 
-                if metadata.author:
-                    hook_author_text.visible = True
-                    hook_author_text.value = f'©{metadata.author}'
+            if metadata.author:
+                hook_author_text.visible = True
+                hook_author_text.value = f'©{metadata.author}'
 
-                hook_path_field.value = path
+            hook_path_field.value = path
 
-                if metadata.description:
-                    hook_description_text.value = str(metadata.description)
-                    hook_description_text.visible = True
+            if metadata.description:
+                hook_description_text.value = str(metadata.description)
+                hook_description_text.visible = True
 
-                page.update()
+            page.update()
 
     def load_payload_data(path: str):
-        if path:
-            if DefaultPayload.is_valid(path):
-                metadata = DefaultPayload.load_metadata(path)
+        if DefaultPayload.is_valid(path):
+            metadata = DefaultPayload.load_metadata(path)
 
-                options.payload_path = path
+            options.payload_path = path
 
-                payload_box_title.value = 'Payload'
-                payload_author_text.value = None
-                payload_description_text.value = None
+            payload_box_title.value = 'Payload'
+            payload_author_text.value = None
+            payload_description_text.value = None
 
-                if metadata.name:
-                    payload_box_title.value = str(metadata.name)
+            if metadata.name:
+                payload_box_title.value = str(metadata.name)
 
-                    if metadata.version:
-                        payload_box_title.value += f' - V{metadata.version}'
+                if metadata.version:
+                    payload_box_title.value += f' - V{metadata.version}'
 
-                if metadata.author:
-                    payload_author_text.visible = True
-                    payload_author_text.value = f'©{metadata.author}'
+            if metadata.author:
+                payload_author_text.visible = True
+                payload_author_text.value = f'©{metadata.author}'
 
-                payload_path_field.value = path
+            payload_path_field.value = path
 
-                if metadata.description:
-                    payload_description_text.value = str(metadata.description)
-                    payload_description_text.visible = True
+            if metadata.description:
+                payload_description_text.value = str(metadata.description)
+                payload_description_text.visible = True
 
-                page.update()
+            page.update()
 
-    def hook_dir_picked(e):
-        path = e.path
-        load_hook_data(path)
-
-    def payload_dir_picked(e):
-        path = e.path
-        load_payload_data(path)
-
-    def checkbox_value_changed(e):
-        val = use_tunneling_app_checkbox.value
-        tunneling_apps_dropdown.visible = val
-        public_url_field.visible = not val
-
-        tunneling_apps_dropdown.update()
-        public_url_field.update()
-
-    hook_picker = ft.FilePicker(on_result=hook_dir_picked)
-    payload_picker = ft.FilePicker(on_result=payload_dir_picked)
+    hook_picker = ft.FilePicker(on_result=on_hook_dir_picked)
+    payload_picker = ft.FilePicker(on_result=on_payload_dir_picked)
 
     hook_author_text = ft.Text(
         visible=False,
@@ -242,7 +240,7 @@ def main(page: ft.Page):
 
     use_tunneling_app_checkbox = ft.Checkbox(
         value=options.use_tunneling_app,
-        on_change=checkbox_value_changed,
+        on_change=on_checkbox_value_changed,
         label='Use tunneling app'
     )
     tunneling_apps_dropdown = ft.Dropdown(
@@ -418,7 +416,7 @@ def main(page: ft.Page):
         icon_color=ft.colors.BLUE_200,
         tooltip='Send',
         disabled=True,
-        on_click=send
+        on_click=send_message
     )
 
     message_box = ft.ListView(
