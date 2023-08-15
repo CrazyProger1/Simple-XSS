@@ -1,14 +1,16 @@
 import asyncio
-from time import sleep
-
+import payload
 import flet as ft
 
+from time import sleep
 from app.exceptions import OptionsLoadingError
 from app.hook import DefaultHook
 from app.options import Options
 from app.payload import DefaultPayload
 from app.runner import DefaultRunner
 from app.tunneling import HTTPTunnelingAppWrapper
+from app.exceptions import ValidationError
+from app.validators import validate_url
 from settings import (
     APP,
     VERSION,
@@ -34,12 +36,21 @@ def main(page: ft.Page):
     except OptionsLoadingError:
         options = Options()
 
-    runner = DefaultRunner(options=options)
+    runner = DefaultRunner(options=options, io=GUIIOManager())
 
     def on_print(args: tuple[str]):
         add_message(' '.join(map(str, args)))
 
-    def on_input(prompt: str):
+    def on_print_pos(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='green')
+
+    def on_print_neg(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='red')
+
+    def on_print_debug(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='blue')
+
+    def on_ask(prompt: str, default: any = None):
         nonlocal message_entered
 
         send_btn.disabled = False
@@ -51,7 +62,7 @@ def main(page: ft.Page):
             sleep(1)
 
         message_entered = False
-        return message_value
+        return message_value or default
 
     async def on_hook_loaded(hook):
         hook_field.value = hook
@@ -74,7 +85,21 @@ def main(page: ft.Page):
         tunneling_apps_dropdown.update()
         public_url_field.update()
 
+    def on_public_url_field_changed(e):
+        val = public_url_field.value
+
+        try:
+            validate_url(val)
+            public_url_field.color = None
+        except ValidationError:
+            public_url_field.color = 'red'
+        public_url_field.update()
+
     def run(e):
+        if not use_tunneling_app_checkbox.value and not public_url_field.value:
+            public_url_field.focus()
+            return
+
         run_btn.disabled = True
         stop_btn.disabled = False
         options.use_tunneling_app = use_tunneling_app_checkbox.value
@@ -100,9 +125,15 @@ def main(page: ft.Page):
         asyncio.run(runner.stop())
         page.update()
 
-    def add_message(message: str):
+    def add_message(message: str, color: str = None, bg_color: str = None):
         message_box.controls.append(
-            ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
+            ft.Text(
+                value=message,
+                size=MESSAGE_FONT_SIZE,
+                selectable=True,
+                color=color,
+                bgcolor=bg_color
+            )
         )
         page.update()
 
@@ -254,7 +285,8 @@ def main(page: ft.Page):
         visible=not options.use_tunneling_app,
         expand=True,
         border_color=ft.colors.OUTLINE,
-        hint_text='Public URL'
+        hint_text='Public URL',
+        on_change=on_public_url_field_changed
     )
     hook_box_title = ft.Text(
         value='Hook',
@@ -475,7 +507,10 @@ def main(page: ft.Page):
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
-    GUIIOManager.printed.add_listener(on_print)
-    GUIIOManager.wait_input.set_listener(on_input)
+    GUIIOManager.ask_event.set_listener(on_ask)
+    GUIIOManager.print_event.add_listener(on_print)
+    GUIIOManager.print_pos_event.add_listener(on_print_pos)
+    GUIIOManager.print_neg_event.add_listener(on_print_neg)
+    GUIIOManager.print_debug_event.add_listener(on_print_debug)
 
     page.add(main_box)

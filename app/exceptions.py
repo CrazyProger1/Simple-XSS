@@ -1,3 +1,6 @@
+from app.utils.cli.exceptions import ValidationError
+
+
 class HookLoadingError(ValueError):
     def __init__(self, path: str):
         super().__init__(f'Failed to load hook: {path}')
