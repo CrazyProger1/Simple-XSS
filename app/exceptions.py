@@ -3,6 +3,9 @@ class HookLoadingError(ValueError):
         super().__init__(f'Failed to load hook: {path}')
 
 
+from app.utils.cli.exceptions import ValidationError
+
+
 class PayloadLoadingError(ValueError):
     def __init__(self, path: str):
         super().__init__(f'Failed to load payload: {path}')

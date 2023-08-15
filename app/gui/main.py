@@ -4,12 +4,13 @@ import flet as ft
 
 from time import sleep
 from app.exceptions import OptionsLoadingError
-from app.session import ClientSession
 from app.hook import DefaultHook
 from app.options import Options
 from app.payload import DefaultPayload
 from app.runner import DefaultRunner
 from app.tunneling import HTTPTunnelingAppWrapper
+from app.exceptions import ValidationError
+from app.validators import validate_url
 from settings import (
     APP,
     VERSION,
@@ -82,6 +83,16 @@ def main(page: ft.Page):
         public_url_field.visible = not val
 
         tunneling_apps_dropdown.update()
+        public_url_field.update()
+
+    def on_public_url_field_changed(e):
+        val = public_url_field.value
+
+        try:
+            validate_url(val)
+            public_url_field.color = None
+        except ValidationError:
+            public_url_field.color = 'red'
         public_url_field.update()
 
     def run(e):
@@ -270,7 +281,8 @@ def main(page: ft.Page):
         visible=not options.use_tunneling_app,
         expand=True,
         border_color=ft.colors.OUTLINE,
-        hint_text='Public URL'
+        hint_text='Public URL',
+        on_change=on_public_url_field_changed
     )
     hook_box_title = ft.Text(
         value='Hook',
@@ -491,8 +503,8 @@ def main(page: ft.Page):
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
-    GUIIOManager.print_event.add_listener(on_print)
     GUIIOManager.input_event.set_listener(on_input)
+    GUIIOManager.print_event.add_listener(on_print)
     GUIIOManager.print_pos_event.add_listener(on_print_pos)
     GUIIOManager.print_neg_event.add_listener(on_print_neg)
     GUIIOManager.print_debug_event.add_listener(on_print_debug)

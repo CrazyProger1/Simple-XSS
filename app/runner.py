@@ -55,6 +55,7 @@ class DefaultRunner(Runner):
     def __init__(self, options: Options, io: IOManager):
         import payload
         payload.io = io
+
         self._io = io
         self._options = options
         self._env = Environment(self._options.public_url)
