@@ -32,7 +32,8 @@ def parse_args() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser(
         APP,
-        description='Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool.'
+        description=f'{APP} is a multiplatform cross-site scripting (XSS) '
+                    'vulnerability exploitation tool for pentesting.'
     )
     parser.add_argument(
         '-g',

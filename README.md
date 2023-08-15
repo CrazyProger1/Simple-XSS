@@ -8,10 +8,16 @@
 <a href="https://github.com/CrazyProger1/Simple-XSS/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/CrazyProger1/Simple-XSS"></a>
 <a href="https://github.com/CrazyProger1/Simple-XSS/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CrazyProger1/Simple-XSS"></a>
 
-Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool. This application will help you
+Simple-XSS is a multi-platform cross-site scripting (XSS) vulnerability exploitation tool for pentesting. This application will help you
 create a hook that can easily
 and reliably catch a client by downloading a payload to their browser and executing it. You don't even need a white IP
 for this because the application will take care of tunneling the connection between you and the victim.
+
+**Disclaimer:** This program is provided for educational and research purposes only.
+The creator of this program does not condone or support any illegal or malicious activity,
+and will not be held responsible for any such actions taken by others who may use this program.
+By downloading or using this program, you acknowledge that you are solely responsible for any consequences
+that may result from the use of this program.
 
 ## Usage
 
@@ -58,8 +64,6 @@ Press "Search". As you can see, we have the alert dialog!
 
 Also, we have "Hello, World!" in our console:
 ![step 8](docs/step_8.png)
-
-
 
 
 ### Hook

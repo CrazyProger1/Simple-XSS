@@ -1,4 +1,4 @@
 version = '0.1'
-name = 'IP Stealer'
+name = 'IP Logger'
 author = 'crazyproger1'
-description = 'Steals IP'
+description = 'Allows you to find out IP'
