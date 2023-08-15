@@ -1,11 +1,7 @@
 import payload
 from app.app import App
 from app.exceptions import OptionsLoadingError
-from app.hook import DefaultHook
 from app.options import Options
-from app.payload import DefaultPayload
-from app.utils import cli, url
-from app.validators import validate_url
 from app.runner import DefaultRunner
 from .io import CLIIOManager
 from .menu import Menu
