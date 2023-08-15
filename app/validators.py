@@ -16,8 +16,11 @@ def validate_host(host: str):
 
 
 @cache
-def validate_port(port: int):
+def validate_port(port: int | str):
     """Checks if the given integer can be a port"""
+
+    if isinstance(port, str) and port.isdigit():
+        port = int(port)
 
     if not isinstance(port, int):
         raise exceptions.ValidationError(f'Port must be type of integer not {type(port).__name__}')

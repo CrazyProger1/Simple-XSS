@@ -15,6 +15,7 @@ DEFAULT_PAYLOAD = os.path.join(PAYLOADS_DIR, 'hello_world')
 
 # tunneling
 DEFAULT_TUNNELING_APP = 'ngrok'
+USE_TUNNELING_APP = True
 
 # server
 DEFAULT_HOST = 'localhost'

@@ -5,12 +5,19 @@ from app.io import IOManager
 from app.options import Options
 from app.payload import DefaultPayload
 from app.utils import cli, url
-from app.validators import validate_url
-from settings import APP, VERSION
+from app.validators import (
+    validate_url,
+    validate_port,
+    validate_host
+)
+from settings import (
+    APP,
+    VERSION,
+    USE_TUNNELING_APP
+)
 
 
 class Menu:
-
     def __init__(self, options: Options, io: IOManager):
         self._options = options
         self._io = io
@@ -39,28 +46,46 @@ class Menu:
             default=self._options.payload_path
         )
 
+    def ask_port(self):
+        self._options.port = int(cli.ask_validated(
+            f'Port ({self._options.port}):',
+            validator=validate_port,
+            default=self._options.port
+        ))
+
+    def ask_host(self):
+        self._options.host = cli.ask_validated(
+            f'Host ({self._options.host}):',
+            validator=validate_host,
+            default=self._options.host
+        )
+
     def ask_use_tunneling_app(self):
-        self._options.use_tunneling_app = cli.ask_bool('Use tunneling app (Y/N):', default=False)
+        self._options.use_tunneling_app = cli.ask_bool('Use tunneling app (Y/N):', default=USE_TUNNELING_APP)
 
     def ask_about_tunneling_app(self):
         self.ask_use_tunneling_app()
 
-        if self._options.use_tunneling_app:
+        if not self._options.use_tunneling_app:
             self.ask_public_url()
 
     def show_options(self):
+        print()
         print(tabulate(self._options.__dict__.items(), headers=['NAME', 'VALUE'], tablefmt='grid'))
 
     def set(self):
         while True:
-            print()
             self.show_options()
+
+            print()
 
             options = {
                 'public url': self.ask_public_url,
                 'payload path': self.ask_payload_path,
                 'hook path': self.ask_hook_path,
                 'tunneling app': self.ask_about_tunneling_app,
+                'host': self.ask_host,
+                'port': self.ask_port,
                 'back': None
             }
 
@@ -85,6 +110,7 @@ class Menu:
             option = cli.ask_option(
                 'Choose option:',
                 options=(
+                    'show',
                     'set',
                     'run',
                     'exit',
@@ -92,6 +118,8 @@ class Menu:
             )
 
             match option:
+                case 'show':
+                    self.show_options()
                 case 'set':
                     self.set()
                 case 'run':
