@@ -25,7 +25,7 @@ OPTIONS_FILE = 'options.toml'
 
 # app
 APP = 'Simple-XSS'
-VERSION = '0.1'
+VERSION = '0.2'
 
 # logging
 LOGGING_LEVEL = 0

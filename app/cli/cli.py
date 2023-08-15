@@ -17,33 +17,15 @@ class CLI(App):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-
         try:
             self._options = Options.load()
         except OptionsLoadingError:
             self._options = Options()
 
-        self._runner = DefaultRunner(options=self._options)
-
-        DefaultRunner.tunneling_app_launched.add_listener(self._on_tunneling_app_launched)
-        DefaultRunner.tunneling_app_launching_error.add_listener(self._on_tunneling_app_error)
-        DefaultRunner.public_url_unspecified_error.add_listener(self._on_public_url_unspecified_error)
-        DefaultRunner.hook_loaded.add_listener(self._on_hook_loaded)
-        DefaultRunner.payload_uploaded.add_listener(self._on_payload_uploaded)
-        DefaultRunner.client_hooked.add_listener(self._on_client_hooked)
-        DefaultRunner.server_launched.add_listener(self._on_server_launched)
-
-    async def _on_client_hooked(self, session: ClientSession):
-        cli.print_pos(f'Client hooked: {session.connection.origin}')
-
-    async def _on_client_escaped(self, session: ClientSession):
-        cli.print_pos(f'Client escaped: {session.connection.origin}')
-
-    async def _on_payload_uploaded(self, session: ClientSession):
-        cli.print_pos(f'Payload sent: {session.payload.metadata.name}')
-
-    async def _on_hook_loaded(self, hook):
-        cli.print_pos('Hook:', hook)
+        self._runner = DefaultRunner(
+            options=self._options,
+            io=CLIIOManager()
+        )
 
     async def _on_public_url_unspecified_error(self):
         self._options.public_url = url.convert_url(cli.ask_validated(
@@ -51,15 +33,6 @@ class CLI(App):
             validator=validate_url,
             default=self._options.public_url
         ))
-
-    async def _on_tunneling_app_launched(self, public_url: str):
-        cli.print_pos(f'Tunneling app is up: {public_url} -> {self._options.host}:{self._options.port}')
-
-    async def _on_tunneling_app_error(self, error: Exception):
-        cli.print_neg(f'Failed to open tunnel')
-
-    async def _on_server_launched(self, host, port):
-        cli.print_pos(f'Local server app is listening: {self._options.host}:{self._options.port}')
 
     async def run(self):
         payload.io = CLIIOManager()

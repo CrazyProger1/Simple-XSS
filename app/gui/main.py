@@ -1,9 +1,10 @@
 import asyncio
-from time import sleep
-
+import payload
 import flet as ft
 
+from time import sleep
 from app.exceptions import OptionsLoadingError
+from app.session import ClientSession
 from app.hook import DefaultHook
 from app.options import Options
 from app.payload import DefaultPayload
@@ -34,10 +35,19 @@ def main(page: ft.Page):
     except OptionsLoadingError:
         options = Options()
 
-    runner = DefaultRunner(options=options)
+    runner = DefaultRunner(options=options, io=GUIIOManager())
 
     def on_print(args: tuple[str]):
         add_message(' '.join(map(str, args)))
+
+    def on_print_pos(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='green')
+
+    def on_print_neg(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='red')
+
+    def on_print_debug(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='blue')
 
     def on_input(prompt: str):
         nonlocal message_entered
@@ -100,9 +110,15 @@ def main(page: ft.Page):
         asyncio.run(runner.stop())
         page.update()
 
-    def add_message(message: str):
+    def add_message(message: str, color: str = None, bg_color: str = None):
         message_box.controls.append(
-            ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
+            ft.Text(
+                value=message,
+                size=MESSAGE_FONT_SIZE,
+                selectable=True,
+                color=color,
+                bgcolor=bg_color
+            )
         )
         page.update()
 
@@ -475,7 +491,10 @@ def main(page: ft.Page):
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
-    GUIIOManager.printed.add_listener(on_print)
-    GUIIOManager.wait_input.set_listener(on_input)
+    GUIIOManager.print_event.add_listener(on_print)
+    GUIIOManager.input_event.set_listener(on_input)
+    GUIIOManager.print_pos_event.add_listener(on_print_pos)
+    GUIIOManager.print_neg_event.add_listener(on_print_neg)
+    GUIIOManager.print_debug_event.add_listener(on_print_debug)
 
     page.add(main_box)

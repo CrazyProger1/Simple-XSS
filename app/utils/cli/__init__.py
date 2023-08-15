@@ -13,7 +13,8 @@ from .printutils import (
     print_colored,
     print_question,
     print_pos,
-    print_neg
+    print_neg,
+    print_status
 )
 from .styles import PRINT_STYLES
 from . import exceptions
@@ -28,5 +29,6 @@ __all__ = [
     'print_pos',
     'print_neg',
     'print_colored',
+    'print_status',
     'PRINT_STYLES'
 ]
