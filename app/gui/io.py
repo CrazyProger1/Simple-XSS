@@ -4,7 +4,7 @@ from app.utils import observer
 
 class GUIIOManager(IOManager):
     print_event = observer.Event()
-    input_event = observer.ResultEvent()
+    ask_event = observer.ResultEvent()
     print_pos_event = observer.Event()
     print_neg_event = observer.Event()
     print_debug_event = observer.Event()
@@ -22,5 +22,5 @@ class GUIIOManager(IOManager):
     def print_neg(self, *args):
         self.print_neg_event(args=args)
 
-    def input(self, prompt: str):
-        return self.input_event(prompt=prompt)
+    def ask(self, prompt: str, default: any = None):
+        return self.ask_event(prompt=prompt)

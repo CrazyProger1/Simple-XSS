@@ -18,5 +18,5 @@ class IOManager(metaclass=clss.SingletonMeta):
     def print_neg(self, *args):
         raise NotImplementedError
 
-    def input(self, prompt: str) -> str | None:
+    def ask(self, prompt: str, default: any = None) -> str | None:
         raise NotImplementedError

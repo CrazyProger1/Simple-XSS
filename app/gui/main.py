@@ -50,7 +50,7 @@ def main(page: ft.Page):
     def on_print_debug(args: tuple[str]):
         add_message(' '.join(map(str, args)), color='blue')
 
-    def on_input(prompt: str):
+    def on_ask(prompt: str, default: any = None):
         nonlocal message_entered
 
         send_btn.disabled = False
@@ -62,7 +62,7 @@ def main(page: ft.Page):
             sleep(1)
 
         message_entered = False
-        return message_value
+        return message_value or default
 
     async def on_hook_loaded(hook):
         hook_field.value = hook
@@ -96,6 +96,10 @@ def main(page: ft.Page):
         public_url_field.update()
 
     def run(e):
+        if not use_tunneling_app_checkbox.value and not public_url_field.value:
+            public_url_field.focus()
+            return
+
         run_btn.disabled = True
         stop_btn.disabled = False
         options.use_tunneling_app = use_tunneling_app_checkbox.value
@@ -503,7 +507,7 @@ def main(page: ft.Page):
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
-    GUIIOManager.input_event.set_listener(on_input)
+    GUIIOManager.ask_event.set_listener(on_ask)
     GUIIOManager.print_event.add_listener(on_print)
     GUIIOManager.print_pos_event.add_listener(on_print_pos)
     GUIIOManager.print_neg_event.add_listener(on_print_neg)

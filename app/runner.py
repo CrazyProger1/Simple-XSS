@@ -41,7 +41,7 @@ class DefaultRunner(Runner):
     tunneling_app_launching_error = observer.AsyncEvent()  # event because it is non-critical
     tunneling_app_stopped = observer.AsyncEvent()
 
-    public_url_unspecified_error = observer.AsyncEvent()  # event because it is non-critical
+    ask_public_url = observer.Event()  # event because it is non-critical
 
     server_launched = observer.AsyncEvent()
     server_stopped = observer.AsyncEvent()
@@ -146,7 +146,7 @@ class DefaultRunner(Runner):
         if self._options.use_tunneling_app:
             await self._run_tunneling_app()
         else:
-            await self.public_url_unspecified_error()
+            self.ask_public_url()
 
         self._env.public_url = url.convert_url(self._options.public_url)
 

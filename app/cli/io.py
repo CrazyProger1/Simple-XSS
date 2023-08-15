@@ -16,5 +16,5 @@ class CLIIOManager(IOManager):
         if self.debug:
             cli.print_status(*args)
 
-    def input(self, prompt: str):
-        return input(prompt)
+    def ask(self, prompt: str, default: any = None):
+        return cli.ask(prompt, default=default)
