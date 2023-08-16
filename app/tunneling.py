@@ -1,3 +1,4 @@
+from typing import Optional
 from pyngrok import ngrok, exception as ngexecptions
 from loguru import logger
 from app.utils import observer
@@ -19,12 +20,12 @@ class HTTPTunnelingAppWrapper:
         self._port = port
 
     @classmethod
-    def get_wrapper(cls, app: str) -> type["HTTPTunnelingAppWrapper"] | None:
-        """Returns the tunneling application wrapper, if it exists"""
+    def get_wrapper(cls, app: str, host: str, port: int) -> Optional["HTTPTunnelingAppWrapper"]:
+        """HTTP Tunneling App Wrapper Factory"""
 
         for subcls in cls.__subclasses__():
             if subcls._app == app:
-                return subcls
+                return subcls(host=host, port=port)
 
     @classmethod
     @property

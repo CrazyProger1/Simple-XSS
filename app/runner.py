@@ -89,10 +89,9 @@ class DefaultRunner(Runner):
     async def _run_tunneling_app(self):
         try:
             self._tunneling_app = HTTPTunnelingAppWrapper.get_wrapper(
-                self._options.tunneling_app
-            )(
-                self._options.host,
-                self._options.port
+                self._options.tunneling_app,
+                host=self._options.host,
+                port=self._options.port
             )
 
             await self._tunneling_app.run()
