@@ -20,14 +20,6 @@ class HTTPTunnelingAppWrapper:
         self._port = port
 
     @classmethod
-    def get_wrapper(cls, app: str, host: str, port: int) -> Optional["HTTPTunnelingAppWrapper"]:
-        """HTTP Tunneling App Wrapper Factory"""
-
-        for subcls in cls.__subclasses__():
-            if subcls._app == app:
-                return subcls(host=host, port=port)
-
-    @classmethod
     @property
     def app(cls):
         return cls._app
@@ -49,6 +41,16 @@ class HTTPTunnelingAppWrapper:
 
     async def stop(self):
         raise NotImplementedError
+
+
+class HTTPTunnelingAppWrapperFactory:
+    """HTTP Tunneling App Wrapper Factory"""
+
+    @staticmethod
+    def create(app: str, host: str, port: int) -> Optional[HTTPTunnelingAppWrapper]:
+        for subcls in HTTPTunnelingAppWrapper.__subclasses__():
+            if subcls.app == app:
+                return subcls(host=host, port=port)
 
 
 class NgrokWrapper(HTTPTunnelingAppWrapper):

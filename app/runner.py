@@ -1,7 +1,7 @@
 from app.options import Options
 from app.session import ClientSession
 from app.environment import Environment
-from app.tunneling import HTTPTunnelingAppWrapper
+from app.tunneling import HTTPTunnelingAppWrapper, HTTPTunnelingAppWrapperFactory
 from app.server import LocalWebsocketServer, DefaultWebsocketServer
 from app.hook import Hook, DefaultHook
 from app.payload import DefaultPayload
@@ -60,7 +60,7 @@ class DefaultRunner(Runner):
         self._options = options
         self._env = Environment(self._options.public_url)
         self._server = DefaultWebsocketServer(options.host, options.port)
-        self._tunneling_app: HTTPTunnelingAppWrapper | None = None
+        self._current_tunneling_app: HTTPTunnelingAppWrapper | None = None
         self._hook = None
         self._stop = False
 
@@ -88,15 +88,16 @@ class DefaultRunner(Runner):
 
     async def _run_tunneling_app(self):
         try:
-            self._tunneling_app = HTTPTunnelingAppWrapper.get_wrapper(
-                self._options.tunneling_app,
+
+            self._current_tunneling_app = HTTPTunnelingAppWrapperFactory.create(
+                app=self._options.tunneling_app,
                 host=self._options.host,
                 port=self._options.port
             )
 
-            await self._tunneling_app.run()
+            await self._current_tunneling_app.run()
 
-            self._options.public_url = url.convert_url(self._tunneling_app.public_url)
+            self._options.public_url = url.convert_url(self._current_tunneling_app.public_url)
 
             await self.tunneling_app_launched(public_url=self._options.public_url)
             self._io.print_debug(
@@ -156,5 +157,5 @@ class DefaultRunner(Runner):
 
     async def stop(self):
         await self.server.stop()
-        if self._tunneling_app:
-            await self._tunneling_app.stop()
+        if self._current_tunneling_app:
+            await self._current_tunneling_app.stop()
