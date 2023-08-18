@@ -1,11 +1,12 @@
 import asyncio
+import json
+from dataclasses import dataclass
+from typing import Iterable
+
 import textwrap
 import websockets
-import json
-
-from dataclasses import dataclass
-from typing import Iterable, Generator
 from loguru import logger
+
 from app.session import ClientSession
 from app.utils import observer
 from app.validators import validate_port, validate_host

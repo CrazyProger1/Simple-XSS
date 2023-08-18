@@ -1,14 +1,16 @@
 import os
+from dataclasses import dataclass
+
 import toml
+from loguru import logger
+
+from app.exceptions import HookLoadingError
+from app.utils.helpers import jinja
+from app.environment import Environment
 from settings import (
     HOOK_MAIN_FILE,
     HOOK_PACKAGE_FILE
 )
-from dataclasses import dataclass
-from loguru import logger
-from app.exceptions import HookLoadingError
-from app.utils.helpers import jinja
-from app.environment import Environment
 
 
 @dataclass

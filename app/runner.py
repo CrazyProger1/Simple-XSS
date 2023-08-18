@@ -11,7 +11,7 @@ from app.io import IOManager
 
 
 class Runner:
-    """Encapsulates & controls the functional part of the application"""
+    """Encapsulates & controls the functional part of the application. Pattern Facade"""
 
     @property
     def hook(self) -> Hook:

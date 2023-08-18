@@ -1,6 +1,8 @@
 import os
-import toml
 from dataclasses import dataclass
+
+import toml
+
 from settings import (
     DEFAULT_HOOK,
     DEFAULT_PAYLOAD,
