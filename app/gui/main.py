@@ -1,5 +1,3 @@
-import asyncio
-import payload
 import flet as ft
 
 from time import sleep
@@ -22,7 +20,7 @@ from .constants import *
 from .io import GUIIOManager
 
 
-def main(page: ft.Page):
+async def main(page: ft.Page):
     # To refactor
 
     page.title = f'{APP} - V{VERSION}'
@@ -95,7 +93,7 @@ def main(page: ft.Page):
             public_url_field.color = 'red'
         public_url_field.update()
 
-    def run(e):
+    async def run(e):
         if not use_tunneling_app_checkbox.value and not public_url_field.value:
             public_url_field.focus()
             return
@@ -112,9 +110,9 @@ def main(page: ft.Page):
         payload_box.disabled = True
         hook_box.disabled = True
         page.update()
-        asyncio.run(runner.run())
+        await  runner.run()
 
-    def stop(e):
+    async def stop(e):
         run_btn.disabled = False
         stop_btn.disabled = True
         networking_box.disabled = False
@@ -122,7 +120,7 @@ def main(page: ft.Page):
         hook_box.disabled = False
         hook_field.value = None
         hook_field.disabled = True
-        asyncio.run(runner.stop())
+        await runner.stop()
         page.update()
 
     def add_message(message: str, color: str = None, bg_color: str = None):
@@ -513,4 +511,4 @@ def main(page: ft.Page):
     GUIIOManager.print_neg_event.add_listener(on_print_neg)
     GUIIOManager.print_debug_event.add_listener(on_print_debug)
 
-    page.add(main_box)
+    await page.add_async(main_box)

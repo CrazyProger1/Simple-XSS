@@ -74,7 +74,6 @@ async def main():
     elif args.graphic or args.browser:
         gui = GUI(args)
         await gui.run()
-
     else:
         cli = CLI(args)
         await cli.run()
