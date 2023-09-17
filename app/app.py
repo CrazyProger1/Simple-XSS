@@ -13,7 +13,6 @@ class App:
         except Exception:
             self._settings = Settings()
             self._settings.save(Format.TOML, SETTINGS_FILE)
-
     @property
     def args(self) -> argparse.Namespace:
         return self._args

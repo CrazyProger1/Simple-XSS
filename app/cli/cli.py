@@ -1,11 +1,7 @@
-import payload
 from app.app import App
-from app.settings import Settings
-from app.utils.settings import Format
 from app.runner import DefaultRunner
 from .io import CLIIOManager
 from .menu import Menu
-from config import SETTINGS_FILE
 
 
 class CLI(App):
@@ -29,5 +25,4 @@ class CLI(App):
 
     async def run(self):
         self._menu.run()
-
         await self._runner.run()

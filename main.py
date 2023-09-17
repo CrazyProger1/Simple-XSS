@@ -2,8 +2,7 @@ import asyncio
 import argparse
 
 from loguru import logger
-from app.cli import CLI
-from app.gui import GUI
+
 from config import (
     APP,
     LOGGING_LEVEL,
@@ -61,6 +60,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+@logger.catch()
 async def main():
     setup_logging()
     args = parse_args()
@@ -73,9 +73,11 @@ async def main():
         return
 
     elif args.graphic or args.browser:
+        from app.gui import GUI
         app = GUI(args)
 
     else:
+        from app.cli import CLI
         app = CLI(args)
 
     await app.run()

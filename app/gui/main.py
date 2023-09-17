@@ -22,7 +22,6 @@ from .io import GUIIOManager
 
 def main(page: ft.Page):
     # to refactor
-
     page.title = f'{APP} - V{VERSION}'
     page.theme_mode = 'dark'
 

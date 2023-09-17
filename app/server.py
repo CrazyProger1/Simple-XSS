@@ -13,6 +13,11 @@ from app.utils import observer
 from app.validators import validate_port, validate_host
 from app.exceptions import MessageDecodeError, MessageEncodeError
 
+from config import DEVELOPMENT_MODE
+
+if not DEVELOPMENT_MODE:
+    typechecked = lambda func: func
+
 
 @dataclass
 class Event:
