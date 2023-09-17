@@ -2,7 +2,7 @@ import unittest
 import os
 import shutil
 
-from settings import (
+from config import (
     PAYLOADS_DIR,
     PAYLOAD_MAIN_FILE,
     PAYLOAD_INIT_FILE,

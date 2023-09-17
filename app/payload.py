@@ -1,6 +1,6 @@
 import os
 import toml
-from settings import (
+from config import (
     PAYLOAD_PACKAGE_FILE,
     PAYLOAD_MAIN_FILE,
     PAYLOAD_INIT_FILE

@@ -1,7 +1,7 @@
 import os
 import toml
 from dataclasses import dataclass
-from settings import (
+from config import (
     DEFAULT_HOOK,
     DEFAULT_PAYLOAD,
     DEFAULT_TUNNELING_APP,

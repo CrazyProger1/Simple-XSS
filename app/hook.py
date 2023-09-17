@@ -1,6 +1,6 @@
 import os
 import toml
-from settings import (
+from config import (
     HOOK_MAIN_FILE,
     HOOK_PACKAGE_FILE
 )

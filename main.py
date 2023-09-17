@@ -4,7 +4,7 @@ import argparse
 from loguru import logger
 from app.cli import CLI
 from app.gui import GUI
-from settings import (
+from config import (
     VERSION,
     APP,
     LOGGING_LEVEL,

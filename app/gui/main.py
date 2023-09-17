@@ -9,7 +9,7 @@ from app.options import Options
 from app.payload import DefaultPayload
 from app.runner import DefaultRunner
 from app.tunneling import HTTPTunnelingAppWrapper
-from settings import (
+from config import (
     APP,
     VERSION,
     OPTIONS_FILE,
