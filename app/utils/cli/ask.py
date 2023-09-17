@@ -24,6 +24,7 @@ def ask_validated(
         prompt: str,
         validator: Callable[[str], bool | None],
         default: any = None,
+        exception: Exception = ValidationError
 ):
     value = ask(
         prompt=prompt,
@@ -33,7 +34,7 @@ def ask_validated(
         if not validator(value):
             raise ValidationError
         return value
-    except ValidationError as e:
+    except exception as e:
         print_neg(str(e) or 'Value is invalid')
         return ask_validated(
             prompt=prompt,

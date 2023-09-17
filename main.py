@@ -14,6 +14,8 @@ from config import (
 
 
 def setup_logging():
+    """Sets up logging"""
+
     if not LOGGING_VERBOSITY:
         logger.remove()
 
@@ -30,7 +32,8 @@ def parse_args() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser(
         APP,
-        description='Simple-XSS is a multiplatform cross-site scripting (XSS) vulnerability exploitation tool.'
+        description=f'{APP} is a multiplatform cross-site scripting (XSS) '
+                    'vulnerability exploitation tool for pentesting.'
     )
     parser.add_argument(
         '-g',
@@ -44,13 +47,31 @@ def parse_args() -> argparse.Namespace:
         action='store_true',
         help='browser interface'
     )
+    parser.add_argument(
+        '-c',
+        '--create-hook',
+        action='store_true',
+        help='create hook'
+    )
+    parser.add_argument(
+        '-p',
+        '--create-payload',
+        action='store_true',
+        help='create payload'
+    )
     return parser.parse_args()
 
 
 async def main():
     setup_logging()
     args = parse_args()
-    if args.graphic or args.browser:
+
+    if args.create_hook:
+        import scripts.create_hook
+    elif args.create_payload:
+        import scripts.create_payload
+
+    elif args.graphic or args.browser:
         gui = GUI(args)
         await gui.run()
 

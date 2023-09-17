@@ -45,6 +45,12 @@ def print_neg(*values, sep=' ', end='\n'):
     reset_styles()
 
 
+def print_status(*values, sep=' ', end='\n'):
+    colorize(color=PRINT_STYLES['status'])
+    print_prefixed('[~]', *values, sep=sep, end=end)
+    reset_styles()
+
+
 def print_question(*values, sep=' ', end='\n'):
     """Prints question with prefix [?]"""
 

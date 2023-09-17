@@ -20,6 +20,8 @@ class HookMetadata:
 
 
 class Hook:
+    """Hook is loaded into the site using an XSS attack"""
+
     @classmethod
     def load(cls, path: str, environment: Environment) -> "Hook":
         """Loads hook"""

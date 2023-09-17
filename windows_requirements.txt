@@ -45,3 +45,5 @@ wcwidth==0.2.6
 websocket-client==1.6.1
 websockets==11.0.3
 win32-setctime==1.1.0
+sanitize-filename
+tabulate

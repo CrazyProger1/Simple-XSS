@@ -25,6 +25,8 @@ class PayloadMetadata:
 
 
 class Payload:
+    """Payload uploaded to the site by a hook"""
+
     @classmethod
     def load(cls, hook_dir: str, environment: Environment) -> "Payload":
         """Loads payload"""

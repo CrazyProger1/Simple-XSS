@@ -7,22 +7,24 @@ from config import (
     DEFAULT_TUNNELING_APP,
     DEFAULT_HOST,
     DEFAULT_PORT,
-    OPTIONS_FILE
+    OPTIONS_FILE,
+    USE_TUNNELING_APP
 )
 
 from loguru import logger
-from app.exceptions import OptionsLoadingError
+from app.exceptions import OptionsLoadingError, OptionsSavingError
 
 
 @dataclass
 class Options:
+    """"""
     public_url: str = None
     payload_path: str = DEFAULT_PAYLOAD
     hook_path: str = DEFAULT_HOOK
-    use_tunneling_app: bool = False
+    use_tunneling_app: bool = USE_TUNNELING_APP
     tunneling_app: str = DEFAULT_TUNNELING_APP
-    host = DEFAULT_HOST
-    port = DEFAULT_PORT
+    host: str = DEFAULT_HOST
+    port: int = DEFAULT_PORT
 
     @classmethod
     def load(cls, path: str = OPTIONS_FILE):
@@ -47,4 +49,4 @@ class Options:
             with open(path, 'w') as of:
                 toml.dump(self.__dict__, of)
         except Exception as e:
-            pass
+            raise OptionsSavingError(path)
