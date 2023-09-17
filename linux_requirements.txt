@@ -41,3 +41,4 @@ websockets==11.0.3
 sanitize-filename
 tabulate
 pydantic
+typeguard

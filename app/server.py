@@ -2,10 +2,12 @@ import asyncio
 import textwrap
 import websockets
 import json
-
 from dataclasses import dataclass
 from typing import Iterable, Generator
+
 from loguru import logger
+from typeguard import typechecked
+
 from app.session import ClientSession
 from app.utils import observer
 from app.validators import validate_port, validate_host
@@ -116,6 +118,7 @@ class DefaultWebsocketServer(LocalWebsocketServer):
             event=event
         )
 
+    @typechecked
     async def _handle_message(self, session: ClientSession, message: str):
         try:
             event = decode_message(message=message)
@@ -164,28 +167,34 @@ class DefaultWebsocketServer(LocalWebsocketServer):
     def connected(self) -> set[ClientSession]:
         return self._connected
 
+    @typechecked
     async def send(self, session: ClientSession, message: str):
         logger.debug(f'Message sent: {textwrap.shorten(message, 100)}')
         await session.connection.send(str(message))
 
+    @typechecked
     async def send_event(self, session: ClientSession, event: Event):
         logger.debug(f'Event sent: {event.__dict__}')
         await session.connection.send(encode_message(event=event))
 
+    @typechecked
     async def broadcast(self, sessions: Iterable[ClientSession], message: str):
         logger.debug(f'Message broadcasted: {textwrap.shorten(message, 100)}')
         connections = self._get_cons_from_sessions(sessions)
         websockets.broadcast(connections, message)
 
+    @typechecked
     async def broadcast_event(self, sessions: Iterable[ClientSession], event: Event):
         logger.debug(f'Event broadcasted: {event.__dict__}')
         await self.broadcast(sessions, encode_message(event=event))
 
+    @typechecked
     async def broadcast_all(self, message: str):
         logger.debug(f'Message broadcasted to all: {textwrap.shorten(message, 100)}')
         connections = self._get_cons_from_sessions(self.connected)
         websockets.broadcast(connections)
 
+    @typechecked
     async def broadcast_event_to_all(self, event: Event):
         await self.broadcast_all(encode_message(event=event))
 
