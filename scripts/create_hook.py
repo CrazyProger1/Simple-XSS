@@ -2,7 +2,11 @@ import os
 import sys
 import toml
 
-from settings import HOOKS_DIR, HOOK_PACKAGE_FILE, HOOK_MAIN_FILE
+from config import (
+    HOOKS_DIR,
+    HOOK_PACKAGE_FILE,
+    HOOK_MAIN_FILE
+)
 from app.utils import cli
 from app.hook import HookMetadata
 from sanitize_filename import sanitize

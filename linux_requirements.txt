@@ -40,3 +40,4 @@ websocket-client==1.6.1
 websockets==11.0.3
 sanitize-filename
 tabulate
+pydantic

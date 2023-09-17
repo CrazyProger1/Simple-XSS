@@ -3,16 +3,16 @@ from time import sleep
 
 import flet as ft
 
-from app.exceptions import OptionsLoadingError
 from app.hook import DefaultHook
-from app.options import Options
+from app.settings import Settings
 from app.payload import DefaultPayload
 from app.runner import DefaultRunner
 from app.tunneling import HTTPTunnelingAppWrapper
+from app.utils.settings import Format
 from config import (
     APP,
     VERSION,
-    OPTIONS_FILE,
+    SETTINGS_FILE,
     HOOKS_DIR,
     PAYLOADS_DIR
 )
@@ -25,12 +25,9 @@ def main(page: ft.Page):
     page.theme_mode = 'dark'
     message_entered = False
 
-    try:
-        options = Options.load(OPTIONS_FILE)
-    except OptionsLoadingError:
-        options = Options()
+    settings = Settings.load(Format.TOML, SETTINGS_FILE)
 
-    runner = DefaultRunner(options=options)
+    runner = DefaultRunner(settings=settings, io=GUIIOManager())
 
     def on_print(args: tuple[str]):
         add_message(' '.join(map(str, args)))
@@ -68,11 +65,11 @@ def main(page: ft.Page):
     def run(e):
         run_btn.disabled = True
         stop_btn.disabled = False
-        options.use_tunneling_app = use_tunneling_app_checkbox.value
-        if options.use_tunneling_app:
-            options.tunneling_app = tunneling_apps_dropdown.value
+        settings.use_tunneling_app = use_tunneling_app_checkbox.value
+        if settings.use_tunneling_app:
+            settings.tunneling_app = tunneling_apps_dropdown.value
         else:
-            options.public_url = public_url_field.value
+            settings.public_url = public_url_field.value
 
         networking_box.disabled = True
         payload_box.disabled = True
@@ -100,7 +97,7 @@ def main(page: ft.Page):
             if DefaultHook.is_valid(path):
                 metadata = DefaultHook.load_metadata(path)
 
-                options.hook_path = path
+                settings.hook_path = path
 
                 if metadata.name:
                     hook_box_title.value = str(metadata.name)
@@ -125,7 +122,7 @@ def main(page: ft.Page):
             if DefaultPayload.is_valid(path):
                 metadata = DefaultPayload.load_metadata(path)
 
-                options.payload_path = path
+                settings.payload_path = path
 
                 if metadata.name:
                     payload_box_title.value = str(metadata.name)
@@ -229,19 +226,19 @@ def main(page: ft.Page):
     )
 
     use_tunneling_app_checkbox = ft.Checkbox(
-        value=options.use_tunneling_app,
+        value=settings.use_tunneling_app,
         on_change=checkbox_value_changed,
         label='Use tunneling app'
     )
     tunneling_apps_dropdown = ft.Dropdown(
-        visible=options.use_tunneling_app,
+        visible=settings.use_tunneling_app,
         expand=True,
         border_color=ft.colors.OUTLINE,
         options=list(ft.dropdown.Option(wrapper.app) for wrapper in HTTPTunnelingAppWrapper.__subclasses__()),
-        value=options.tunneling_app
+        value=settings.tunneling_app
     )
     public_url_field = ft.TextField(
-        visible=not options.use_tunneling_app,
+        visible=not settings.use_tunneling_app,
         expand=True,
         border_color=ft.colors.OUTLINE,
         hint_text='Public URL'
@@ -458,14 +455,14 @@ def main(page: ft.Page):
     page.overlay.append(hook_picker)
     page.overlay.append(payload_picker)
 
-    load_payload_data(options.payload_path)
-    load_hook_data(options.hook_path)
+    load_payload_data(settings.payload_path)
+    load_hook_data(settings.hook_path)
 
-    public_url_field.value = options.public_url
+    public_url_field.value = settings.public_url
 
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
-    GUIIOManager.printed.add_listener(on_print)
-    GUIIOManager.wait_input.set_listener(on_input)
+    GUIIOManager.print_event.add_listener(on_print)
+    GUIIOManager.ask_event.set_listener(on_input)
 
     page.add(main_box)

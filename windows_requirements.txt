@@ -47,3 +47,4 @@ websockets==11.0.3
 win32-setctime==1.1.0
 sanitize-filename
 tabulate
+pydantic

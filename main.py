@@ -5,7 +5,6 @@ from loguru import logger
 from app.cli import CLI
 from app.gui import GUI
 from config import (
-    VERSION,
     APP,
     LOGGING_LEVEL,
     LOGGING_VERBOSITY,
@@ -68,16 +67,18 @@ async def main():
 
     if args.create_hook:
         import scripts.create_hook
+        return
     elif args.create_payload:
         import scripts.create_payload
+        return
 
     elif args.graphic or args.browser:
-        gui = GUI(args)
-        await gui.run()
+        app = GUI(args)
 
     else:
-        cli = CLI(args)
-        await cli.run()
+        app = CLI(args)
+
+    await app.run()
 
 
 if __name__ == '__main__':

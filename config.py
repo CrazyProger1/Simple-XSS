@@ -22,7 +22,7 @@ DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 4444
 
 # options
-OPTIONS_FILE = 'options.toml'
+SETTINGS_FILE = 'settings.toml'
 
 # app
 APP = 'Simple-XSS'

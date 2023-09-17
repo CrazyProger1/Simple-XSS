@@ -160,4 +160,4 @@ cython_debug/
 .idea/
 
 # Options file
-options.toml
+settings.toml

@@ -2,7 +2,7 @@ import os
 import sys
 import toml
 
-from settings import (
+from config import (
     PAYLOADS_DIR,
     PAYLOAD_MAIN_FILE,
     PAYLOAD_INIT_FILE,

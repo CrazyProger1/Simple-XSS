@@ -1,10 +1,11 @@
 import payload
 from app.app import App
-from app.exceptions import OptionsLoadingError
-from app.options import Options
+from app.settings import Settings
+from app.utils.settings import Format
 from app.runner import DefaultRunner
 from .io import CLIIOManager
 from .menu import Menu
+from config import SETTINGS_FILE
 
 
 class CLI(App):
@@ -13,20 +14,15 @@ class CLI(App):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        payload.io = CLIIOManager()
-
-        try:
-            self._options = Options.load()
-        except OptionsLoadingError:
-            self._options = Options()
+        io = CLIIOManager()
 
         self._runner = DefaultRunner(
-            options=self._options,
-            io=payload.io
+            settings=self._settings,
+            io=io
         )
         self._menu = Menu(
-            options=self._options,
-            io=payload.io
+            options=self._settings,
+            io=io
         )
 
         self._runner.ask_public_url.add_listener(self._menu.ask_public_url)

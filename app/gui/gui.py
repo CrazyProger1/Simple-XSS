@@ -10,4 +10,5 @@ class GUI(App):
     """Graphic User Interface"""
 
     async def run(self):
+        payload.io = GUIIOManager()
         ft.app(target=main, view=ft.AppView.FLET_APP if not self.args.browser else ft.AppView.WEB_BROWSER)

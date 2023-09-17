@@ -1,4 +1,4 @@
-from app.options import Options
+from app.settings import Settings
 from app.session import ClientSession
 from app.environment import Environment
 from app.tunneling import HTTPTunnelingAppWrapper
@@ -8,6 +8,8 @@ from app.payload import DefaultPayload
 from app.utils import observer, url
 from app.exceptions import HTTPTunnelError
 from app.io import IOManager
+from app.utils.settings import Format
+from config import SETTINGS_FILE
 
 
 class Runner:
@@ -22,7 +24,7 @@ class Runner:
         raise NotImplementedError
 
     @property
-    def options(self) -> Options:
+    def settings(self) -> Settings:
         raise NotImplementedError
 
     @property
@@ -52,14 +54,14 @@ class DefaultRunner(Runner):
     client_connected = observer.AsyncEvent()
     client_disconnected = observer.AsyncEvent()
 
-    def __init__(self, options: Options, io: IOManager):
+    def __init__(self, settings: Settings, io: IOManager):
         import payload
         payload.io = io
 
         self._io = io
-        self._options = options
-        self._env = Environment(self._options.public_url)
-        self._server = DefaultWebsocketServer(options.host, options.port)
+        self._settings = settings
+        self._env = Environment(self._settings.public_url)
+        self._server = DefaultWebsocketServer(settings.host, settings.port)
         self._tunneling_app: HTTPTunnelingAppWrapper | None = None
         self._hook = None
         self._stop = False
@@ -74,7 +76,7 @@ class DefaultRunner(Runner):
     async def _on_client_connected(self, session: ClientSession):
         await self.client_connected(session=session)
         self._io.print_pos(f'Client hooked: {session.connection.origin}')
-        payload = DefaultPayload.load(self._options.payload_path, environment=self._env)
+        payload = DefaultPayload.load(self._settings.payload_path, environment=self._env)
         session.environment = self._env
         session.payload = payload
         session.hook = self._hook
@@ -89,19 +91,19 @@ class DefaultRunner(Runner):
     async def _run_tunneling_app(self):
         try:
             self._tunneling_app = HTTPTunnelingAppWrapper.get_wrapper(
-                self._options.tunneling_app
+                self._settings.tunneling_app
             )(
-                self._options.host,
-                self._options.port
+                self._settings.host,
+                self._settings.port
             )
 
             await self._tunneling_app.run()
 
-            self._options.public_url = url.convert_url(self._tunneling_app.public_url)
+            self._settings.public_url = url.convert_url(self._tunneling_app.public_url)
 
-            await self.tunneling_app_launched(public_url=self._options.public_url)
+            await self.tunneling_app_launched(public_url=self._settings.public_url)
             self._io.print_debug(
-                f'Tunneling app is up: {self._options.public_url} -> {self._options.host}:{self._options.port}'
+                f'Tunneling app is up: {self._settings.public_url} -> {self._settings.host}:{self._settings.port}'
             )
         except (HTTPTunnelError, TypeError) as e:
             await self.tunneling_app_launching_error(error=e)
@@ -109,7 +111,7 @@ class DefaultRunner(Runner):
 
     async def _on_server_launched(self, host, port):
         await self.server_launched(host=host, port=port)
-        self._io.print_debug(f'Local server is listening: {self._options.host}:{self._options.port}')
+        self._io.print_debug(f'Local server is listening: {self._settings.host}:{self._settings.port}')
 
     async def _on_server_stopped(self, host, port):
         await self.server_stopped(host=host, port=port)
@@ -122,7 +124,7 @@ class DefaultRunner(Runner):
         await self._server.run()
 
     async def _load_hook(self):
-        self._hook = DefaultHook.load(self._options.hook_path, environment=self._env)
+        self._hook = DefaultHook.load(self._settings.hook_path, environment=self._env)
         await self.hook_loaded(hook=self._hook)
         self._io.print_pos('Hook:', self._hook)
 
@@ -135,22 +137,22 @@ class DefaultRunner(Runner):
         return self._server
 
     @property
-    def options(self) -> Options:
-        return self._options
+    def settings(self) -> Settings:
+        return self._settings
 
     @property
     def environment(self) -> Environment:
         return self._env
 
     async def run(self):
-        if self._options.use_tunneling_app:
+        if self._settings.use_tunneling_app:
             await self._run_tunneling_app()
         else:
             self.ask_public_url()
 
-        self._env.public_url = url.convert_url(self._options.public_url)
+        self._env.public_url = url.convert_url(self._settings.public_url)
 
-        self._options.save()
+        self._settings.save(Format.TOML, SETTINGS_FILE)
 
         await self._load_hook()
         await self._run_server()

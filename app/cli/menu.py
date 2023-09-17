@@ -2,7 +2,7 @@ import colorama
 from tabulate import tabulate
 from app.hook import DefaultHook
 from app.io import IOManager
-from app.options import Options
+from app.settings import Settings
 from app.payload import DefaultPayload
 from app.utils import cli, url
 from app.validators import (
@@ -10,7 +10,7 @@ from app.validators import (
     validate_port,
     validate_host
 )
-from settings import (
+from config import (
     APP,
     VERSION,
     USE_TUNNELING_APP
@@ -18,64 +18,64 @@ from settings import (
 
 
 class Menu:
-    def __init__(self, options: Options, io: IOManager):
-        self._options = options
+    def __init__(self, options: Settings, io: IOManager):
+        self._settings = options
         self._io = io
 
     def print_welcome(self):
         cli.print_colored(f'{APP} - V{VERSION}', color=colorama.Fore.BLUE + colorama.Style.BRIGHT)
 
     def ask_public_url(self):
-        self._options.public_url = url.convert_url(cli.ask_validated(
-            f'Public url ({self._options.public_url}):',
+        self._settings.public_url = url.convert_url(cli.ask_validated(
+            f'Public url ({self._settings.public_url}):',
             validator=validate_url,
-            default=self._options.public_url
+            default=self._settings.public_url
         ))
 
     def ask_hook_path(self):
-        self._options.hook_path = cli.ask_validated(
-            f'Hook path ({self._options.hook_path}):',
+        self._settings.hook_path = cli.ask_validated(
+            f'Hook path ({self._settings.hook_path}):',
             validator=DefaultHook.is_valid,
-            default=self._options.hook_path
+            default=self._settings.hook_path
         )
 
     def ask_payload_path(self):
-        self._options.payload_path = cli.ask_validated(
-            f'Payload path ({self._options.payload_path}):',
+        self._settings.payload_path = cli.ask_validated(
+            f'Payload path ({self._settings.payload_path}):',
             validator=DefaultPayload.is_valid,
-            default=self._options.payload_path
+            default=self._settings.payload_path
         )
 
     def ask_port(self):
-        self._options.port = int(cli.ask_validated(
-            f'Port ({self._options.port}):',
+        self._settings.port = int(cli.ask_validated(
+            f'Port ({self._settings.port}):',
             validator=validate_port,
-            default=self._options.port
+            default=self._settings.port
         ))
 
     def ask_host(self):
-        self._options.host = cli.ask_validated(
-            f'Host ({self._options.host}):',
+        self._settings.host = cli.ask_validated(
+            f'Host ({self._settings.host}):',
             validator=validate_host,
-            default=self._options.host
+            default=self._settings.host
         )
 
     def ask_use_tunneling_app(self):
-        self._options.use_tunneling_app = cli.ask_bool('Use tunneling app (Y/N):', default=USE_TUNNELING_APP)
+        self._settings.use_tunneling_app = cli.ask_bool('Use tunneling app (Y/N):', default=USE_TUNNELING_APP)
 
     def ask_about_tunneling_app(self):
         self.ask_use_tunneling_app()
 
-        if not self._options.use_tunneling_app:
+        if not self._settings.use_tunneling_app:
             self.ask_public_url()
 
-    def show_options(self):
+    def show_settings(self):
         print()
-        print(tabulate(self._options.__dict__.items(), headers=['NAME', 'VALUE'], tablefmt='grid'))
+        print(tabulate(self._settings.__dict__.items(), headers=['NAME', 'VALUE'], tablefmt='grid'))
 
     def set(self):
         while True:
-            self.show_options()
+            self.show_settings()
 
             print()
 
@@ -119,7 +119,7 @@ class Menu:
 
             match option:
                 case 'show':
-                    self.show_options()
+                    self.show_settings()
                 case 'set':
                     self.set()
                 case 'run':
