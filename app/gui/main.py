@@ -21,18 +21,33 @@ from .io import GUIIOManager
 
 
 def main(page: ft.Page):
+    # to refactor
+
     page.title = f'{APP} - V{VERSION}'
     page.theme_mode = 'dark'
+
     message_entered = False
+    message_value: str | None = None
+
+    io = GUIIOManager()
 
     settings = Settings.load(Format.TOML, SETTINGS_FILE)
 
-    runner = DefaultRunner(settings=settings, io=GUIIOManager())
+    runner = DefaultRunner(settings=settings, io=io)
 
     def on_print(args: tuple[str]):
         add_message(' '.join(map(str, args)))
 
-    def on_input(prompt: str):
+    def on_print_pos(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='green')
+
+    def on_print_neg(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='red')
+
+    def on_print_debug(args: tuple[str]):
+        add_message(' '.join(map(str, args)), color='blue')
+
+    def on_ask(prompt: str, default: any = None):
         nonlocal message_entered
 
         send_btn.disabled = False
@@ -44,21 +59,22 @@ def main(page: ft.Page):
             sleep(1)
 
         message_entered = False
-        message = message_field.value
-        add_message(message)
-        message_field.disabled = True
-        message_field.value = None
-        page.update()
-        return message
+        return message_value or default
 
     async def on_hook_loaded(hook):
         hook_field.value = hook
         hook_field.disabled = False
         hook_field.update()
 
-    def add_message(message: str):
+    def add_message(message: str, color: str = None, bg_color: str = None):
         message_box.controls.append(
-            ft.Text(value=message, size=MESSAGE_FONT_SIZE, selectable=True)
+            ft.Text(
+                value=message,
+                size=MESSAGE_FONT_SIZE,
+                selectable=True,
+                color=color,
+                bgcolor=bg_color
+            )
         )
         page.update()
 
@@ -463,6 +479,11 @@ def main(page: ft.Page):
     DefaultRunner.hook_loaded.add_listener(on_hook_loaded)
 
     GUIIOManager.print_event.add_listener(on_print)
-    GUIIOManager.ask_event.set_listener(on_input)
+
+    GUIIOManager.ask_event.set_listener(on_ask)
+    GUIIOManager.print_event.add_listener(on_print)
+    GUIIOManager.print_pos_event.add_listener(on_print_pos)
+    GUIIOManager.print_neg_event.add_listener(on_print_neg)
+    GUIIOManager.print_debug_event.add_listener(on_print_debug)
 
     page.add(main_box)
