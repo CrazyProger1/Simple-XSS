@@ -5,9 +5,9 @@
     - [ ] Template rendering
     - [ ] Default event handlers
 - [ ] Add JS payload library
-- [ ] Add support of different protocols for hook
-    - [ ] HTTP hook
-    - [x] Websockets hook
+- [ ] Add support of different protocols
+    - [ ] HTTP
+    - [x] Websockets
 - [ ] Add more tunneling services
     - [ ] Serveo
     - [x] Ngrok

@@ -1,7 +1,7 @@
 # Simple-XSS
 
 <p align="center">
-  <img src="res/big_logo.png"  alt="logo"/>
+  <img src="resources/images/logo.png"  alt="Simple-XSS logo"/>
 </p>
 
 <a href="https://github.com/CrazyProger1/Simple-XSS/releases/download/V0.2/Simple-XSS-Windows-x64.zip"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/CrazyProger1/Simple-XSS/total"></a>
@@ -307,15 +307,9 @@ browser and in the graphical interface._
 
 ### Graphical
 
-![GUI](docs/GUI.png)
-
 ### WEB
 
-![WEB](docs/WEB.png)
-
 ### Command-Line
-
-![CLI](docs/CLI.png)
 
 ## Installation
 
