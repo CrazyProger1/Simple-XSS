@@ -1,12 +1,5 @@
-const connection = c;
+{{code.base}}
 
-function sendEvent(event, data) {
-    connection.send(JSON.stringify({
-        'event': event,
-        ...data
-    }))
-}
+sendEvent('print_ip', {ip: null})
 
-fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => sendEvent('print_ip', {'ip': data.ip}));
+
