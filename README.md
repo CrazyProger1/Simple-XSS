@@ -13,7 +13,7 @@ Simple-XSS is a multi-platform cross-site scripting (XSS) vulnerability exploita
 Problems solved by Simple-XSS:
 
 - [x] Easy creatable payloads & hooks
-- [x] Support of several payload delivering protocols (depends on hook)
+- [x] Support of several payload delivering protocols
 - [x] Support of several tunneling services (to deliver payload even without white IP)
 
 **Disclaimer:** This program is provided for educational and research purposes only.
@@ -310,6 +310,11 @@ browser and in the graphical interface._
 ### WEB
 
 ### Command-Line
+
+## Warning
+
+In favor of ease of use and expanded capabilities, we had to sacrifice backward compatibility between versions 0.2 and
+0.3. The features of the previous version are retained and expanded, but older versions of hook & payload will not work.
 
 ## Installation
 
