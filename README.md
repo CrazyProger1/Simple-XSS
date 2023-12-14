@@ -24,7 +24,7 @@ that may result from the use of this program.
 
 ## Vocabulary
 
-**Hook** - transport of payload. Delivers payload to the client browser using a XSS attack.
+**Hook** - snippet of JS code designed to be injected via XSS on the client side.
 
 **Payload** - a program that will be launched remotely in the client’s browser.
 

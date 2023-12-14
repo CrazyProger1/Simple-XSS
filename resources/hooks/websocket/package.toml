@@ -1,0 +1,5 @@
+author = 'crazyproger1'
+description = 'Simple hook. Loads via WebSockets and executes payload code in eval()'
+name = 'Websocket Hook'
+version = '0.1'
+transport = 'websocket'
