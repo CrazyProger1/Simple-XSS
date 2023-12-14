@@ -52,6 +52,22 @@ class HookOptionsBox(CustomControl):
                             ),
                         ]
                     ),
+                    ft.Text(
+                        'Long long long description',
+                        visible=True,
+                        max_lines=3,
+                        overflow=ft.TextOverflow.ELLIPSIS
+
+                    ),
+                    ft.Container(
+                        content=ft.Text(
+                            '@author',
+                            text_align=ft.TextAlign.RIGHT,
+                            italic=True
+                        ),
+                        alignment=ft.alignment.bottom_right,
+
+                    )
 
                 ]
             ),
@@ -89,6 +105,22 @@ class PayloadOptionsBox(CustomControl):
                             ),
                         ]
                     ),
+                    ft.Text(
+                        'Long long long description',
+                        visible=True,
+                        max_lines=3,
+                        overflow=ft.TextOverflow.ELLIPSIS
+
+                    ),
+                    ft.Container(
+                        content=ft.Text(
+                            '@author',
+                            text_align=ft.TextAlign.RIGHT,
+                            italic=True
+                        ),
+                        alignment=ft.alignment.bottom_right,
+
+                    )
 
                 ]
             ),
@@ -321,9 +353,9 @@ class MainBox(CustomControl):
 
 async def main(page: ft.Page):
     page.window_width = 1280
-    page.window_height = 720
+    page.window_height = 760
     page.window_min_width = 1280
-    page.window_min_height = 720
+    page.window_min_height = 760
 
     page.theme_mode = 'dark'
     main_box = MainBox()
