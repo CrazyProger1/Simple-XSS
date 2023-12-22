@@ -164,3 +164,6 @@ settings.toml
 
 # Linter
 .ruff_cache
+
+# Some usable staff
+tests/new_features
