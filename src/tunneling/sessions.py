@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .enums import Protocol
+from src.enums import Protocol
 
 
 @dataclass

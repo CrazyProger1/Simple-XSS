@@ -1,7 +1,8 @@
 import asyncio
 import subprocess
 
-from src.tunneling import TunnelingService, Protocol, Session
+from src.tunneling import TunnelingService, Session
+from src.enums import Protocol
 
 
 class ServeoService(TunnelingService):
