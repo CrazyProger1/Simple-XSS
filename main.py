@@ -1,11 +1,25 @@
+import asyncio
+
 from src.arguments import DefaultArgumentsSchema
-from src.utils import argutil
+from src.utils.arguments import SchemedArgumentParser
+from src.tunneling.serveo import ServeoService
+from src.tunneling.ngrok import NgrokService
 
 
-def main():
-    parser = argutil.ArgumentParser(schema=DefaultArgumentsSchema)
-    parser.parse_typed_args()
+async def main():
+    parser = SchemedArgumentParser(schema=DefaultArgumentsSchema)
+    print(parser.parse_typed_args())
+
+    service = NgrokService()
+
+    session = await service.run('http', 4444)
+    print(session.public_url)
+    await asyncio.sleep(10)
+    print('STOP')
+    await service.stop(session)
+
+    await asyncio.sleep(50)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

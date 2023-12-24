@@ -1,5 +1,5 @@
 author = 'crazyproger1'
-description = 'Simple hook. Loads code via script src.'
+description = 'Default HTTP hook, uses script src.'
 name = 'HTTP Hook'
 version = '0.1'
 transport = 'http'
