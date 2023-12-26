@@ -1,0 +1,12 @@
+class TunnelError(Exception):
+    def __init__(self, port: int, msg: str):
+        self.port = port
+        super(TunnelError, self).__init__(msg)
+
+
+class TunnelOpeningError(TunnelError):
+    def __init__(self, port: int):
+        super(TunnelOpeningError, self).__init__(
+            port=port,
+            msg=f'Failed to open tunnel for localhost:{port}'
+        )

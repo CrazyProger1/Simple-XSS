@@ -1,6 +1,6 @@
 import argparse
 import inspect
-from typing import Container
+from typing import Container, Sequence
 from enum import Enum
 
 import pydantic
@@ -12,7 +12,7 @@ class SchemedArgumentParser(argparse.ArgumentParser):
     @typechecked
     def __init__(
             self,
-            *args,
+            *,
             schema: type[pydantic.BaseModel] | None = None,
             ignore_fields: Container[str] | None = None,
             positional_arguments: Container[str] | None = None,
@@ -20,7 +20,7 @@ class SchemedArgumentParser(argparse.ArgumentParser):
             **kwargs
     ):
 
-        super(SchemedArgumentParser, self).__init__(*args, **kwargs)
+        super(SchemedArgumentParser, self).__init__(**kwargs)
         self._schema = schema
         self._ignore_fields = ignore_fields or set()
         self._positional_arguments = positional_arguments or set()
@@ -34,12 +34,16 @@ class SchemedArgumentParser(argparse.ArgumentParser):
         return inspect.isclass(field_type) and issubclass(field_type, Enum)
 
     @staticmethod
-    def _convert_enum_value(value: str, enum):
+    def _convert_enum_value(value: str, enum: type[Enum]):
         if issubclass(enum, int):
             return enum(int(value))
         return enum(value)
 
-    def _convert_value(self, value: str, field_info: pydantic.fields.FieldInfo):
+    def _convert_value(
+            self,
+            value: str,
+            field_info: pydantic.fields.FieldInfo
+    ):
         field_type = field_info.annotation
 
         if self._is_enum_field(field_type):
@@ -60,7 +64,11 @@ class SchemedArgumentParser(argparse.ArgumentParser):
 
         return argument
 
-    def _add_field_argument(self, field_name: str, field_info: pydantic.fields.FieldInfo):
+    def _add_field_argument(
+            self,
+            field_name: str,
+            field_info: pydantic.fields.FieldInfo
+    ):
         field_type: type = field_info.annotation
 
         args = []
@@ -99,7 +107,11 @@ class SchemedArgumentParser(argparse.ArgumentParser):
                     field_info=field_info
                 )
 
-    def parse_typed_args(self, args=None, namespace=None) -> pydantic.BaseModel:
+    def parse_typed_args(
+            self,
+            args: Sequence[str] = None,
+            namespace: argparse.Namespace = None
+    ) -> pydantic.BaseModel:
         logger.info('Parsing arguments')
         namespace = self.parse_args(args=args, namespace=namespace)
         logger.info(f'Args: {namespace}')
