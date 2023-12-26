@@ -1,5 +1,6 @@
 import importlib.util
 import os
+import sys
 from functools import cache
 
 
@@ -21,6 +22,8 @@ def import_module(path: str, sep='.'):
 def import_module_by_filepath(path: str):
     """Imports module from .py file path"""
 
+    directory = os.path.dirname(path)
+    sys.path.append(directory)
     try:
         if not os.path.exists(path):
             raise
@@ -29,5 +32,7 @@ def import_module_by_filepath(path: str):
         imported_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(imported_module)
         return imported_module
-    except Exception as e:
+    except Exception:
         raise ImportError(f'Failed to import module: {path}')
+    finally:
+        sys.path.remove(directory)
