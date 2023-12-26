@@ -1,9 +1,10 @@
 from abc import ABC
+from typing import Container
 
 
-class BaseHook(ABC):
+class BasePayload(ABC):
     AUTHOR: str
     DESCRIPTION: str = None
     NAME: str
     VERSION: str
-    TRANSPORT: str
+    TRANSPORT: Container[str]

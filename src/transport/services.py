@@ -4,7 +4,7 @@ from src.enums import Protocol
 from .connections import Connection
 
 
-class TransportService(ABC):
+class BaseTransportService(ABC):
     name: str
     protocol: Protocol
 

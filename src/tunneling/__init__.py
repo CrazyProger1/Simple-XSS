@@ -1,7 +1,7 @@
-from .services import TunnelingService
+from .services import BaseTunnelingService
 from .sessions import Session
 
 __all__ = [
-    'TunnelingService',
+    'BaseTunnelingService',
     'Session'
 ]

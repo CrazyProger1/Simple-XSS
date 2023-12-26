@@ -1,8 +1,8 @@
-from src.transport import TransportService, Connection
+from src.transport import BaseTransportService, Connection
 from src.enums import Protocol
 
 
-class WebsocketTransportService(TransportService):
+class WebsocketTransportService(BaseTransportService):
     name = 'websocket'
     protocol = Protocol.WEBSOCKET
 

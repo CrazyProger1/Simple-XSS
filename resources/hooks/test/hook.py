@@ -1,7 +1,7 @@
 from src.hook import BaseHook
 
 
-class Hook(BaseHook):
+def Hook():
     AUTHOR = 'crazyproger1'
     DESCRIPTION = 'Default HTTP hook, uses script src.'
     NAME = 'HTTP Hook'

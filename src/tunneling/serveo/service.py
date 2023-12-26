@@ -3,13 +3,13 @@ import asyncio
 from typeguard import typechecked
 from loguru import logger
 
-from src.tunneling import TunnelingService, Session
+from src.tunneling import BaseTunnelingService, Session
 from src.enums import Protocol
 from src.utils import system
 from src.tunneling.exceptions import TunnelOpeningError, ProtocolNotSupportedError
 
 
-class ServeoService(TunnelingService):
+class ServeoService(BaseTunnelingService):
     protocols = {Protocol.HTTP, }
     name = 'serveo'
 

@@ -11,6 +11,18 @@ DEBUG = True
 APP = 'Simple-XSS'
 VERSION = '0.3'
 
+# Hook
+HOOK_FILE = 'hook.py'
+HOOK_CLASS = 'Hook'
+
+# Payload
+PAYLOAD_FILE = 'payload.py'
+PAYLOAD_CLASS = 'Payload'
+
+# Plugin
+PLUGIN_FILE = 'plugin.py'
+PLUGIN_CLASS = 'Plugin'
+
 if not DEBUG:
     import typeguard
 

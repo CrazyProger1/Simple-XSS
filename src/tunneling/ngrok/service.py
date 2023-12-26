@@ -3,12 +3,12 @@ from loguru import logger
 from typeguard import typechecked
 
 from src.enums import Protocol
-from src.tunneling import TunnelingService, Session
+from src.tunneling import BaseTunnelingService, Session
 from src.tunneling.exceptions import TunnelOpeningError, ProtocolNotSupportedError
 from src.utils import urlutils
 
 
-class NgrokService(TunnelingService):
+class NgrokService(BaseTunnelingService):
     protocols = {Protocol.HTTP, Protocol.WEBSOCKET}
     name = 'ngrok'
 

@@ -1,5 +1,5 @@
-from .schemas import HookSchema
+from .hooks import BaseHook
 
 __all__ = [
-    'HookSchema'
+    'BaseHook'
 ]

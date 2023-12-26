@@ -1,2 +1,5 @@
-print('PLUGIN LOADED')
-import to_import
+from src.plugin import BasePlugin
+
+
+class Plugin(BasePlugin):
+    pass

@@ -1,5 +1,0 @@
-author = 'crazyproger1'
-description = 'Default HTTP hook, uses script src.'
-name = 'HTTP Hook'
-version = '0.1'
-transport = 'http'

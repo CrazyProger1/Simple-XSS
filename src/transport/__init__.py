@@ -1,10 +1,10 @@
 from .connections import Connection
-from .services import TransportService
+from .services import BaseTransportService
 
 import src.transport.http
 import src.transport.websocket
 
 __all__ = [
-    'TransportService',
+    'BaseTransportService',
     'Connection'
 ]

@@ -1,5 +1,0 @@
-author = 'crazyproger1'
-description = 'Default websocket hook. Loads payload code via WebSockets and executes in eval()'
-name = 'Websocket Hook'
-version = '0.1'
-transport = 'websocket'

@@ -4,7 +4,7 @@ from src.enums import Protocol
 from .sessions import Session
 
 
-class TunnelingService(ABC):
+class BaseTunnelingService(ABC):
     protocols: set[str | Protocol]
     name: str
 

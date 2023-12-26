@@ -1,22 +1,27 @@
+import os.path
 from abc import ABC, abstractmethod
-from .hooks import Hook
+
+from src.utils import imputils
+from src.config import HOOK_FILE, HOOK_CLASS
+from .hooks import BaseHook
 
 
-class HookLoader(ABC):
+class BaseHookLoader(ABC):
     @classmethod
     @abstractmethod
-    def load(cls, directory: str) -> Hook: ...
+    def load(cls, directory: str) -> BaseHook: ...
 
+
+class HookLoader(BaseHookLoader):
     @classmethod
-    @abstractmethod
-    def save(cls, instance: Hook, directory: str) -> None: ...
+    def load(cls, directory: str) -> BaseHook:
+        hook_file = os.path.join(directory, HOOK_FILE)
+        if not os.path.isfile(hook_file):
+            raise ValueError(f'File {HOOK_FILE} not found at {directory}')
 
-
-class BaseHookLoader(HookLoader):
-    @classmethod
-    def load(cls, directory: str) -> Hook:
-        pass
-
-    @classmethod
-    def save(cls, instance: Hook, directory: str) -> None:
-        pass
+        hook_class = imputils.import_class_by_filepath(
+            hook_file,
+            HOOK_CLASS,
+            base_class=BaseHook
+        )
+        return hook_class()

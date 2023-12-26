@@ -1,8 +1,0 @@
-version = '0.1'
-name = 'IP Logger'
-author = 'crazyproger1'
-description = 'Allows you to find out IP'
-transport = [
-    'http',
-    'websocket'
-]

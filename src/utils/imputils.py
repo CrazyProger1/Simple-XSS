@@ -1,4 +1,5 @@
 import importlib.util
+import inspect
 import os
 import sys
 from functools import cache
@@ -6,7 +7,7 @@ from functools import cache
 
 @cache
 def import_module(path: str, sep='.'):
-    """Imports module from path separated by sep"""
+    """Imports module from path separated by sep."""
 
     try:
         components = path.split(sep)
@@ -20,7 +21,7 @@ def import_module(path: str, sep='.'):
 
 @cache
 def import_module_by_filepath(path: str):
-    """Imports module from .py file path"""
+    """Imports module by .py file path."""
 
     directory = os.path.dirname(path)
     sys.path.append(directory)
@@ -36,3 +37,19 @@ def import_module_by_filepath(path: str):
         raise ImportError(f'Failed to import module: {path}')
     finally:
         sys.path.remove(directory)
+
+
+@cache
+def import_class_by_filepath(path: str, class_name: str, base_class: type = None) -> type:
+    """Imports class from module."""
+
+    module = import_module_by_filepath(path)
+    imported_class = getattr(module, class_name, None)
+    if not imported_class:
+        raise TypeError(f'Class not found at {path}')
+    if not inspect.isclass(imported_class):
+        raise TypeError(f'Not a class {imported_class}')
+    if base_class:
+        if not issubclass(imported_class, base_class):
+            raise TypeError(f'Class must be a subclass of {base_class}')
+    return imported_class
