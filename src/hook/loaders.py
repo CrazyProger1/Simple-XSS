@@ -24,4 +24,6 @@ class HookLoader(BaseHookLoader):
             HOOK_CLASS,
             base_class=BaseHook
         )
-        return hook_class()
+        hook = hook_class()
+        hook.directory = directory
+        return hook

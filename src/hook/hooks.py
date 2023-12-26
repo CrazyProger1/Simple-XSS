@@ -1,9 +1,11 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+
+from src.package import Package
 
 
-class BaseHook(ABC):
-    AUTHOR: str
-    DESCRIPTION: str = None
-    NAME: str
-    VERSION: str
+class BaseHook(Package, ABC):
     TRANSPORT: str
+
+    @property
+    @abstractmethod
+    def hook(self) -> str: ...

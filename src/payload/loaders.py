@@ -24,4 +24,6 @@ class PayloadLoader(BasePayloadLoader):
             PAYLOAD_CLASS,
             base_class=BasePayload
         )
-        return payload_class()
+        payload = payload_class()
+        payload.directory = directory
+        return payload

@@ -24,4 +24,6 @@ class PluginLoader(BasePluginLoader):
             PLUGIN_CLASS,
             base_class=BasePlugin
         )
-        return plugin_class()
+        plugin = plugin_class()
+        plugin.directory = directory
+        return plugin

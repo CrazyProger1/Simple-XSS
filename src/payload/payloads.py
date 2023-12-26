@@ -1,10 +1,8 @@
 from abc import ABC
 from typing import Container
 
+from src.package import Package
 
-class BasePayload(ABC):
-    AUTHOR: str
-    DESCRIPTION: str = None
-    NAME: str
-    VERSION: str
+
+class BasePayload(Package, ABC):
     TRANSPORT: Container[str]
