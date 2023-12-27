@@ -1,6 +1,8 @@
 import inspect
-
 from typing import Callable
+
+from loguru import logger
+from typeguard import typechecked
 
 from .dependencies import Dependency
 
@@ -9,15 +11,19 @@ class Injector:
     def __init__(self):
         self._dependencies = {}
 
-    def bind(self, dependency: Dependency, value: any):
+    @typechecked
+    def bind(self, dependency: Dependency, value):
         base = dependency.base
 
         if not isinstance(value, base) and not \
                 (inspect.isclass(dependency) and issubclass(value, base)):
+            logger.error(f'Value must be instance or subclass of {dependency.base}, got {value}')
             raise ValueError('Value must be instance or subclass of Dependency.base')
 
+        logger.debug(f'Dependency {dependency} bound {value}')
         self._dependencies.update({dependency: value})
 
+    @typechecked
     def inject(self, clb: Callable):
         def wrapper(*args, **kwargs):
             signature = inspect.signature(clb)
@@ -33,7 +39,9 @@ class Injector:
 
         return wrapper
 
+    @typechecked
     def get_dependency(self, dependency: Dependency):
         if dependency in self._dependencies:
             return self._dependencies[dependency]
-        raise ValueError(f'Dependency not found: {dependency}')
+        logger.error(f'Dependency not bound: {dependency}')
+        raise ValueError(f'Dependency not bound: {dependency}')

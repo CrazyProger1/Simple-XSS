@@ -13,15 +13,15 @@ class Service(BaseService):
     pass
 
 
-base_service = di.Dependency(BaseService)
+serv_1 = di.Dependency(BaseService)
 
 
 class TestInjector(TestCase):
     def test_inject(self):
-        injector.bind(base_service, Service())
+        injector.bind(serv_1, Service())
 
         @injector.inject
-        def test(service: BaseService = base_service):
+        def test(service: BaseService = serv_1):
             self.assertIs(service.__class__, Service)
 
         test()

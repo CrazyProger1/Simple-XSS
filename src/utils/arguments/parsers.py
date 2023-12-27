@@ -112,7 +112,7 @@ class SchemedArgumentParser(argparse.ArgumentParser):
             args: Sequence[str] = None,
             namespace: argparse.Namespace = None
     ) -> pydantic.BaseModel:
-        logger.info('Parsing arguments')
+        logger.debug('Parsing arguments')
         namespace = self.parse_args(args=args, namespace=namespace)
-        logger.info(f'Args: {namespace}')
+        logger.debug(f'Args: {namespace}')
         return self._schema.model_validate(namespace.__dict__)

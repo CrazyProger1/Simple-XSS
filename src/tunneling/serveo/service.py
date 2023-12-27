@@ -28,7 +28,7 @@ class ServeoService(BaseTunnelingService):
             out = process.stdout.readline().decode('utf-8').strip()
             public_url = out.split(' from ')[1]
             self._processes.update({public_url: process})
-            logger.info(f'Tunnel is up: localhost:{port} -> {public_url}')
+            logger.debug(f'Tunnel is up: localhost:{port} -> {public_url}')
         except Exception as e:
             logger.error(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
             raise TunnelOpeningError(port=port)
@@ -48,4 +48,4 @@ class ServeoService(BaseTunnelingService):
         process = self._processes.pop(session.public_url, None)
         if process:
             process.kill()
-            logger.info(f'Tunnel is down: localhost:{session.port} -> {session.public_url}')
+            logger.debug(f'Tunnel is down: localhost:{session.port} -> {session.public_url}')

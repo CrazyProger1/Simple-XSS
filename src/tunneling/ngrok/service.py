@@ -16,7 +16,7 @@ class NgrokService(BaseTunnelingService):
     async def _create_tunnel(port: int) -> ngrok.NgrokTunnel:
         try:
             tunnel = ngrok.connect(port)
-            logger.info(f'Tunnel is up: localhost:{port} -> {tunnel.public_url}')
+            logger.debug(f'Tunnel is up: localhost:{port} -> {tunnel.public_url}')
             return tunnel
         except ngexception.PyngrokError as e:
             logger.error(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
@@ -49,4 +49,4 @@ class NgrokService(BaseTunnelingService):
     async def stop(self, session: Session):
         ngrok.disconnect(session.public_url)
         ngrok.kill()
-        logger.info(f'Tunnel is down: localhost:{session.port} -> {session.public_url}')
+        logger.debug(f'Tunnel is down: localhost:{session.port} -> {session.public_url}')

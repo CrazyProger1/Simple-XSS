@@ -9,7 +9,7 @@ from typeguard import typechecked
 from loguru import logger
 
 from .enums import Format
-from .exceptions import FormatError, FileError
+from .exceptions import FormatError
 
 
 class Loader(ABC):
@@ -34,7 +34,7 @@ class TOMLLoader(Loader):
     @classmethod
     @typechecked
     def load(cls, schema: type[BaseModel], file: str) -> BaseModel:
-        logger.info(f'Loading {schema} from {file}')
+        logger.debug(f'Loading {schema} from {file}')
         if not os.path.isfile(file):
             raise FileNotFoundError(f'File {file} not found')
 
@@ -49,26 +49,22 @@ class TOMLLoader(Loader):
             )
 
         instance = schema.model_validate(data)
-        logger.info(f'Loaded {instance}')
+        logger.debug(f'Loaded {instance}')
         return instance
 
     @classmethod
     @typechecked
     def save(cls, instance: BaseModel, file: str) -> None:
-        logger.info(f'Saving instance of {instance.__class__} to {file}')
+        logger.debug(f'Saving instance of {instance.__class__} to {file}')
         try:
             pathvalidate.validate_filepath(file)
             data = instance.model_dump(warnings=True)
             with open(file, 'w', encoding='utf-8') as f:
                 toml.dump(data, f)
-            logger.info(f'Saved {instance}')
+            logger.debug(f'Saved {instance}')
         except pathvalidate.ValidationError as e:
             logger.error(e)
-            raise FileError(
-                fmt=cls.format,
-                msg=str(e),
-                file=file
-            )
+            raise ValueError(f'File path {file} is invalid')
         except Exception as e:
             logger.error(e)
             raise e

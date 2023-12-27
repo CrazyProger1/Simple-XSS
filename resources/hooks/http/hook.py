@@ -10,4 +10,4 @@ class Hook(BaseHook):
 
     @property
     def hook(self) -> str:
-        return "<script src='{{environment.public_url}}'></script>"
+        return "<script src='{session.public_url}'></script>"

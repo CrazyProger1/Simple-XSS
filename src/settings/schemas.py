@@ -2,12 +2,12 @@ from pydantic import BaseModel
 
 
 class HookSettingsSchema(BaseModel):
-    current: str
+    current: str = None
     directory: str = './resources/payloads'
 
 
 class PayloadSettingsSchema(BaseModel):
-    current: str
+    current: str = None
     directory: str = './resources/payloads'
 
 
@@ -25,8 +25,8 @@ class TunnellingSettingsSchema(BaseModel):
     public_url: str = ''
 
 
-class SettingsSchema(BaseModel):
-    hook: HookSettingsSchema
-    payload: PayloadSettingsSchema
-    transport: TransportSettingsSchema
-    tunnelling: TunnellingSettingsSchema
+class DefaultSettingsSchema(BaseModel):
+    hook: HookSettingsSchema = HookSettingsSchema()
+    payload: PayloadSettingsSchema = PayloadSettingsSchema()
+    transport: TransportSettingsSchema = TransportSettingsSchema()
+    tunnelling: TunnellingSettingsSchema = TunnellingSettingsSchema()

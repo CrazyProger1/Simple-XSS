@@ -1,10 +1,6 @@
+import logging
+
 from src.enums import GraphicMode
-
-# Settings
-DEFAULT_SETTINGS_FILE = 'settings.toml'
-
-# Graphic
-DEFAULT_GRAPHIC_MODE = GraphicMode.CLI
 
 # App
 DEBUG = True
@@ -22,6 +18,17 @@ PAYLOAD_CLASS = 'Payload'
 # Plugin
 PLUGIN_FILE = 'plugin.py'
 PLUGIN_CLASS = 'Plugin'
+
+# Logging
+LOGGING_VERBOSITY = True
+LOG_FILE = f'{APP}_{VERSION}.log'
+LOGGING_LEVEL = logging.DEBUG
+
+# Settings
+DEFAULT_SETTINGS_FILE = 'settings.toml'
+
+# Graphic
+DEFAULT_GRAPHIC_MODE = GraphicMode.CLI
 
 if not DEBUG:
     import typeguard

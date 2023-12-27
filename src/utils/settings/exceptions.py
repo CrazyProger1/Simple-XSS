@@ -13,5 +13,4 @@ class FormatError(SettingsError):
     pass
 
 
-class FileError(SettingsError):
-    pass
+
