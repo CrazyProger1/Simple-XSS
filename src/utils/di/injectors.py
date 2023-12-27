@@ -1,30 +1,39 @@
 import inspect
 
+from typing import Callable
+
+from .dependencies import Dependency
+
 
 class Injector:
     def __init__(self):
-        self._services = {}
+        self._dependencies = {}
 
-    def bind(self, base: type, instance: any):
-        if not isinstance(instance, base):
-            raise TypeError(f'Instance must be instance of {base}')
+    def bind(self, dependency: Dependency, value: any):
+        base = dependency.base
 
-        self._services.update({base: instance})
+        if not isinstance(value, base) and not \
+                (inspect.isclass(dependency) and issubclass(value, base)):
+            raise ValueError('Value must be instance or subclass of Dependency.base')
 
-    def inject(self, func):
+        self._dependencies.update({dependency: value})
+
+    def inject(self, clb: Callable):
         def wrapper(*args, **kwargs):
-            signature = inspect.signature(func)
+            signature = inspect.signature(clb)
             for param_name, param in signature.parameters.items():
-                if not param.default:
-                    base = param.annotation
-                    if base in self._services:
-                        kwargs.update({param_name: self._services[base]})
-            result = func(*args, **kwargs)
+                default = param.default
+                if isinstance(default, Dependency):
+                    if param_name not in kwargs:
+                        kwargs.update({
+                            param_name: self.get_dependency(default)
+                        })
+            result = clb(*args, **kwargs)
             return result
 
         return wrapper
 
-    def get_dependency(self, base: type):
-        if base in self._services:
-            return self._services[base]
-        raise ValueError(f'Service not found: {base}')
+    def get_dependency(self, dependency: Dependency):
+        if dependency in self._dependencies:
+            return self._dependencies[dependency]
+        raise ValueError(f'Dependency not found: {dependency}')

@@ -1,16 +1,11 @@
 import asyncio
 
-from src.utils import di
 from src.hook.loaders import HookLoader, BaseHookLoader
 from src.payload.loaders import PayloadLoader
 from src.plugin.loaders import PluginLoader
+from src.tunneling import BaseTunnelingService
+from src.tunneling.ngrok import NgrokService
 
-injector = di.Injector()
-
-injector.bind(BaseHookLoader, HookLoader())
-hook = injector.get_dependency(BaseHookLoader).load('resources/hooks/http')
-print(hook.DESCRIPTION)
-print(hook.hook)
 
 payload = PayloadLoader.load('resources/payloads/ip')
 print(payload.DESCRIPTION)
