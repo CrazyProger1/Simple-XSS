@@ -1,15 +1,17 @@
-## V0.3 (TODO)
+## V0.3
 
-- [ ] Update GUI (GUI code to OOP style)
+- [ ] Rewritten from scratch to improve maintainability and expand functionality
 
-- [ ] Extend payload possibilities
+- [ ] Extended payload possibilities
     - [ ] Template rendering
     - [ ] Default event handlers
 
-- [ ] Add support of different protocols
-    - [ ] HTTP
+- [ ] Added support for various protocols
+    - [x] HTTP
     - [x] Websockets
 
-- [ ] Add more tunneling services
-    - [ ] Serveo
+- [ ] Added more tunneling services
+    - [x] Serveo
     - [x] Ngrok
+
+- [x] Added plugin system
