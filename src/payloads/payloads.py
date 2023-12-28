@@ -1,8 +1,8 @@
 from abc import ABC
 from typing import Container
 
-from src.package import Package
+from src.utils import packages
 
 
-class BasePayload(Package, ABC):
+class BasePayload(packages.BasePackage, ABC):
     TRANSPORT: Container[str]

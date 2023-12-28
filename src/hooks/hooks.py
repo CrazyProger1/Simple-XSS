@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from src.package import Package
+from src.utils import packages
 
 
-class BaseHook(Package, ABC):
+class BaseHook(packages.BasePackage, ABC):
     TRANSPORT: str
 
     @property

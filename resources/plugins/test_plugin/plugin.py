@@ -1,4 +1,4 @@
-from src.plugin import BasePlugin
+from src.plugins import BasePlugin
 
 
 class Plugin(BasePlugin):

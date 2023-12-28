@@ -3,7 +3,7 @@ from typeguard import typechecked
 
 from .enums import Format
 from .loaders import (
-    Loader,
+    BaseLoader,
     get_loader
 )
 
@@ -13,7 +13,7 @@ def load(
         schema: type[BaseModel],
         file: str,
         fmt: Format | str | None = None,
-        loader: type[Loader] | None = None
+        loader: type[BaseLoader] | None = None
 ) -> BaseModel:
     if not loader:
         loader = get_loader(fmt=fmt, file=file, raise_exception=True)
@@ -25,7 +25,7 @@ def save(
         instance: BaseModel,
         file: str,
         fmt: Format | str | None = None,
-        loader: type[Loader] | None = None
+        loader: type[BaseLoader] | None = None
 ) -> None:
     if not loader:
         loader = get_loader(fmt=fmt, file=file, raise_exception=True)

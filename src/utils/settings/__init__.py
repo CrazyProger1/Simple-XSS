@@ -1,4 +1,4 @@
-from .loaders import Loader
+from .loaders import BaseLoader
 from .enums import Format
 from .settings import save, load
 
@@ -7,5 +7,5 @@ __all__ = [
     'load',
     'save',
     'Format',
-    'Loader'
+    'BaseLoader'
 ]

@@ -1,4 +1,4 @@
-from src.payload import BasePayload
+from src.payloads import BasePayload
 
 
 class Payload(BasePayload):
