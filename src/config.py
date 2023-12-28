@@ -1,4 +1,3 @@
-import logging
 
 from src.enums import GraphicMode
 
@@ -6,11 +5,6 @@ from src.enums import GraphicMode
 DEBUG = True
 APP = 'Simple-XSS'
 VERSION = '0.3'
-
-# Logging
-LOGGING_VERBOSITY = True
-LOG_FILE = f'{APP}_{VERSION}.log'
-LOGGING_LEVEL = logging.DEBUG
 
 RESOURCES_DIRECTORY = 'resources'
 

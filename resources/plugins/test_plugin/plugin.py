@@ -2,6 +2,7 @@ import argparse
 from typing import Sequence
 
 import pydantic
+from loguru import logger
 
 from src.arguments.dependencies import arguments_parser, arguments_schema
 from src.plugins import BasePlugin
@@ -24,6 +25,7 @@ class Plugin(BasePlugin):
     VERSION = '0.1'
 
     def __init__(self):
+        logger.info('I AM PLUGIN')
         di.injector.bind(
             arguments_parser,
             MyParser(

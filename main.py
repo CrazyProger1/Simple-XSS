@@ -1,5 +1,4 @@
-from src import App
-
+from src.logging.services import configurate_logging
 from src.arguments.schemas import DefaultArgumentsSchema
 from src.arguments.services import parse_arguments
 from src.arguments.dependencies import arguments_parser, arguments_schema
@@ -14,26 +13,24 @@ from src.utils import di, arguments, packages
 
 def configurate_base_dependencies():
     di.injector.bind(arguments_schema, DefaultArgumentsSchema)
+    di.injector.bind(settings_schema, DefaultSettingsSchema)
+
     di.injector.bind(
         arguments_parser,
         arguments.SchemedArgumentParser(
             schema=di.injector.get_dependency(arguments_schema)
         )
     )
-    di.injector.bind(settings_schema, DefaultSettingsSchema)
     di.injector.bind(plugin_manager, PluginManager())
     di.injector.bind(plugin_loader, packages.PackageLoader())
 
 
-configurate_base_dependencies()
-load_plugins()
-parse_arguments()
-load_settings()
-
-
 def main():
-    app = App()
-    app.run()
+    configurate_logging()
+    configurate_base_dependencies()
+    load_plugins()
+    parse_arguments()
+    load_settings()
 
 
 if __name__ == '__main__':

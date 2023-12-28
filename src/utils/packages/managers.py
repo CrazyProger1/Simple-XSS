@@ -36,7 +36,8 @@ class PackageManager(BasePackageManager):
                         directory=package_directory,
                         loader=loader
                     )
-                except ValueError:
+                except Exception as e:
+                    logger.warning(f'Failed to load package from {package_directory}: {e}')
                     continue
                 result.append(package)
         logger.debug(f'Packages loaded from {directory}')
