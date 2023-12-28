@@ -40,8 +40,9 @@ class Injector:
         return wrapper
 
     @typechecked
-    def get_dependency(self, dependency: Dependency):
-        if dependency in self._dependencies:
-            return self._dependencies[dependency]
+    def get_dependency(self, dependency: Dependency, default: any = None):
+        value = self._dependencies.get(dependency, default)
+        if value:
+            return value
         logger.error(f'Dependency not bound: {dependency}')
         raise ValueError(f'Dependency not bound: {dependency}')

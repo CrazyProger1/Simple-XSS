@@ -36,6 +36,6 @@ class PackageLoader(BasePackageLoader):
             base_class=BasePackage
         )
         logger.debug(f'Package loaded {package_class} from {directory}')
-        package = package_class()
-        package.directory = directory
+        package: BasePackage = package_class()
+        package.bind(directory=directory)
         return package

@@ -1,7 +1,11 @@
-class BasePackage:
+from abc import ABC
+
+
+class BasePackage(ABC):
     AUTHOR: str
     DESCRIPTION: str = None
     NAME: str
     VERSION: str
 
-    directory: str
+    def bind(self, directory: str):
+        pass
