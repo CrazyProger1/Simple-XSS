@@ -16,7 +16,7 @@ class Injector:
         base = dependency.base
 
         if not isinstance(value, base) and not \
-                (inspect.isclass(dependency) and issubclass(value, base)):
+                (inspect.isclass(value) and issubclass(value, base)):
             logger.error(f'Value must be instance or subclass of {dependency.base}, got {value}')
             raise ValueError('Value must be instance or subclass of Dependency.base')
 

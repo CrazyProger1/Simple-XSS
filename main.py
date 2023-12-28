@@ -1,9 +1,9 @@
-from src.configurator import Configurator
+from src.app import App
 
 
 def main():
-    configurator = Configurator()
-    configurator.configure()
+    app = App()
+    app.run()
 
 
 if __name__ == '__main__':

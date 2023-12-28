@@ -1,6 +1,7 @@
 import logging
 
 from src.enums import GraphicMode
+from src.utils import di
 
 # App
 DEBUG = True
@@ -34,3 +35,6 @@ if not DEBUG:
     import typeguard
 
     typeguard.typechecked = lambda a: a
+
+
+
