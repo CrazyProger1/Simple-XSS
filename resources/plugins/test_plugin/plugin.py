@@ -3,10 +3,16 @@ from typing import Sequence
 
 import pydantic
 from loguru import logger
+from pydantic import Field
 
-from src.arguments.dependencies import arguments_parser, arguments_schema
+from src.arguments.dependencies import arguments_parser
+from src.arguments.schemas import DefaultArgumentsSchema
 from src.plugins import BasePlugin
 from src.utils import arguments, di
+
+
+class MyArgSchema(DefaultArgumentsSchema):
+    test: str = Field(default='abc', description='test arg')
 
 
 class MyParser(arguments.SchemedArgumentParser):
@@ -29,6 +35,6 @@ class Plugin(BasePlugin):
         di.injector.bind(
             arguments_parser,
             MyParser(
-                schema=di.injector.get_dependency(arguments_schema)
+                schema=MyArgSchema
             )
         )

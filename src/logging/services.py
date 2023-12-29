@@ -14,6 +14,6 @@ def configurate_logging():
     logger.add(
         LOG_FILE,
         level=LOGGING_LEVEL,
-        rotation='100 KB',
+        rotation='10 MB',
         compression='zip'
     )

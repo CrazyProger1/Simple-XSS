@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from src.events import settings_loaded
 from src.utils import di, settings as setutil
 from src.arguments.dependencies import current_arguments
 from src.arguments.schemas import DefaultArgumentsSchema
@@ -15,6 +15,7 @@ def load_settings(
         arguments: DefaultArgumentsSchema = current_arguments):
     settings = setutil.load(schema=schema, file=arguments.settings_file)
     di.injector.bind(current_settings, settings)
+    settings_loaded()
     return settings
 
 

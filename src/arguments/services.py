@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from src.utils import arguments, di
+from src.events import arguments_parsed
 from .dependencies import arguments_parser, current_arguments
 
 
@@ -13,4 +14,5 @@ def parse_arguments(
         args=args
     )
     di.injector.bind(current_arguments, parsed_arguments)
+    arguments_parsed()
     return parsed_arguments

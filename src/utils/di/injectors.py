@@ -46,3 +46,7 @@ class Injector:
             return value
         logger.error(f'Dependency not bound: {dependency}')
         raise ValueError(f'Dependency not bound: {dependency}')
+
+    @property
+    def dependencies(self) -> dict:
+        return self._dependencies.copy()
