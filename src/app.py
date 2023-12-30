@@ -1,33 +1,32 @@
 from src.di import (
-    configurate_base_dependencies,
-    configurate_launcher_dependency
+    configurate_base_dependencies
 )
+from src.events import (
+    application_initialized,
+    application_terminated
+)
+from src.utils import di
 from src.logging.services import configurate_logging
 from src.arguments.services import parse_arguments
 from src.settings.services import load_settings
 from src.plugins.services import load_plugins
-from src.view.launchers import BaseLauncher
-from src.view.dependencies import current_launcher
-from src.utils import di
-from src.events import application_initialized, application_terminated
+from src.core.launchers import BaseLauncher
+from src.core.dependencies import current_launcher
 
 
-def initialize():
-    configurate_logging()
-    configurate_base_dependencies()
-    load_plugins()
-    parse_arguments()
-    configurate_launcher_dependency()
-    load_settings()
+class App:
+    def __init__(self):
+        configurate_logging()
+        configurate_base_dependencies()
+        load_plugins()
+        parse_arguments()
+        load_settings()
+        application_initialized()
 
+    @di.injector.inject
+    def _launch(self, launcher: BaseLauncher = current_launcher):
+        launcher.launch()
 
-@di.injector.inject
-def launch(launcher: BaseLauncher = current_launcher):
-    launcher.launch()
-
-
-def run():
-    initialize()
-    application_initialized()
-    launch()
-    application_terminated()
+    def run(self):
+        self._launch()
+        application_terminated()

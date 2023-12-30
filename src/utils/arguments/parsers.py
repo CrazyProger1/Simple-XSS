@@ -89,7 +89,7 @@ class SchemedArgumentParser(argparse.ArgumentParser):
 
         if self._is_enum_field(field_type):
             kwargs.update({
-                'choices': list(map(lambda c: c.value, field_type))
+                'choices': list(map(lambda c: c, field_type))
             })
 
         self.add_argument(

@@ -15,12 +15,16 @@ class Event:
         self._last_instance = instance
         return self
 
-    def add_listener(self, listener: Callable, pass_subject: bool = False):
-        logger.debug(f'Added listener to {self.name} event')
+    def _validate_listener(self, listener: Callable):
         if not callable(listener):
             raise ValueError('listener must be callable')
+
+    def add_listener(self, listener: Callable, pass_subject: bool = False):
+        self._validate_listener(listener=listener)
         if listener not in self._listeners.keys():
             self._listeners.update({listener: pass_subject})
+            logger.debug(f'Added listener to {self.name} event')
+        return listener
 
     def __call__(self, **kwargs):
         logger.debug(f'Event {self.name} called')
@@ -32,14 +36,10 @@ class Event:
 
 
 class AsyncEvent(Event):
-    def add_listener(self, listener: Callable, pass_subject: bool = False):
+
+    def _validate_listener(self, listener: Callable):
         if not inspect.iscoroutinefunction(listener) and inspect.ismethod(listener):
             raise ValueError('listener must be coroutine')
-
-        super().add_listener(
-            listener=listener,
-            pass_subject=pass_subject
-        )
 
     async def __call__(self, **kwargs):
         logger.debug(f'Event {self.name} called')

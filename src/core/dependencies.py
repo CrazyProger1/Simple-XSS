@@ -1,4 +1,4 @@
 from src.utils import di
-from .launchers import BaseLauncher
+from src.core.launchers import BaseLauncher
 
 current_launcher = di.Dependency(BaseLauncher)

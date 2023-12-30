@@ -29,4 +29,5 @@ def save(
 ) -> None:
     if not loader:
         loader = get_loader(fmt=fmt, file=file, raise_exception=True)
+
     return loader.save(instance=instance, file=file)

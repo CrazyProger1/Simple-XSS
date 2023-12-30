@@ -1,14 +1,14 @@
 from src.plugins import BasePlugin
 from src.events import application_initialized
-from src.view.gui.launchers import GUILauncher
-from src.view.dependencies import current_launcher
+from src.core.launchers import GUILauncher
+from src.core.dependencies import current_launcher
 from src.utils import di
 
 
 class MyLauncher(GUILauncher):
     def launch(self):
         print('LAUNCHED')
-        super(MyLauncher, self).launch()
+        super(MyLauncher, self)._launch()
 
 
 class Plugin(BasePlugin):

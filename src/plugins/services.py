@@ -1,5 +1,5 @@
 from src.utils import di, packages
-from src.events import plugins_loaded
+from .events import plugins_loaded
 from .managers import PluginManager
 from .dependencies import plugin_manager, plugin_loader
 from .config import PLUGINS_DIRECTORY

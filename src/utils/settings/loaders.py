@@ -128,6 +128,7 @@ def get_loader(fmt: Format, file: str, raise_exception: bool = False) -> type[Ba
                 return loader
 
     if raise_exception:
+        logger.error(f"Loader can't be detected for file {file} with format {fmt}")
         raise ValueError(
             f"Loader can't be detected for file {file} with format {fmt}, "
             f"try specifying valid format or loader directly"

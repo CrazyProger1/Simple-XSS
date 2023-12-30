@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from src.utils import arguments, di
-from src.events import arguments_parsed
+from .events import arguments_parsed
 from .dependencies import arguments_parser, current_arguments
 
 
