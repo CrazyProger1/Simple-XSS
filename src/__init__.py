@@ -1,4 +1,4 @@
-from .app import App
+from src.core.app import App
 
 __all__ = [
     'App'

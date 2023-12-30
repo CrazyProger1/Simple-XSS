@@ -1,6 +1,6 @@
 import os
 
-from src.config import RESOURCES_DIRECTORY
+from src.core.config import RESOURCES_DIRECTORY
 
 PLUGIN_FILE = 'plugin.py'
 PLUGIN_CLASS_NAME = 'Plugin'

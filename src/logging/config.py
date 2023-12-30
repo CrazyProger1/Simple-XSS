@@ -1,6 +1,6 @@
 import logging
 
-from src.config import (
+from src.core.config import (
     APP,
     VERSION
 )

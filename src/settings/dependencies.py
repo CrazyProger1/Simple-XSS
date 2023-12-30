@@ -1,6 +1,6 @@
 
 from src.utils import di
-from .schemas import DefaultSettingsSchema
+from .schemes import DefaultSettingsScheme
 
-settings_schema = di.Dependency(DefaultSettingsSchema)
-current_settings = di.Dependency(DefaultSettingsSchema)
+settings_schema = di.Dependency(DefaultSettingsScheme)
+current_settings = di.Dependency(DefaultSettingsScheme)

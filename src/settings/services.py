@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 from src.utils import di, settings as setutil
 from src.arguments.dependencies import current_arguments
-from src.arguments.schemas import DefaultArgumentsSchema
+from src.arguments.schemes import DefaultArgumentsScheme
 from .dependencies import (
     settings_schema,
     current_settings
@@ -17,7 +17,7 @@ from .config import DEFAULT_SETTINGS_FILE
 @di.injector.inject
 def load_settings(
         schema: type[BaseModel] = settings_schema,
-        arguments: DefaultArgumentsSchema = current_arguments):
+        arguments: DefaultArgumentsScheme = current_arguments):
     try:
         settings = setutil.load(schema=schema, file=arguments.settings_file)
     except (FileNotFoundError, setutil.exceptions.FormatError, ValueError):
@@ -32,7 +32,7 @@ def load_settings(
 @di.injector.inject
 def save_settings(
         settings: BaseModel = current_settings,
-        arguments: DefaultArgumentsSchema = current_arguments):
+        arguments: DefaultArgumentsScheme = current_arguments):
     try:
         setutil.save(instance=settings, file=arguments.settings_file)
     except ValueError:

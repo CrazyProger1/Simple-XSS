@@ -1,2 +1,2 @@
-import src.core.controller.gui
-import src.core.controller.cli
+import src.core.view.gui
+import src.core.view.cli

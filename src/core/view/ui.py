@@ -9,7 +9,7 @@ class BaseUI(ABC):
     mode: GraphicMode
 
     @abstractmethod
-    async def launch(self): ...
+    def launch(self): ...
 
 
 @cache

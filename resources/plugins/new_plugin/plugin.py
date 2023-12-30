@@ -1,14 +1,5 @@
 from src.plugins import BasePlugin
-from src.events import application_initialized
-from src.core.launchers import GUILauncher
-from src.core.dependencies import current_launcher
-from src.utils import di
-
-
-class MyLauncher(GUILauncher):
-    def launch(self):
-        print('LAUNCHED')
-        super(MyLauncher, self)._launch()
+from src.core.events import async_mode_entered
 
 
 class Plugin(BasePlugin):
@@ -17,7 +8,7 @@ class Plugin(BasePlugin):
     VERSION = '0.1'
 
     def __init__(self):
-        application_initialized.add_listener(self.handle_application_initialized)
+        async_mode_entered.add_listener(self.on_async)
 
-    def handle_application_initialized(self):
-        di.injector.bind(current_launcher, MyLauncher())
+    async def on_async(self):
+        print('ASYNC!')

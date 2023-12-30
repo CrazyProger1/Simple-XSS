@@ -27,7 +27,8 @@ class Injector:
 
     @typechecked
     def inject(self, clb: Callable):
-        def wrapper(*args, **kwargs):
+
+        def substitute_params(kwargs):
             signature = inspect.signature(clb)
             for param_name, param in signature.parameters.items():
                 default = param.default
@@ -36,9 +37,17 @@ class Injector:
                         kwargs.update({
                             param_name: self.get_dependency(default)
                         })
-            result = clb(*args, **kwargs)
-            return result
 
+        def wrapper(*args, **kwargs):
+            substitute_params(kwargs)
+            return clb(*args, **kwargs)
+
+        async def async_wrapper(*args, **kwargs):
+            substitute_params(kwargs)
+            return await clb(*args, **kwargs)
+
+        if inspect.iscoroutinefunction(clb):
+            return async_wrapper
         return wrapper
 
     @typechecked

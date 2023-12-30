@@ -1,4 +1,3 @@
-import inspect
 from typing import Callable
 
 from loguru import logger
@@ -37,12 +36,8 @@ class Event:
 
 class AsyncEvent(Event):
 
-    def _validate_listener(self, listener: Callable):
-        if not inspect.iscoroutinefunction(listener) and inspect.ismethod(listener):
-            raise ValueError('listener must be coroutine')
-
     async def __call__(self, **kwargs):
-        logger.debug(f'Event {self.name} called')
+        logger.debug(f'Async Event {self.name} called')
         for listener, pass_subj in self._listeners.items():
             if pass_subj:
                 await listener(self._last_instance, **kwargs)

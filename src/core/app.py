@@ -1,7 +1,8 @@
-from src.di import (
-    configurate_base_dependencies
+from src.core.di import (
+    configurate_base_dependencies,
+    configurate_launcher_dependencies
 )
-from src.events import (
+from src.core.events import (
     application_initialized,
     application_terminated
 )
@@ -21,6 +22,7 @@ class App:
         load_plugins()
         parse_arguments()
         load_settings()
+        configurate_launcher_dependencies()
         application_initialized()
 
     @di.injector.inject

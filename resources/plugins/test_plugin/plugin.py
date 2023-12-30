@@ -6,12 +6,12 @@ from loguru import logger
 from pydantic import Field
 
 from src.arguments.dependencies import arguments_parser
-from src.arguments.schemas import DefaultArgumentsSchema
+from src.arguments.schemes import DefaultArgumentsScheme
 from src.plugins import BasePlugin
 from src.utils import arguments, di
 
 
-class MyArgSchema(DefaultArgumentsSchema):
+class MyArgSchema(DefaultArgumentsScheme):
     test: str = Field(default='abc', description='test arg')
 
 

@@ -1,6 +1,6 @@
 from src.utils import arguments, di
-from .schemas import DefaultArgumentsSchema
+from .schemes import DefaultArgumentsScheme
 
-arguments_schema = di.Dependency(DefaultArgumentsSchema)
-current_arguments = di.Dependency(DefaultArgumentsSchema)
+arguments_schema = di.Dependency(DefaultArgumentsScheme)
+current_arguments = di.Dependency(DefaultArgumentsScheme)
 arguments_parser = di.Dependency(arguments.SchemedArgumentParser)
