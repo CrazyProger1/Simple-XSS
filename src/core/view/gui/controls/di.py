@@ -1,13 +1,14 @@
-from .controls.controls import (
-    MainBox,
-    NetworkOptionsBox,
-    PayloadOptionsBox,
-    HookOptionsBox,
-    ProcessControlBox,
+from .boxes import (
+    MessageBox,
     MessageControlBox,
-    MessageBox
+    ProcessControlBox,
+    NetworkOptionsBox,
+    HookOptionsBox,
+    PayloadOptionsBox,
+    MainBox
 )
-from .dependencies import (
+
+from src.core.view.gui.controls.dependencies import (
     main_box,
     payload_options_box,
     hook_options_box,

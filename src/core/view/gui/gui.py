@@ -9,8 +9,8 @@ from src.core.config import APP, VERSION
 from .events import (
     gui_initialized
 )
-from .di import configurate_ui_dependencies
-from .dependencies import main_box, current_page
+from src.core.view.gui.controls.di import configurate_ui_dependencies
+from src.core.view.gui.controls.dependencies import main_box, current_page
 from .controls import CustomControl
 from .config import WINDOW_MIN_SIZE
 

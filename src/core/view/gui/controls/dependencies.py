@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.utils import di
-from .controls.custom import CustomControl
+from src.core.view.gui.controls.custom import CustomControl
 
 current_page = di.Dependency(ft.Page)
 main_box = di.Dependency(CustomControl)
