@@ -8,7 +8,7 @@ from .config import (
 
 class HookSettingsScheme(BaseModel):
     current: str = None
-    directory: str = './resources/payloads'
+    directory: str = './resources/hooks'
 
 
 class PayloadSettingsScheme(BaseModel):

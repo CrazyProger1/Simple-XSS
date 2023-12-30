@@ -1,5 +1,9 @@
+import asyncio
+
 import flet as ft
 
+from src.settings.dependencies import current_settings
+from src.settings.schemes import DefaultSettingsScheme
 from src.utils import di
 from .custom import CustomControl
 from ..dependencies import (
@@ -16,7 +20,9 @@ from .constants import (
     BOX_PADDING,
     BOX_BORDER_RADIUS,
     BOX_BORDER,
-    MESSAGE_SPACING
+    MESSAGE_SPACING,
+    TEXT_FONT_SIZE,
+    DESCRIPTION_MAX_LINES
 )
 
 
@@ -68,9 +74,8 @@ class MessageControlBox(CustomControl):
 
 
 class OptionsBox(CustomControl):
-
     def build_content(self):
-        pass
+        raise NotImplementedError
 
     def build(self):
         return ft.Container(
@@ -82,60 +87,155 @@ class OptionsBox(CustomControl):
 
 
 class NetworkOptionsBox(OptionsBox):
-    pass
+    def __init__(self):
+        super(NetworkOptionsBox, self).__init__()
+        self.use_tunneling_service = False
+        self.box_name_text = ft.Text(
+            value=Messages.NETWORK,
+            size=TEXT_FONT_SIZE,
+            expand=True,
+            text_align=ft.TextAlign.CENTER
+        )
+        self.transport_dropdown = ft.Dropdown(
+            expand=True,
+            border_color=ft.colors.OUTLINE,
+            options=[ft.dropdown.Option('http'), ft.dropdown.Option('websocket')],
+            value='websocket'
+        )
+        self.host_field = ft.TextField(
+            visible=True,
+            expand=True,
+            border_color=ft.colors.OUTLINE,
+            hint_text=Messages.HOST
+        )
+
+        self.port_field = ft.TextField(
+            visible=True,
+            width=100,
+            border_color=ft.colors.OUTLINE,
+            hint_text=Messages.PORT
+        )
+
+        self.use_tunneling_service_checkbox = ft.Checkbox(
+            value=self.use_tunneling_service,
+            on_change=self.handle_checkbox_value_change,
+            label=Messages.USE_TUNNELLING_SERVICE
+        )
+        self.public_url_field = ft.TextField(
+            visible=not self.use_tunneling_service,
+            expand=True,
+            border_color=ft.colors.OUTLINE,
+            hint_text=Messages.PUBLIC_URL
+        )
+        self.tunneling_service_dropdown = ft.Dropdown(
+            visible=self.use_tunneling_service,
+            expand=True,
+            border_color=ft.colors.OUTLINE,
+            options=[ft.dropdown.Option('ngrok'), ft.dropdown.Option('some app')],
+            value='ngrok'
+        )
+
+    async def handle_checkbox_value_change(self, event: ft.ControlEvent):
+        self.use_tunneling_service = event.control.value
+        self.public_url_field.visible = not self.use_tunneling_service
+        self.tunneling_service_dropdown.visible = self.use_tunneling_service
+        await self.public_url_field.update_async()
+        await self.tunneling_service_dropdown.update_async()
+
+    def build(self):
+        return ft.Container(
+            border=BOX_BORDER,
+            border_radius=BOX_BORDER_RADIUS,
+            padding=BOX_PADDING,
+            content=self.build_content(),
+            expand=True
+        )
+
+    def build_content(self):
+        return ft.Column(
+            scroll=ft.ScrollMode.AUTO,
+            controls=[
+                ft.Row(
+                    controls=[
+                        self.box_name_text
+                    ]
+                ),
+
+                ft.Row(
+                    controls=[
+                        self.transport_dropdown
+                    ]
+                ),
+                ft.Row(
+                    controls=[
+                        self.host_field,
+                        self.port_field
+                    ]
+                ),
+                ft.Divider(),
+                ft.Row(
+                    controls=[
+                        self.use_tunneling_service_checkbox
+                    ]
+                ),
+
+                ft.Row(
+                    controls=[
+                        self.tunneling_service_dropdown,
+                        self.public_url_field
+                    ]
+                )
+
+            ]
+        )
 
 
 class HookOptionsBox(OptionsBox):
     def __init__(self):
         super(HookOptionsBox, self).__init__()
-        self.hook_picker = ft.FilePicker()
+        self.hook_picker = ft.FilePicker(on_result=self.handle_hook_chosen)
         self.overlay.append(self.hook_picker)
 
-    async def handle_choose_hook_button_click(self, event):
-        await self.hook_picker.get_directory_path_async(
-            initial_directory='resources/hooks',
-            dialog_title=Messages.CHOOSE_HOOK
+        self.hook_name_text = ft.Text(
+            value=Messages.HOOK,
+            size=TEXT_FONT_SIZE,
+            expand=True,
+            text_align=ft.TextAlign.CENTER
         )
-
-    def build_content(self):
-        return ft.Column(
+        self.hook_path_field = ft.TextField(
+            expand=True,
+            border_color=ft.colors.OUTLINE,
+            read_only=True
+        )
+        self.choose_hook_button = ft.IconButton(
+            icon=ft.icons.FOLDER_OPEN,
+            on_click=self.handle_choose_hook_button_click
+        )
+        self.hook_description_text = ft.Text(
+            visible=True,
+            max_lines=DESCRIPTION_MAX_LINES,
+            overflow=ft.TextOverflow.ELLIPSIS
+        )
+        self.hook_author_text = ft.Text(
+            text_align=ft.TextAlign.RIGHT,
+            italic=True
+        )
+        self.content = ft.Column(
             controls=[
                 ft.Row(
                     controls=[
-                        ft.Text(
-                            value=Messages.HOOK,
-                            size=20,
-                            expand=True,
-                            text_align=ft.TextAlign.CENTER
-                        ),
+                        self.hook_name_text
                     ]
                 ),
                 ft.Row(
                     controls=[
-                        ft.TextField(
-                            expand=True,
-                            border_color=ft.colors.OUTLINE,
-                            read_only=True
-                        ),
-                        ft.IconButton(
-                            icon=ft.icons.FOLDER_OPEN,
-                            on_click=self.handle_choose_hook_button_click
-                        ),
+                        self.hook_path_field,
+                        self.choose_hook_button,
                     ]
                 ),
-                ft.Text(
-                    'Long long long description',
-                    visible=True,
-                    max_lines=3,
-                    overflow=ft.TextOverflow.ELLIPSIS
-
-                ),
+                self.hook_description_text,
                 ft.Container(
-                    content=ft.Text(
-                        '@author',
-                        text_align=ft.TextAlign.RIGHT,
-                        italic=True
-                    ),
+                    content=self.hook_author_text,
                     alignment=ft.alignment.bottom_right,
 
                 )
@@ -143,9 +243,93 @@ class HookOptionsBox(OptionsBox):
             ]
         )
 
+    def handle_hook_chosen(self, event: ft.FilePickerResultEvent):
+        self.hook_path_field.value = event.path
+        self.hook_name_text.value = 'Some hook'
+        self.hook_description_text.value = 'Some hook desc'
+        self.hook_author_text.value = '@author'
+        asyncio.create_task(self.content.update_async())
+
+    @di.injector.inject
+    async def handle_choose_hook_button_click(self, event, settings: DefaultSettingsScheme = current_settings):
+        await self.hook_picker.get_directory_path_async(
+            initial_directory=settings.hook.directory,
+            dialog_title=Messages.CHOOSE_HOOK_TITLE
+        )
+
+    def build_content(self):
+        return self.content
+
 
 class PayloadOptionsBox(OptionsBox):
-    pass
+    def __init__(self):
+        super(PayloadOptionsBox, self).__init__()
+        self.payload_picker = ft.FilePicker(on_result=self.handle_payload_chosen)
+        self.overlay.append(self.payload_picker)
+
+        self.payload_name_text = ft.Text(
+            value=Messages.PAYLOAD,
+            size=TEXT_FONT_SIZE,
+            expand=True,
+            text_align=ft.TextAlign.CENTER
+        )
+        self.payload_path_field = ft.TextField(
+            expand=True,
+            border_color=ft.colors.OUTLINE,
+            read_only=True
+        )
+        self.choose_payload_button = ft.IconButton(
+            icon=ft.icons.FOLDER_OPEN,
+            on_click=self.handle_choose_payload_button_click
+        )
+        self.payload_description_text = ft.Text(
+            visible=True,
+            max_lines=DESCRIPTION_MAX_LINES,
+            overflow=ft.TextOverflow.ELLIPSIS
+        )
+        self.payload_author_text = ft.Text(
+            text_align=ft.TextAlign.RIGHT,
+            italic=True
+        )
+        self.content = ft.Column(
+            controls=[
+                ft.Row(
+                    controls=[
+                        self.payload_name_text
+                    ]
+                ),
+                ft.Row(
+                    controls=[
+                        self.payload_path_field,
+                        self.choose_payload_button,
+                    ]
+                ),
+                self.payload_description_text,
+                ft.Container(
+                    content=self.payload_author_text,
+                    alignment=ft.alignment.bottom_right,
+
+                )
+
+            ]
+        )
+
+    def handle_payload_chosen(self, event: ft.FilePickerResultEvent):
+        self.payload_path_field.value = event.path
+        self.payload_name_text.value = 'Some payload'
+        self.payload_description_text.value = 'Some payload desc'
+        self.payload_author_text.value = '@author'
+        asyncio.create_task(self.content.update_async())
+
+    @di.injector.inject
+    async def handle_choose_payload_button_click(self, event, settings: DefaultSettingsScheme = current_settings):
+        await self.payload_picker.get_directory_path_async(
+            initial_directory=settings.payload.directory,
+            dialog_title=Messages.CHOOSE_PAYLOAD_TITLE
+        )
+
+    def build_content(self):
+        return self.content
 
 
 class ProcessControlBox(CustomControl):
@@ -216,40 +400,31 @@ class ProcessControlBox(CustomControl):
 
 
 class MainBox(CustomControl):
-    @di.injector.inject
-    def __init__(self,
-                 network_box: CustomControl = network_options_box,
-                 hook_box: CustomControl = hook_options_box,
-                 payload_box: CustomControl = payload_options_box,
-                 process_ctrl_box: CustomControl = process_control_box,
-                 msg_box: CustomControl = message_box,
-                 message_ctrl_box: CustomControl = message_control_box
-                 ):
-        self.network_box = network_box
-        self.hook_box = hook_box
-        self.payload_box = payload_box
-        self.process_control_box = process_ctrl_box
-        self.message_box = msg_box
-        self.message_control_box = message_ctrl_box
 
-    def build(self):
+    @di.injector.inject
+    def build(self, network_box: CustomControl = network_options_box,
+              hook_box: CustomControl = hook_options_box,
+              payload_box: CustomControl = payload_options_box,
+              process_ctrl_box: CustomControl = process_control_box,
+              msg_box: CustomControl = message_box,
+              message_ctrl_box: CustomControl = message_control_box):
         return ft.Row(
             expand=True,
             controls=[
                 ft.Column(
                     expand=True,
                     controls=[
-                        self.network_box.build(),
-                        self.hook_box.build(),
-                        self.payload_box.build(),
-                        self.process_control_box.build()
+                        network_box.build(),
+                        hook_box.build(),
+                        payload_box.build(),
+                        process_ctrl_box.build()
                     ]
                 ),
                 ft.Column(
                     expand=True,
                     controls=[
-                        self.message_box.build(),
-                        self.message_control_box.build()
+                        msg_box.build(),
+                        message_ctrl_box.build()
                     ]
                 )
             ]

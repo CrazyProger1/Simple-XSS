@@ -6,7 +6,9 @@ from src.settings.schemes import DefaultSettingsScheme
 from src.core.view.ui import BaseUI
 from src.utils import di
 from src.core.config import APP, VERSION
-from .events import gui_initialized
+from .events import (
+    gui_initialized
+)
 from .di import configurate_ui_dependencies
 from .dependencies import main_box, current_page
 from .controls import CustomControl
