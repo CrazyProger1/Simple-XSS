@@ -1,7 +1,7 @@
 import flet as ft
 
 from ..constants import ICON_SIZE
-from ..custom import CustomControl
+from ..controls import CustomControl
 from ..enums import Messages
 
 

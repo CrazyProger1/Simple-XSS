@@ -5,7 +5,7 @@ from ..constants import (
     BOX_BORDER,
     BOX_PADDING
 )
-from ..custom import CustomControl
+from ..controls import CustomControl
 
 
 class OptionsBox(CustomControl):

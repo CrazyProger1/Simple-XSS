@@ -1,4 +1,5 @@
-from src.transports import BaseTransportService, Connection
+from src.transports.services import BaseTransportService
+from src.transports.connections import Connection
 from src.enums import Protocol
 
 

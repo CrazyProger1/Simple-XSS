@@ -7,7 +7,7 @@ from src.core.view.gui.controls.constants import (
     BOX_PADDING,
     ICON_SIZE
 )
-from ..custom import CustomControl
+from ..controls import CustomControl
 from ..enums import Messages
 
 

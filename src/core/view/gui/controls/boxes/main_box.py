@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.utils import di
-from ..custom import CustomControl
+from ..controls import CustomControl
 from src.core.view.gui.controls.dependencies import (
     network_options_box,
     payload_options_box,
