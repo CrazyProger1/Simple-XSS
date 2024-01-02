@@ -1,4 +1,4 @@
-from src.payloads import BasePayload
+from src.core.services.payloads import BasePayload
 
 
 class Payload(BasePayload):

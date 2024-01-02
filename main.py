@@ -1,10 +1,4 @@
-from src import App
-
-
-def main():
-    app = App()
-    app.run()
-
+from src.core import run
 
 if __name__ == '__main__':
-    main()
+    run()

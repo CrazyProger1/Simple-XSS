@@ -1,2 +1,5 @@
-import src.core.view.cli
-import src.core.view.gui
+from .core import run
+
+__all__ = [
+    'run'
+]

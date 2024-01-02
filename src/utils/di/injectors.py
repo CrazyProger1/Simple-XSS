@@ -16,7 +16,7 @@ class Injector:
         if not isinstance(value, base) and not \
                 (inspect.isclass(value) and issubclass(value, base)):
             logger.error(f'Value must be instance or subclass of {dependency.base}, got {value}')
-            raise ValueError('Value must be instance or subclass of Dependency.base')
+            raise ValueError(f'Value must be instance or subclass of {dependency.base}, got {value}')
 
     @typechecked
     def bind(self, dependency: Dependency, value: any):
@@ -59,12 +59,13 @@ class Injector:
         if value == default and callable(default):
             value = default()
 
-        self._validate_value(dependency=dependency, value=value)
+        if not value:
+            logger.error(f'Dependency not bound: {dependency}')
+            raise ValueError(f'Dependency not bound: {dependency}')
 
-        if value:
-            return value
-        logger.error(f'Dependency not bound: {dependency}')
-        raise ValueError(f'Dependency not bound: {dependency}')
+        self._validate_value(dependency=dependency, value=value)
+        return value
+
 
     @property
     def dependencies(self) -> dict:

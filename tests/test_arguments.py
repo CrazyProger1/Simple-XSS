@@ -1,14 +1,14 @@
 from unittest import TestCase
 
-from src.arguments import DefaultArgumentsSchema
-from src.utils import arguments
-from src.enums import GraphicMode
+from src.core.services.arguments import DefaultArgumentsSchema
+from src.utils import argutil
+from src.core.services import GraphicMode
 
 
 class ArgumentsTests(TestCase):
 
     def setUp(self) -> None:
-        self.parser = arguments.SchemedArgumentParser(schema=DefaultArgumentsSchema)
+        self.parser = argutil.SchemedArgumentParser(schema=DefaultArgumentsSchema)
 
     def test_parse_graphic_mode(self):
         args = self.parser.parse_typed_args(['-g', str(GraphicMode.GUI.value)])
