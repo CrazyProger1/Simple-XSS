@@ -12,6 +12,10 @@ plugin_loader = di.Dependency(packages.PackageLoader)
 settings_scheme = di.Dependency(BaseModel)
 current_settings = di.Dependency(BaseModel)
 
+hook_loader = di.Dependency(packages.PackageLoader)
+
+payload_loader = di.Dependency(packages.PackageLoader)
+
 
 def configurate_base_dependencies():
     di.injector.bind(argument_parser, argutil.SchemedArgumentParser(
@@ -22,3 +26,6 @@ def configurate_base_dependencies():
     di.injector.bind(plugin_loader, packages.PackageLoader())
 
     di.injector.bind(settings_scheme, settings.DefaultSettingsScheme)
+
+    di.injector.bind(hook_loader, packages.PackageLoader())
+    di.injector.bind(payload_loader, packages.PackageLoader())

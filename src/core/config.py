@@ -23,8 +23,17 @@ DEFAULT_SETTINGS_FILE = 'settings.toml'
 DEFAULT_GRAPHIC_MODE = GraphicMode.GUI
 DEFAULT_THEME = ft.ThemeMode.LIGHT
 DEFAULT_RESOLUTION = (1280, 760)
+MIN_RESOLUTION = DEFAULT_RESOLUTION
 
 # Plugins
 PLUGIN_FILE = 'plugin.py'
 PLUGIN_CLASS_NAME = 'Plugin'
 PLUGINS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'plugins')
+
+# Payloads
+PAYLOAD_FILE = 'payload.py'
+PAYLOAD_CLASS_NAME = 'Payload'
+
+# Hooks
+HOOK_FILE = 'hook.py'
+HOOK_CLASS_NAME = 'Hook'

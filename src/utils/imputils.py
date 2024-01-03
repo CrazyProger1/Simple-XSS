@@ -46,7 +46,7 @@ def import_class_by_filepath(path: str, class_name: str, base_class: type = None
     module = import_module_by_filepath(path)
     imported_class = getattr(module, class_name, None)
     if not imported_class:
-        raise TypeError(f'Class {class_name} not found at {path}')
+        raise ImportError(f'Class {class_name} not found at {path}')
     if not inspect.isclass(imported_class):
         raise TypeError(f'Not a class {imported_class}')
     if base_class:

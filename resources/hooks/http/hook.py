@@ -1,4 +1,4 @@
-from src.core.services.hooks import BaseHook
+from src.api.hooks import BaseHook
 
 
 class Hook(BaseHook):

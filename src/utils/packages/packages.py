@@ -9,3 +9,6 @@ class BasePackage(ABC):
 
     def bind(self, directory: str):
         pass
+
+    def __repr__(self):
+        return f'<Package: {self.NAME} - V{self.VERSION}>'

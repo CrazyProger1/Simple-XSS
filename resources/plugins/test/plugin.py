@@ -14,6 +14,9 @@ class MyUI(GUI):
 
 
 class Plugin(BasePlugin):
+    NAME = 'My Plugin'
+    VERSION = '0.1'
+
     def __init__(self):
         ui_initialized.add_listener(self.on_ui_init)
 
