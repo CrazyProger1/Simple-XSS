@@ -21,4 +21,5 @@ class Plugin(BasePlugin):
         ui_initialized.add_listener(self.on_ui_init)
 
     def on_ui_init(self):
-        di.injector.bind(current_ui, MyGUI())
+        pass
+        # di.injector.bind(current_ui, MyGUI())

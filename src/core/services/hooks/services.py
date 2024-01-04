@@ -1,11 +1,14 @@
-from src.utils import packages
+from src.utils import packages, di
 from src.core.config import (
     HOOK_FILE,
     HOOK_CLASS_NAME
 )
 
+from src.core.dependencies import hook_loader
 
-def load_hook(directory: str, loader: packages.PackageLoader = None):
+
+@di.injector.inject
+def load_hook(directory: str, loader: packages.PackageLoader = hook_loader):
     return loader.load(
         directory=directory,
         package_file=HOOK_FILE,
@@ -13,8 +16,18 @@ def load_hook(directory: str, loader: packages.PackageLoader = None):
     )
 
 
-def load_hook_class(directory: str, loader: packages.PackageLoader = None):
+@di.injector.inject
+def load_hook_class(directory: str, loader: packages.PackageLoader = hook_loader):
     return loader.load_class(
+        directory=directory,
+        package_file=HOOK_FILE,
+        package_class_name=HOOK_CLASS_NAME
+    )
+
+
+@di.injector.inject
+def is_hook(directory: str, loader: packages.PackageLoader = hook_loader) -> bool:
+    return loader.is_package(
         directory=directory,
         package_file=HOOK_FILE,
         package_class_name=HOOK_CLASS_NAME

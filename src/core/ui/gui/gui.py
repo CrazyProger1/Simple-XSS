@@ -1,11 +1,11 @@
 import flet as ft
 
-from src.utils import di
+from src.utils import di, clsutils
 from src.core.dependencies import current_settings
 from src.core.services import settings
 from src.core.ui.base import BaseUI
 from src.core.enums import GraphicMode
-from src.core.events import async_mode_entered
+from src.core.events import async_mode_entered, context_changed
 from src.core.config import MIN_RESOLUTION
 from .components import CustomControl
 from .events import (
@@ -23,7 +23,12 @@ class GUI(BaseUI):
     mode = GraphicMode.GUI
 
     def _initialize(self):
+        context_changed.add_listener(self._update_controls)
         configurate_gui_dependencies()
+
+    def _update_controls(self):
+        for control in clsutils.iter_instances(CustomControl):
+            control.update_data()
 
     @di.injector.inject
     async def _display_main_box(self, page: ft.Page = main_page, box: CustomControl = main_box):
@@ -46,6 +51,7 @@ class GUI(BaseUI):
         await async_mode_entered()
         di.injector.bind(main_page, page)
         await self._configurate_main_page()
+        self._update_controls()
         await self._display_main_box()
 
     def run(self):

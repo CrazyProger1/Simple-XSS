@@ -2,10 +2,10 @@ import asyncio
 
 import flet as ft
 
-from src.utils import di, packages
-from src.core.dependencies import payload_loader
-from src.core.ui.dependencies import local_settings
-from src.core.services import settings, payloads
+from src.utils import di
+from src.core.dependencies import current_context
+from src.core.events import context_changed
+from src.core.services import payloads, context
 
 from ..control import CustomControl
 from ...enums import Messages
@@ -75,30 +75,44 @@ class PayloadBox(CustomControl):
     def _handle_payload_chosen(
             self,
             event: ft.FilePickerResultEvent,
-            loader: packages.PackageLoader = payload_loader,
-            sets: settings.DefaultSettingsScheme = local_settings
+            appcontext: context.DefaultContext = current_context
     ):
         path = event.path
         if not path:
             return
-        try:
-            payload_cls = payloads.load_payload_class(path, loader=loader)
-        except (ValueError, ImportError, TypeError):
-            text = Messages.PAYLOAD_LOADING_ERROR.format(path=path)
-            asyncio.create_task(banners.show_warning(text=text))
+        if payloads.is_payload(path):
+            appcontext.settings.payload.current = path
+            context_changed()
+
+        else:
+            asyncio.create_task(
+                banners.show_warning(Messages.PAYLOAD_LOADING_ERROR.format(path=path))
+            )
+
+    def _update_payload_data(self, path: str):
+        if not path or path == self._payload_path_field.value:
             return
 
-        self._payload_name_text.value = payload_cls.NAME
-        self._payload_description_text.value = payload_cls.DESCRIPTION
-        self._payload_author_text.value = f'@{payload_cls.AUTHOR}'
-        self._payload_path_field.value = path
-        sets.payload.current = path
-        asyncio.create_task(self._content.update_async())
+        if payloads.is_payload(path):
+            payload_cls = payloads.load_payload_class(path)
+            self._payload_name_text.value = f'{payload_cls.NAME} - {payload_cls.VERSION or 0.1}'
+            self._payload_description_text.value = payload_cls.DESCRIPTION
+            self._payload_author_text.value = payload_cls.AUTHOR
+            self._payload_path_field.value = path
+
+            asyncio.create_task(
+                self._content.update_async()
+            )
 
     @di.injector.inject
-    async def _handle_choose_payload_button_click(self, event, sets: settings.DefaultSettingsScheme = local_settings):
+    def update_data(self, appcontext: context.DefaultContext = current_context):
+        path = appcontext.settings.payload.current
+        self._update_payload_data(path=path)
+
+    @di.injector.inject
+    async def _handle_choose_payload_button_click(self, event, appcontext: context.DefaultContext = current_context):
         await self._payload_picker.get_directory_path_async(
-            initial_directory=sets.payload.directory,
+            initial_directory=appcontext.settings.payload.directory,
             dialog_title=Messages.CHOOSE_PAYLOAD_TITLE
         )
 

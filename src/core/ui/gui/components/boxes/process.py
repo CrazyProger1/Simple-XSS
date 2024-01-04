@@ -1,5 +1,11 @@
-import flet as ft
+import asyncio
 
+import flet as ft
+import pyperclip
+
+from src.utils import di
+from src.core.events import context_changed
+from src.core.dependencies import current_context
 from ..control import CustomControl
 from ...constants import ICON_SIZE
 from ...enums import Messages
@@ -27,10 +33,10 @@ class ProcessControlBox(CustomControl):
             icon=ft.icons.COPY,
             icon_size=ICON_SIZE,
             icon_color=ft.colors.BLUE,
-            on_click=self._handle_stop_button_click,
+            on_click=self._handle_copy_button_click,
             tooltip=Messages.COPY
         )
-        self._hook_label = ft.TextField(
+        self._hook_field = ft.TextField(
             disabled=True,
             border_color=ft.colors.OUTLINE,
             read_only=True,
@@ -42,6 +48,15 @@ class ProcessControlBox(CustomControl):
 
     async def _handle_stop_button_click(self, event):
         pass
+
+    async def _handle_copy_button_click(self, event):
+        pyperclip.copy(self._hook_field.value)
+
+    @di.injector.inject
+    def update_data(self, context=current_context):
+        self._hook_field.disabled = context.hook is None
+        self._hook_field.value = context.hook
+        asyncio.create_task(self._hook_field.update_async())
 
     def build(self):
         return ft.Row(
@@ -60,7 +75,7 @@ class ProcessControlBox(CustomControl):
                 ft.Column(
                     expand=True,
                     controls=[
-                        self._hook_label
+                        self._hook_field
                     ]
                 ),
                 ft.Column(

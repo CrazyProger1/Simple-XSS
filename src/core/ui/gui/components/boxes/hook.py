@@ -2,10 +2,10 @@ import asyncio
 
 import flet as ft
 
-from src.utils import di, packages
-from src.core.dependencies import hook_loader
-from src.core.ui.dependencies import local_settings
-from src.core.services import settings, hooks
+from src.utils import di
+from src.core.dependencies import current_context
+from src.core.services import context, hooks
+from src.core.events import context_changed
 
 from ..control import CustomControl
 from ...enums import Messages
@@ -72,36 +72,47 @@ class HookBox(CustomControl):
         )
 
     @di.injector.inject
-    def _handle_hook_chosen(
-            self,
-            event: ft.FilePickerResultEvent,
-            loader: packages.PackageLoader = hook_loader,
-            sets: settings.DefaultSettingsScheme = local_settings
+    async def _handle_choose_hook_button_click(self, event, appcontext: context.DefaultContext = current_context):
+        await self._hook_picker.get_directory_path_async(
+            initial_directory=appcontext.settings.hook.directory,
+            dialog_title=Messages.CHOOSE_HOOK_TITLE
+        )
 
-    ):
+    @di.injector.inject
+    def _handle_hook_chosen(self,
+                            event: ft.FilePickerResultEvent,
+                            appcontext: context.DefaultContext = current_context):
         path = event.path
         if not path:
             return
-        try:
-            hook_cls = hooks.load_hook_class(path, loader=loader)
-        except (ValueError, ImportError, TypeError):
-            text = Messages.HOOK_LOADING_ERROR.format(path=path)
-            asyncio.create_task(banners.show_warning(text=text))
+        if hooks.is_hook(path):
+            appcontext.settings.hook.current = path
+            context_changed()
+
+        else:
+            asyncio.create_task(
+                banners.show_warning(Messages.HOOK_LOADING_ERROR.format(path=path))
+            )
+
+    def _update_hook_data(self, path: str):
+        if not path or path == self._hook_path_field.value:
             return
 
-        self._hook_name_text.value = hook_cls.NAME
-        self._hook_description_text.value = hook_cls.DESCRIPTION
-        self._hook_author_text.value = f'@{hook_cls.AUTHOR}'
-        self._hook_path_field.value = path
-        sets.hook.current = path
-        asyncio.create_task(self._content.update_async())
+        if hooks.is_hook(path):
+            hook_cls = hooks.load_hook_class(path)
+            self._hook_name_text.value = f'{hook_cls.NAME} - {hook_cls.VERSION or 0.1}'
+            self._hook_description_text.value = hook_cls.DESCRIPTION
+            self._hook_author_text.value = hook_cls.AUTHOR
+            self._hook_path_field.value = path
+
+            asyncio.create_task(
+                self._content.update_async()
+            )
 
     @di.injector.inject
-    async def _handle_choose_hook_button_click(self, event, sets: settings.DefaultSettingsScheme = local_settings):
-        await self._hook_picker.get_directory_path_async(
-            initial_directory=sets.hook.directory,
-            dialog_title=Messages.CHOOSE_HOOK_TITLE
-        )
+    def update_data(self, appcontext: context.DefaultContext = current_context):
+        path = appcontext.settings.hook.current
+        self._update_hook_data(path=path)
 
     def build(self):
         return ft.Container(

@@ -1,4 +1,3 @@
-import flet as ft
 from pydantic import BaseModel
 
 from src.core.config import (
@@ -32,7 +31,7 @@ class TunnellingSettingsScheme(BaseModel):
 
 class GraphicsSettingsScheme(BaseModel):
     resolution: tuple = DEFAULT_RESOLUTION
-    theme: ft.ThemeMode = ft.ThemeMode.DARK
+    theme: str = 'dark'
 
 
 class DefaultSettingsScheme(BaseModel):

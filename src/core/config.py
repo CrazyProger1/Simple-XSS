@@ -1,3 +1,4 @@
+import logging
 import os
 
 import flet as ft
@@ -37,3 +38,8 @@ PAYLOAD_CLASS_NAME = 'Payload'
 # Hooks
 HOOK_FILE = 'hook.py'
 HOOK_CLASS_NAME = 'Hook'
+
+# Logging
+LOGGING_VERBOSITY = True
+LOG_FILE = f'{APP}_{VERSION}.log'
+LOGGING_LEVEL = logging.DEBUG

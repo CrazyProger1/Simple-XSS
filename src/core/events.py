@@ -11,3 +11,5 @@ settings_loaded = events.Event('settings_loaded')
 plugins_loaded = events.Event('plugins_loaded')
 
 async_mode_entered = events.AsyncEvent('async_mode_entered')
+
+context_changed = events.Event('context_changed')

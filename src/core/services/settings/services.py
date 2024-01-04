@@ -13,7 +13,8 @@ def load_settings(
     file = args.settings_file
     try:
         settings = setutil.load(schema=scheme, file=file)
-    except (FileNotFoundError, setutil.exceptions.FormatError, ValueError):
+    except (FileNotFoundError, setutil.exceptions.FormatError, ValueError) as e:
+        print(e)
         settings = scheme()
         save_settings(settings=settings)
 

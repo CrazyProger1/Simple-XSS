@@ -3,9 +3,11 @@ import inspect
 import os
 import sys
 from functools import cache
+from typeguard import typechecked
 
 
 @cache
+@typechecked
 def import_module(path: str, sep='.'):
     """Imports module from path separated by sep."""
 
@@ -20,6 +22,7 @@ def import_module(path: str, sep='.'):
 
 
 @cache
+@typechecked
 def import_module_by_filepath(path: str):
     """Imports module by .py file path."""
 
@@ -40,6 +43,7 @@ def import_module_by_filepath(path: str):
 
 
 @cache
+@typechecked
 def import_class_by_filepath(path: str, class_name: str, base_class: type = None) -> type:
     """Imports class from module."""
 
