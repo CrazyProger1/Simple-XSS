@@ -12,6 +12,11 @@ from src.core.ui.events import (
     ui_terminated
 )
 
+from src.core.ui.gui.events import (
+    gui_initialized,
+    gui_terminated
+)
+
 __all__ = [
     'application_launched',
     'application_initialized',
@@ -21,5 +26,7 @@ __all__ = [
     'plugins_loaded',
     'async_mode_entered',
     'ui_initialized',
-    'ui_terminated'
+    'ui_terminated',
+    'gui_initialized',
+    'gui_terminated'
 ]

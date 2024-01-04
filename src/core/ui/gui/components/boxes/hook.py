@@ -7,6 +7,7 @@ from src.core.dependencies import hook_loader
 from src.core.ui.dependencies import local_settings
 from src.core.services import settings, hooks
 
+from ..control import CustomControl
 from ...enums import Messages
 from ...constants import (
     TEXT_FONT_SIZE,
@@ -15,8 +16,7 @@ from ...constants import (
     BOX_BORDER_RADIUS,
     BOX_PADDING
 )
-
-from ..control import CustomControl
+from ...services import banners
 
 
 class HookBox(CustomControl):
@@ -76,12 +76,13 @@ class HookBox(CustomControl):
             self,
             event: ft.FilePickerResultEvent,
             loader: packages.PackageLoader = hook_loader
+
     ):
         try:
             hook_cls = hooks.load_hook_class(event.path, loader=loader)
         except (ValueError, ImportError, TypeError):
             text = Messages.HOOK_LOADING_ERROR.format(path=event.path)
-            # asyncio.create_task(show_warning(text))
+            asyncio.create_task(banners.show_warning(text=text))
             return
 
         self.hook_name_text.value = hook_cls.NAME

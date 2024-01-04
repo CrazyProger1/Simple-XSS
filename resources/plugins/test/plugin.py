@@ -7,10 +7,10 @@ from src.api.dependencies import current_ui
 from src.core.ui.gui import GUI
 
 
-class MyUI(GUI):
+class MyGUI(GUI):
     def run(self):
-        print('RUN UI!')
-        super(MyUI, self).run()
+        print('RUN MY GUI!')
+        super(MyGUI, self).run()
 
 
 class Plugin(BasePlugin):
@@ -21,4 +21,4 @@ class Plugin(BasePlugin):
         ui_initialized.add_listener(self.on_ui_init)
 
     def on_ui_init(self):
-        di.injector.bind(current_ui, MyUI())
+        di.injector.bind(current_ui, MyGUI())
