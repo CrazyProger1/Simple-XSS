@@ -22,49 +22,49 @@ from ...services import banners
 class HookBox(CustomControl):
     def __init__(self):
         super(HookBox, self).__init__()
-        self.hook_picker = ft.FilePicker(on_result=self.handle_hook_chosen)
-        self.overlay.append(self.hook_picker)
+        self._hook_picker = ft.FilePicker(on_result=self._handle_hook_chosen)
+        self.overlay.append(self._hook_picker)
 
-        self.hook_name_text = ft.Text(
+        self._hook_name_text = ft.Text(
             value=Messages.HOOK,
             size=TEXT_FONT_SIZE,
             expand=True,
             text_align=ft.TextAlign.CENTER
         )
-        self.hook_path_field = ft.TextField(
+        self._hook_path_field = ft.TextField(
             expand=True,
             border_color=ft.colors.OUTLINE,
             read_only=True
         )
-        self.choose_hook_button = ft.IconButton(
+        self._choose_hook_button = ft.IconButton(
             icon=ft.icons.FOLDER_OPEN,
-            on_click=self.handle_choose_hook_button_click
+            on_click=self._handle_choose_hook_button_click
         )
-        self.hook_description_text = ft.Text(
+        self._hook_description_text = ft.Text(
             visible=True,
             max_lines=DESCRIPTION_MAX_LINES,
             overflow=ft.TextOverflow.ELLIPSIS
         )
-        self.hook_author_text = ft.Text(
+        self._hook_author_text = ft.Text(
             text_align=ft.TextAlign.RIGHT,
             italic=True
         )
-        self.content = ft.Column(
+        self._content = ft.Column(
             controls=[
                 ft.Row(
                     controls=[
-                        self.hook_name_text
+                        self._hook_name_text
                     ]
                 ),
                 ft.Row(
                     controls=[
-                        self.hook_path_field,
-                        self.choose_hook_button,
+                        self._hook_path_field,
+                        self._choose_hook_button,
                     ]
                 ),
-                self.hook_description_text,
+                self._hook_description_text,
                 ft.Container(
-                    content=self.hook_author_text,
+                    content=self._hook_author_text,
                     alignment=ft.alignment.bottom_right,
 
                 )
@@ -72,7 +72,7 @@ class HookBox(CustomControl):
         )
 
     @di.injector.inject
-    def handle_hook_chosen(
+    def _handle_hook_chosen(
             self,
             event: ft.FilePickerResultEvent,
             loader: packages.PackageLoader = hook_loader
@@ -85,15 +85,15 @@ class HookBox(CustomControl):
             asyncio.create_task(banners.show_warning(text=text))
             return
 
-        self.hook_name_text.value = hook_cls.NAME
-        self.hook_description_text.value = hook_cls.DESCRIPTION
-        self.hook_author_text.value = f'@{hook_cls.AUTHOR}'
-        self.hook_path_field.value = event.path
-        asyncio.create_task(self.content.update_async())
+        self._hook_name_text.value = hook_cls.NAME
+        self._hook_description_text.value = hook_cls.DESCRIPTION
+        self._hook_author_text.value = f'@{hook_cls.AUTHOR}'
+        self._hook_path_field.value = event.path
+        asyncio.create_task(self._content.update_async())
 
     @di.injector.inject
-    async def handle_choose_hook_button_click(self, event, sets: settings.DefaultSettingsScheme = local_settings):
-        await self.hook_picker.get_directory_path_async(
+    async def _handle_choose_hook_button_click(self, event, sets: settings.DefaultSettingsScheme = local_settings):
+        await self._hook_picker.get_directory_path_async(
             initial_directory=sets.hook.directory,
             dialog_title=Messages.CHOOSE_HOOK_TITLE
         )
@@ -103,5 +103,5 @@ class HookBox(CustomControl):
             border=BOX_BORDER,
             border_radius=BOX_BORDER_RADIUS,
             padding=BOX_PADDING,
-            content=self.content
+            content=self._content
         )

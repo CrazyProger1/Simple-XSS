@@ -18,3 +18,4 @@ class Messages(l18n.TranslatableEnum):
     PUBLIC_URL = 'Public URL'
     OK = 'Ok'
     HOOK_LOADING_ERROR = 'Oops, something went wrong! Failed to load hook: {path}'
+    PAYLOAD_LOADING_ERROR = 'Oops, something went wrong! Failed to load payload: {path}'

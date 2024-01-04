@@ -1,4 +1,4 @@
-from src.core.services.payloads import BasePayload
+from src.api.payloads import BasePayload
 
 
 class Payload(BasePayload):
@@ -10,11 +10,3 @@ class Payload(BasePayload):
         'http',
         'websocket'
     }
-
-# from payload import event_handler
-#
-#
-# @event_handler(events={'print_ip', })
-# def print_ip(transport, request):
-#     print(request.data.get('ip'))
-#
