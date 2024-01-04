@@ -8,7 +8,8 @@ from .events import (
     async_mode_entered,
     arguments_parsed,
     settings_loaded,
-    plugins_loaded
+    plugins_loaded,
+    context_changed
 )
 
 from .logic import run_logic
@@ -43,11 +44,12 @@ def initialize():
     context.create_current_context()
 
     async_mode_entered.add_listener(run_logic)
+    context_changed.add_listener(save_context)
 
 
 @di.injector.inject
-def destroy(appcontext: context.DefaultContext = current_context):
-    settings.save_settings(settings=appcontext.settings)
+def save_context(appcontext: context.DefaultContext = current_context):
+    settings.save_settings(settings=appcontext.settings.unwrap())
 
 
 def run():
@@ -60,5 +62,4 @@ def run():
     # UI launch stage
     run_ui()
 
-    destroy()
     application_terminated()

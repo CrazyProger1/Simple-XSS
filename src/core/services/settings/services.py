@@ -1,11 +1,14 @@
 from pydantic import BaseModel
 
+from typeguard import typechecked
+
 from src.utils import settings as setutil, di
 from src.core.config import DEFAULT_SETTINGS_FILE
 from src.core.dependencies import settings_scheme, current_arguments, current_settings
 from src.core.services import arguments
 
 
+@typechecked
 @di.injector.inject
 def load_settings(
         scheme: type[BaseModel] = settings_scheme,
@@ -22,6 +25,7 @@ def load_settings(
     return settings
 
 
+@typechecked
 @di.injector.inject
 def save_settings(
         settings: BaseModel = current_settings,

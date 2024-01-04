@@ -4,8 +4,9 @@ import flet as ft
 import pyperclip
 
 from src.utils import di
-from src.core.events import context_changed
 from src.core.dependencies import current_context
+from src.core.ui.events import ui_process_ran, ui_process_stopped
+
 from ..control import CustomControl
 from ...constants import ICON_SIZE
 from ...enums import Messages
@@ -44,18 +45,19 @@ class ProcessControlBox(CustomControl):
         )
 
     async def _handle_run_button_click(self, event):
-        pass
+        await ui_process_ran()
 
     async def _handle_stop_button_click(self, event):
-        pass
+        await ui_process_stopped()
 
     async def _handle_copy_button_click(self, event):
         pyperclip.copy(self._hook_field.value)
 
     @di.injector.inject
     def update_data(self, context=current_context):
-        self._hook_field.disabled = context.hook is None
-        self._hook_field.value = context.hook
+        hook = context.hook.unwrap()
+        self._hook_field.disabled = hook is None
+        self._hook_field.value = hook or ''
         asyncio.create_task(self._hook_field.update_async())
 
     def build(self):

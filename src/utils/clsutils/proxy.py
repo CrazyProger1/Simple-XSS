@@ -1,11 +1,19 @@
+from typing import Callable
+
+from typeguard import typechecked
+
 IGNORE_FIELDS = {
-    '__wrapped__'
+    '__wrapped__',
+    '__callback__'
 }
 
 
 class ObjectProxy:
     def __init__(self, wrapped):
         self.__wrapped__ = wrapped
+
+    def unwrap(self):
+        return self.__wrapped__
 
     def __getattr__(self, item):
         if item == '__wrapped__':
@@ -100,3 +108,37 @@ class ObjectProxy:
              ) % locals())
 
     del name, op
+
+
+class RecursiveObjectProxy(ObjectProxy):
+    def __getattr__(self, item):
+        if item == '__wrapped__':
+            return self.__wrapped__
+
+        value = getattr(self.__wrapped__, item)
+        return self.__class__(value)
+
+
+class ObservableObjectProxy(RecursiveObjectProxy):
+    __callback__ = None
+
+    def __setattr__(self, key, value):
+        super(ObservableObjectProxy, self).__setattr__(key, value)
+        if key not in IGNORE_FIELDS:
+            self.__class__.__callback__(self, key, value)
+
+
+@typechecked
+def observable(callback: Callable):
+    def decorator(cls):
+        proxy = type('proxy', (ObservableObjectProxy,), {'__callback__': callback})
+
+        def create_instance(_, *args, **kwargs):
+            instance = super(cls, cls).__new__(cls)
+            instance.__init__(*args, **kwargs)
+            return proxy(instance)
+
+        cls.__new__ = create_instance
+        return cls
+
+    return decorator

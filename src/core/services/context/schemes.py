@@ -1,12 +1,16 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
+from src.utils import clsutils
 from src.core.services import settings
+from src.core.events import context_changed
 
 
-class DefaultContext(BaseModel):
+@dataclass
+@clsutils.observable(lambda *args, **kwargs: context_changed())
+class DefaultContext:
     """
     Application data that can be changed by any part of the program.
-    It's necessary to call context_changed event when the context changes.
+    On ANY change automatically calls context_changed event.
     """
 
     settings: settings.DefaultSettingsScheme

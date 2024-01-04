@@ -5,7 +5,6 @@ import flet as ft
 from src.utils import di
 from src.core.dependencies import current_context
 from src.core.services import context, hooks
-from src.core.events import context_changed
 
 from ..control import CustomControl
 from ...enums import Messages
@@ -87,7 +86,6 @@ class HookBox(CustomControl):
             return
         if hooks.is_hook(path):
             appcontext.settings.hook.current = path
-            context_changed()
 
         else:
             asyncio.create_task(
@@ -95,7 +93,7 @@ class HookBox(CustomControl):
             )
 
     def _update_hook_data(self, path: str):
-        if not path or path == self._hook_path_field.value:
+        if not path:
             return
 
         if hooks.is_hook(path):
@@ -111,7 +109,7 @@ class HookBox(CustomControl):
 
     @di.injector.inject
     def update_data(self, appcontext: context.DefaultContext = current_context):
-        path = appcontext.settings.hook.current
+        path = str(appcontext.settings.hook.current)
         self._update_hook_data(path=path)
 
     def build(self):

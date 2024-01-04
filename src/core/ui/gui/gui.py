@@ -6,7 +6,7 @@ from src.core.services import settings
 from src.core.ui.base import BaseUI
 from src.core.enums import GraphicMode
 from src.core.events import async_mode_entered, context_changed
-from src.core.config import MIN_RESOLUTION
+from src.core.config import MIN_RESOLUTION, APP, VERSION
 from .components import CustomControl
 from .events import (
     gui_terminated,
@@ -46,6 +46,7 @@ class GUI(BaseUI):
         page.window_min_width = MIN_RESOLUTION[0]
         page.window_min_height = MIN_RESOLUTION[1]
         page.overlay.extend(CustomControl.overlay)
+        page.title = f'{APP} - V{VERSION}'
 
     async def _main(self, page: ft.Page):
         await async_mode_entered()

@@ -106,7 +106,7 @@ class PayloadBox(CustomControl):
 
     @di.injector.inject
     def update_data(self, appcontext: context.DefaultContext = current_context):
-        path = appcontext.settings.payload.current
+        path = str(appcontext.settings.payload.current)
         self._update_payload_data(path=path)
 
     @di.injector.inject

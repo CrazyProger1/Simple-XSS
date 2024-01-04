@@ -11,8 +11,8 @@ plugin_loader = di.Dependency(packages.PackageLoader)
 settings_scheme = di.Dependency(BaseModel)
 current_settings = di.Dependency(BaseModel)
 
-context_class = di.Dependency(BaseModel)
-current_context = di.Dependency(BaseModel)
+context_class = di.Dependency(type)
+current_context = di.Dependency(object)
 
 hook_loader = di.Dependency(packages.PackageLoader)
 
