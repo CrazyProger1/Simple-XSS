@@ -75,20 +75,22 @@ class PayloadBox(CustomControl):
     def _handle_payload_chosen(
             self,
             event: ft.FilePickerResultEvent,
-            loader: packages.PackageLoader = payload_loader
-
+            loader: packages.PackageLoader = payload_loader,
+            sets: settings.DefaultSettingsScheme = local_settings
     ):
+        path = event.path
         try:
-            payload_cls = payloads.load_payload_class(event.path, loader=loader)
+            payload_cls = payloads.load_payload_class(path, loader=loader)
         except (ValueError, ImportError, TypeError):
-            text = Messages.PAYLOAD_LOADING_ERROR.format(path=event.path)
+            text = Messages.PAYLOAD_LOADING_ERROR.format(path=path)
             asyncio.create_task(banners.show_warning(text=text))
             return
 
         self._payload_name_text.value = payload_cls.NAME
         self._payload_description_text.value = payload_cls.DESCRIPTION
         self._payload_author_text.value = f'@{payload_cls.AUTHOR}'
-        self._payload_path_field.value = event.path
+        self._payload_path_field.value = path
+        sets.payload.current = path
         asyncio.create_task(self._content.update_async())
 
     @di.injector.inject

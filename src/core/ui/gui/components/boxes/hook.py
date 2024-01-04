@@ -75,20 +75,23 @@ class HookBox(CustomControl):
     def _handle_hook_chosen(
             self,
             event: ft.FilePickerResultEvent,
-            loader: packages.PackageLoader = hook_loader
+            loader: packages.PackageLoader = hook_loader,
+            sets: settings.DefaultSettingsScheme = local_settings
 
     ):
+        path = event.path
         try:
-            hook_cls = hooks.load_hook_class(event.path, loader=loader)
+            hook_cls = hooks.load_hook_class(path, loader=loader)
         except (ValueError, ImportError, TypeError):
-            text = Messages.HOOK_LOADING_ERROR.format(path=event.path)
+            text = Messages.HOOK_LOADING_ERROR.format(path=path)
             asyncio.create_task(banners.show_warning(text=text))
             return
 
         self._hook_name_text.value = hook_cls.NAME
         self._hook_description_text.value = hook_cls.DESCRIPTION
         self._hook_author_text.value = f'@{hook_cls.AUTHOR}'
-        self._hook_path_field.value = event.path
+        self._hook_path_field.value = path
+        sets.hook.current = path
         asyncio.create_task(self._content.update_async())
 
     @di.injector.inject
