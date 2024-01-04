@@ -80,6 +80,8 @@ class HookBox(CustomControl):
 
     ):
         path = event.path
+        if not path:
+            return
         try:
             hook_cls = hooks.load_hook_class(path, loader=loader)
         except (ValueError, ImportError, TypeError):

@@ -79,6 +79,8 @@ class PayloadBox(CustomControl):
             sets: settings.DefaultSettingsScheme = local_settings
     ):
         path = event.path
+        if not path:
+            return
         try:
             payload_cls = payloads.load_payload_class(path, loader=loader)
         except (ValueError, ImportError, TypeError):
