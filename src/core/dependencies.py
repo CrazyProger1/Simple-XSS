@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
 from src.utils import di, argutil, packages
-from .services import arguments, plugins, settings
 
 current_arguments = di.Dependency(BaseModel)
 argument_parser = di.Dependency(argutil.SchemedArgumentParser)
@@ -18,6 +17,12 @@ payload_loader = di.Dependency(packages.PackageLoader)
 
 
 def configurate_base_dependencies():
+    from .services import (
+        arguments,
+        plugins,
+        settings
+    )
+
     di.injector.bind(argument_parser, argutil.SchemedArgumentParser(
         schema=arguments.DefaultArgumentsScheme
     ))

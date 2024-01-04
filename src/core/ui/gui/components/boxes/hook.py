@@ -7,7 +7,6 @@ from src.core.dependencies import hook_loader
 from src.core.ui.dependencies import local_settings
 from src.core.services import settings, hooks
 
-
 from ...enums import Messages
 from ...constants import (
     TEXT_FONT_SIZE,
@@ -16,7 +15,7 @@ from ...constants import (
     BOX_BORDER_RADIUS,
     BOX_PADDING
 )
-from ..banners import show_warning, show_error
+
 from ..control import CustomControl
 
 
@@ -82,7 +81,7 @@ class HookBox(CustomControl):
             hook_cls = hooks.load_hook_class(event.path, loader=loader)
         except (ValueError, ImportError, TypeError):
             text = Messages.HOOK_LOADING_ERROR.format(path=event.path)
-            asyncio.create_task(show_warning(text))
+            # asyncio.create_task(show_warning(text))
             return
 
         self.hook_name_text.value = hook_cls.NAME

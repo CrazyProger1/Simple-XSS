@@ -2,7 +2,7 @@ import flet as ft
 
 from src.utils import di
 
-from .components import CustomControl, CustomBanner
+from .components import CustomControl
 
 main_page = di.Dependency(ft.Page)
 
@@ -13,8 +13,6 @@ payload_box = di.Dependency(CustomControl)
 process_control_box = di.Dependency(CustomControl)
 message_control_box = di.Dependency(CustomControl)
 message_area_box = di.Dependency(CustomControl)
-warning_banner = di.Dependency(CustomBanner)
-error_banner = di.Dependency(CustomBanner)
 
 
 def configurate_gui_dependencies():
@@ -25,9 +23,7 @@ def configurate_gui_dependencies():
         PayloadBox,
         MessageAreaBox,
         MessageControlBox,
-        ProcessControlBox,
-        WarningBanner,
-        ErrorBanner
+        ProcessControlBox
     )
 
     di.injector.bind(main_box, MainBox())
@@ -37,5 +33,3 @@ def configurate_gui_dependencies():
     di.injector.bind(process_control_box, ProcessControlBox())
     di.injector.bind(message_control_box, MessageControlBox())
     di.injector.bind(message_area_box, MessageAreaBox())
-    di.injector.bind(warning_banner, WarningBanner())
-    di.injector.bind(error_banner, ErrorBanner())

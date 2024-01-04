@@ -1,7 +1,7 @@
 import flet as ft
 
 from ...enums import Messages
-from ..banner import CustomBanner
+
 from ...constants import (
     ERROR_BANNER_ICON,
     ERROR_BANNER_ICON_COLOR,
@@ -9,7 +9,7 @@ from ...constants import (
 )
 
 
-class ErrorBanner(CustomBanner):
+class ErrorBanner(ft.Banner):
     def __init__(self):
         super(ErrorBanner, self).__init__(
             bgcolor=ft.colors.AMBER,

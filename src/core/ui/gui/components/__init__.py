@@ -1,5 +1,4 @@
 from .control import CustomControl
-from .banner import CustomBanner
 from .boxes import (
     MainBox,
     NetworkBox,
@@ -17,7 +16,6 @@ from .banners import (
 
 __all__ = [
     'CustomControl',
-    'CustomBanner',
     'MainBox',
     'NetworkBox',
     'PayloadBox',
