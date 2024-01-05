@@ -1,19 +1,22 @@
 from src.utils import di
 
-from .dependencies import configurate_logic_dependencies
+from .dependencies import (
+    configurate_logic_dependencies,
+    current_controller
+)
 from .events import (
     logic_initialized,
     logic_terminated
 )
 
 
-@di.injector.inject
-def launch():
-    pass
-
-
 def initialize():
     configurate_logic_dependencies()
+
+
+@di.injector.inject
+async def run_controller(controller=current_controller):
+    await controller.run()
 
 
 async def run_logic():
@@ -22,5 +25,5 @@ async def run_logic():
     logic_initialized()
 
     # Logic launch stage
-    launch()
+    await run_controller()
     logic_terminated()

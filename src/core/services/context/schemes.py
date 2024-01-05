@@ -14,4 +14,5 @@ class DefaultContext:
     """
 
     settings: settings.DefaultSettingsScheme
+    active: bool = False
     hook: str = None
