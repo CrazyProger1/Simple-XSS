@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from src.utils import di, argutil, packages
+from src.utils import di, argutil, packages, io
 
 current_arguments = di.Dependency(BaseModel)
 argument_parser = di.Dependency(argutil.SchemedArgumentParser)
@@ -17,6 +17,8 @@ current_context = di.Dependency(object)
 hook_loader = di.Dependency(packages.PackageLoader)
 
 payload_loader = di.Dependency(packages.PackageLoader)
+
+io_manager = di.Dependency(io.BaseIOManager)
 
 
 def configurate_base_dependencies():
@@ -40,3 +42,5 @@ def configurate_base_dependencies():
     di.injector.bind(payload_loader, packages.PackageLoader())
 
     di.injector.bind(context_class, context.DefaultContext)
+
+    di.injector.bind(io_manager, io.AsyncIOManager())

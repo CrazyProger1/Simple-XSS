@@ -66,7 +66,6 @@ class Injector:
         self._validate_value(dependency=dependency, value=value)
         return value
 
-
     @property
     def dependencies(self) -> dict:
         return self._dependencies.copy()
