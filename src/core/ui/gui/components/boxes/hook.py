@@ -103,14 +103,12 @@ class HookBox(CustomControl):
             self._hook_author_text.value = hook_cls.AUTHOR
             self._hook_path_field.value = path
 
-            asyncio.create_task(
-                self._content.update_async()
-            )
-
     @di.injector.inject
     def update_data(self, appcontext: context.DefaultContext = current_context):
+        self._content.disabled = appcontext.active.unwrap()
         path = str(appcontext.settings.hook.current)
         self._update_hook_data(path=path)
+        asyncio.create_task(self._content.update_async())
 
     def build(self):
         return ft.Container(

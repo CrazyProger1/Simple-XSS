@@ -1,6 +1,8 @@
-from .services import BaseTunnelingService, get_available_service_names
+from . import ngrok, serveo
+
+from .services import BaseTunnelingService, get_available_tunneling_service_names
 
 __all__ = [
     'BaseTunnelingService',
-    'get_available_service_names'
+    'get_available_tunneling_service_names'
 ]

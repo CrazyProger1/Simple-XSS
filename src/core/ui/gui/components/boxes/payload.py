@@ -100,14 +100,12 @@ class PayloadBox(CustomControl):
             self._payload_author_text.value = payload_cls.AUTHOR
             self._payload_path_field.value = path
 
-            asyncio.create_task(
-                self._content.update_async()
-            )
-
     @di.injector.inject
     def update_data(self, appcontext: context.DefaultContext = current_context):
+        self._content.disabled = appcontext.active.unwrap()
         path = str(appcontext.settings.payload.current)
         self._update_payload_data(path=path)
+        asyncio.create_task(self._content.update_async())
 
     @di.injector.inject
     async def _handle_choose_payload_button_click(self, event, appcontext: context.DefaultContext = current_context):

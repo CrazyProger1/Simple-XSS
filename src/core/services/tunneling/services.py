@@ -17,15 +17,18 @@ class BaseTunnelingService(ABC):
     async def stop(self, session: Session): ...
 
 
-def get_available_service_names() -> set[str]:
+def get_available_tunneling_service_names(protocol: Protocol) -> set[str]:
     names = set()
     for subcls in clsutils.iter_subclasses(BaseTunnelingService):
-        names.add(subcls.name)
+        if protocol in subcls.protocols:
+            names.add(subcls.name)
     return names
 
 
+
+
 @cache
-def get_tunneling_service(name: str) -> type[BaseTunnelingService]:
+def get_tunneling_service(name: str, protocol: Protocol) -> type[BaseTunnelingService]:
     for subcls in clsutils.iter_subclasses(BaseTunnelingService):
-        if name == subcls.name:
+        if name == subcls.name and protocol in subcls.protocols:
             return subcls
