@@ -3,9 +3,9 @@ import asyncio
 import flet as ft
 
 from src.utils import di
-from src.core.dependencies import current_context
+from src.core.context.dependencies import current_context
 from src.core.events import context_changed
-from src.core.services import payloads, context
+from src.core import payloads
 
 from ..control import CustomControl
 from ...enums import Messages
@@ -75,7 +75,7 @@ class PayloadBox(CustomControl):
     def _handle_payload_chosen(
             self,
             event: ft.FilePickerResultEvent,
-            appcontext: context.DefaultContext = current_context
+            appcontext= current_context
     ):
         path = event.path
         if not path:
@@ -101,14 +101,14 @@ class PayloadBox(CustomControl):
             self._payload_path_field.value = path
 
     @di.injector.inject
-    def update_data(self, appcontext: context.DefaultContext = current_context):
+    def update_data(self, appcontext = current_context):
         self._content.disabled = appcontext.active.unwrap()
         path = str(appcontext.settings.payload.current)
         self._update_payload_data(path=path)
         asyncio.create_task(self._content.update_async())
 
     @di.injector.inject
-    async def _handle_choose_payload_button_click(self, event, appcontext: context.DefaultContext = current_context):
+    async def _handle_choose_payload_button_click(self, event, appcontext = current_context):
         await self._payload_picker.get_directory_path_async(
             initial_directory=appcontext.settings.payload.directory,
             dialog_title=Messages.CHOOSE_PAYLOAD_TITLE

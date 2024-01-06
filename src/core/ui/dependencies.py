@@ -1,6 +1,6 @@
 from src.utils import di
-from src.core.services import arguments
-from src.core.dependencies import current_arguments
+from .. import arguments
+from src.core.arguments.dependencies import current_arguments
 from .base import BaseUI, create_ui
 
 current_ui = di.Dependency(BaseUI)

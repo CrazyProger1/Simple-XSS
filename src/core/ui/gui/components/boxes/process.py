@@ -4,7 +4,7 @@ import flet as ft
 import pyperclip
 
 from src.utils import di
-from src.core.dependencies import current_context
+from src.core.context.dependencies import current_context
 from src.core.ui.events import ui_process_activated, ui_process_deactivated
 
 from ..control import CustomControl

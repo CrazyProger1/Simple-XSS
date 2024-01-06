@@ -1,4 +1,4 @@
-from src.core.services.hooks import BaseHook
+from src.core.hooks import BaseHook
 
 __all__ = [
     'BaseHook'

@@ -1,4 +1,4 @@
-from src.core.services.plugins import BasePlugin
+from src.core.plugins import BasePlugin
 
 __all__ = [
     'BasePlugin'

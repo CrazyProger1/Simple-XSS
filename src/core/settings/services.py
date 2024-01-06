@@ -4,8 +4,9 @@ from typeguard import typechecked
 
 from src.utils import settings as setutil, di
 from src.core.config import DEFAULT_SETTINGS_FILE
-from src.core.dependencies import settings_scheme, current_arguments, current_settings
-from src.core.services import arguments
+from src.core.arguments.dependencies import current_arguments
+from src.core import arguments
+from .dependencies import current_settings, settings_scheme
 
 
 @typechecked

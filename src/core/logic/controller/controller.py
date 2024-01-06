@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
 from src.core.ui.events import ui_process_activated, ui_process_deactivated
-from src.core.dependencies import current_context, io_manager
+from src.core.context.dependencies import current_context
+from src.core.dependencies import io_manager
 from src.utils import di
 from .enums import Messages
 

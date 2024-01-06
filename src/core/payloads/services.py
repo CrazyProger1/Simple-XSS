@@ -3,7 +3,7 @@ from src.core.config import (
     PAYLOAD_FILE,
     PAYLOAD_CLASS_NAME
 )
-from src.core.dependencies import payload_loader
+from .dependencies import payload_loader
 
 
 @di.injector.inject

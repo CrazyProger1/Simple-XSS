@@ -1,6 +1,6 @@
 from src.utils import packages, di
 from src.core.config import PLUGINS_DIRECTORY
-from src.core.dependencies import plugin_manager, plugin_loader
+from .dependencies import plugin_manager, plugin_loader
 from .managers import PluginManager
 
 

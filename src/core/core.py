@@ -1,7 +1,16 @@
 import sys
 
-from src.utils import di
-from .events import (
+from src.core import (
+    arguments,
+    logging,
+    plugins,
+    settings,
+    context,
+    ui,
+    logic
+)
+
+from src.core.events import (
     application_initialized,
     application_launched,
     application_terminated,
@@ -12,19 +21,7 @@ from .events import (
     context_changed
 )
 
-from .logic import run_logic
-from .dependencies import (
-    configurate_base_dependencies,
-    current_context
-)
-from .services import (
-    arguments,
-    plugins,
-    settings,
-    logging,
-    context
-)
-from .ui import run_ui
+from src.core.dependencies import configurate_base_dependencies
 
 
 def initialize():
@@ -41,25 +38,18 @@ def initialize():
     settings.load_settings()
     settings_loaded()
 
-    context.create_current_context()
+    context.create_context()
 
-    async_mode_entered.add_listener(run_logic)
-    context_changed.add_listener(save_context)
-
-
-@di.injector.inject
-def save_context(appcontext: context.DefaultContext = current_context):
-    settings.save_settings(settings=appcontext.settings.unwrap())
+    async_mode_entered.add_listener(logic.run_logic)
+    context_changed.add_listener(context.save_context)
 
 
 def run():
     application_launched()
 
-    # Init stage
     initialize()
     application_initialized()
 
-    # UI launch stage
-    run_ui()
+    ui.run_ui()
 
     application_terminated()

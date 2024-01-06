@@ -3,8 +3,8 @@ import asyncio
 import flet as ft
 
 from src.utils import di
-from src.core.dependencies import current_context
-from src.core.services import context, hooks
+from src.core.context.dependencies import current_context
+from src.core import hooks
 
 from ..control import CustomControl
 from ...enums import Messages
@@ -71,7 +71,7 @@ class HookBox(CustomControl):
         )
 
     @di.injector.inject
-    async def _handle_choose_hook_button_click(self, event, appcontext: context.DefaultContext = current_context):
+    async def _handle_choose_hook_button_click(self, event, appcontext = current_context):
         await self._hook_picker.get_directory_path_async(
             initial_directory=appcontext.settings.hook.directory,
             dialog_title=Messages.CHOOSE_HOOK_TITLE
@@ -80,7 +80,7 @@ class HookBox(CustomControl):
     @di.injector.inject
     def _handle_hook_chosen(self,
                             event: ft.FilePickerResultEvent,
-                            appcontext: context.DefaultContext = current_context):
+                            appcontext= current_context):
         path = event.path
         if not path:
             return
@@ -104,7 +104,7 @@ class HookBox(CustomControl):
             self._hook_path_field.value = path
 
     @di.injector.inject
-    def update_data(self, appcontext: context.DefaultContext = current_context):
+    def update_data(self, appcontext = current_context):
         self._content.disabled = appcontext.active.unwrap()
         path = str(appcontext.settings.hook.current)
         self._update_hook_data(path=path)

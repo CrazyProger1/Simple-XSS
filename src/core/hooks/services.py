@@ -4,7 +4,7 @@ from src.core.config import (
     HOOK_CLASS_NAME
 )
 
-from src.core.dependencies import hook_loader
+from .dependencies import hook_loader
 
 
 @di.injector.inject

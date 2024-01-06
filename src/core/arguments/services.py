@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from src.utils import argutil, di
-from src.core.dependencies import argument_parser, current_arguments
+from .dependencies import argument_parser, current_arguments
 
 
 @di.injector.inject

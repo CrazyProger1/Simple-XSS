@@ -1,4 +1,4 @@
-from src.core.services.payloads import BasePayload
+from src.core.payloads import BasePayload
 
 __all__ = [
     'BasePayload'

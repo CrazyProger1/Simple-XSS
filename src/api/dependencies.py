@@ -1,10 +1,3 @@
-from src.core.dependencies import (
-    current_arguments,
-    argument_parser,
-    plugin_manager,
-    plugin_loader,
-    settings_scheme
-)
 
 from src.core.ui.dependencies import (
     current_ui,
@@ -22,11 +15,6 @@ from src.core.ui.gui.dependencies import (
 )
 
 __all__ = [
-    'current_arguments',
-    'argument_parser',
-    'plugin_manager',
-    'plugin_loader',
-    'settings_scheme',
     'current_ui',
     'main_page',
     'main_box',

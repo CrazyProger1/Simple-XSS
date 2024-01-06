@@ -2,8 +2,10 @@ import asyncio
 
 import flet as ft
 
-from src.core.dependencies import current_context
-from src.core.services import transports, tunneling, context
+from src.core.context.dependencies import current_context
+from src.core.transports.dependencies import transport_service_factory
+from src.core.tunneling.dependencies import tunneling_service_factory
+
 from src.utils import di
 from ..control import CustomControl
 from ...constants import (
@@ -16,8 +18,16 @@ from ...enums import Messages
 
 
 class NetworkBox(CustomControl):
-    def __init__(self):
+    @di.injector.inject
+    def __init__(
+            self,
+            transport_factory=transport_service_factory,
+            tunneling_factory=tunneling_service_factory
+    ):
         super(NetworkBox, self).__init__()
+        self._transport_factory = transport_factory
+        self._tunneling_factory = tunneling_factory
+
         self._use_tunneling_service = False
         self._box_name_text = ft.Text(
             value=Messages.NETWORK,
@@ -29,7 +39,7 @@ class NetworkBox(CustomControl):
             expand=True,
             border_color=ft.colors.OUTLINE,
             options=[ft.dropdown.Option(transport) for transport in
-                     transports.get_available_transport_service_names()],
+                     transport_factory.get_names()],
             on_change=self._handle_transport_change,
             value=None,
 
@@ -110,11 +120,11 @@ class NetworkBox(CustomControl):
 
     async def _handle_transport_change(self, event):
         name = self._transport_dropdown.value
-        protocol = transports.get_transport_protocol(name)
+        protocol = self._transport_factory.get_protocol(name)
 
         self._tunneling_service_dropdown.options = [
             ft.dropdown.Option(service) for service in
-            tunneling.get_available_tunneling_service_names(protocol)
+            self._tunneling_factory.get_names(protocol)
         ]
 
         await self._tunneling_service_dropdown.update_async()
@@ -127,7 +137,7 @@ class NetworkBox(CustomControl):
         await self._tunneling_service_dropdown.update_async()
 
     @di.injector.inject
-    def update_data(self, appcontext: context.DefaultContext = current_context):
+    def update_data(self, appcontext = current_context):
         self._content.disabled = appcontext.active.unwrap()
         asyncio.create_task(self._content.update_async())
 

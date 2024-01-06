@@ -1,8 +1,8 @@
 import flet as ft
 
 from src.utils import di, clsutils
-from src.core.dependencies import current_settings
-from src.core.services import settings
+from src.core.settings.dependencies import current_settings
+from src.core import settings
 from src.core.ui.base import BaseUI
 from src.core.enums import GraphicMode
 from src.core.events import async_mode_entered, context_changed
