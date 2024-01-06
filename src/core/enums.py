@@ -6,3 +6,6 @@ class GraphicMode(int, Enum):
     GUI = 2
 
 
+class Protocol(str, Enum):
+    HTTP = 'http'
+    WEBSOCKET = 'websocket'
