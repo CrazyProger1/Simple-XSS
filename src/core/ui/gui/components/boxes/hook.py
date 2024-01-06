@@ -100,7 +100,7 @@ class HookBox(CustomControl):
             hook_cls = hooks.load_hook_class(path)
             self._hook_name_text.value = f'{hook_cls.NAME} - {hook_cls.VERSION or 0.1}'
             self._hook_description_text.value = hook_cls.DESCRIPTION
-            self._hook_author_text.value = hook_cls.AUTHOR
+            self._hook_author_text.value = f'@{hook_cls.AUTHOR}'
             self._hook_path_field.value = path
 
     @di.injector.inject

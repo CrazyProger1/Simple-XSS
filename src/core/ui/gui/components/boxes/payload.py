@@ -97,7 +97,7 @@ class PayloadBox(CustomControl):
             payload_cls = payloads.load_payload_class(path)
             self._payload_name_text.value = f'{payload_cls.NAME} - {payload_cls.VERSION or 0.1}'
             self._payload_description_text.value = payload_cls.DESCRIPTION
-            self._payload_author_text.value = payload_cls.AUTHOR
+            self._payload_author_text.value = f'@{payload_cls.AUTHOR}'
             self._payload_path_field.value = path
 
     @di.injector.inject

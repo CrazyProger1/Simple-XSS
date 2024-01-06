@@ -25,10 +25,8 @@ def get_available_tunneling_service_names(protocol: Protocol) -> set[str]:
     return names
 
 
-
-
 @cache
-def get_tunneling_service(name: str, protocol: Protocol) -> type[BaseTunnelingService]:
+def get_tunneling_service(name: str) -> type[BaseTunnelingService] | None:
     for subcls in clsutils.iter_subclasses(BaseTunnelingService):
-        if name == subcls.name and protocol in subcls.protocols:
+        if name == subcls.name:
             return subcls

@@ -10,7 +10,7 @@ class BaseUI(ABC):
     def run(self): ...
 
 
-def get_ui(mode: GraphicMode) -> type[BaseUI]:
+def create_ui(mode: GraphicMode) -> type[BaseUI]:
     for subcls in clsutils.iter_subclasses(BaseUI):
         if getattr(subcls, 'mode', None) == mode:
-            return subcls
+            return subcls()
