@@ -4,11 +4,11 @@ from src.core.config import (
     HOOK_CLASS_NAME
 )
 
-from .dependencies import hook_loader
+from .dependencies import hook_loader_dependency
 
 
 @di.injector.inject
-def load_hook(directory: str, loader: packages.PackageLoader = hook_loader):
+def load_hook(directory: str, loader: packages.PackageLoader = hook_loader_dependency):
     return loader.load(
         directory=directory,
         package_file=HOOK_FILE,
@@ -17,7 +17,7 @@ def load_hook(directory: str, loader: packages.PackageLoader = hook_loader):
 
 
 @di.injector.inject
-def load_hook_class(directory: str, loader: packages.PackageLoader = hook_loader):
+def load_hook_class(directory: str, loader: packages.PackageLoader = hook_loader_dependency):
     return loader.load_class(
         directory=directory,
         package_file=HOOK_FILE,
@@ -26,7 +26,7 @@ def load_hook_class(directory: str, loader: packages.PackageLoader = hook_loader
 
 
 @di.injector.inject
-def is_hook(directory: str, loader: packages.PackageLoader = hook_loader) -> bool:
+def is_hook(directory: str, loader: packages.PackageLoader = hook_loader_dependency) -> bool:
     return loader.is_package(
         directory=directory,
         package_file=HOOK_FILE,

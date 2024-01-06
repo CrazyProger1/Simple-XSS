@@ -4,16 +4,16 @@ from typeguard import typechecked
 
 from src.utils import settings as setutil, di
 from src.core.config import DEFAULT_SETTINGS_FILE
-from src.core.arguments.dependencies import current_arguments
+from src.core.arguments.dependencies import current_arguments_dependency
 from src.core import arguments
-from .dependencies import current_settings, settings_scheme
+from .dependencies import current_settings_dependency, settings_scheme_dependency
 
 
 @typechecked
 @di.injector.inject
 def load_settings(
-        scheme: type[BaseModel] = settings_scheme,
-        args: arguments.DefaultArgumentsScheme = current_arguments):
+        scheme: type[BaseModel] = settings_scheme_dependency,
+        args: arguments.DefaultArgumentsScheme = current_arguments_dependency):
     file = args.settings_file
     try:
         settings = setutil.load(schema=scheme, file=file)
@@ -22,15 +22,15 @@ def load_settings(
         settings = scheme()
         save_settings(settings=settings)
 
-    di.injector.bind(current_settings, settings)
+    di.injector.bind(current_settings_dependency, settings)
     return settings
 
 
 @typechecked
 @di.injector.inject
 def save_settings(
-        settings: BaseModel = current_settings,
-        args: arguments.DefaultArgumentsScheme = current_arguments):
+        settings: BaseModel = current_settings_dependency,
+        args: arguments.DefaultArgumentsScheme = current_arguments_dependency):
     file = args.settings_file
     try:
         setutil.save(instance=settings, file=file)

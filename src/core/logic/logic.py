@@ -2,7 +2,7 @@ from src.utils import di
 
 from .dependencies import (
     configurate_logic_dependencies,
-    current_controller
+    current_controller_dependency
 )
 from .events import (
     logic_initialized,
@@ -15,7 +15,7 @@ def initialize():
 
 
 @di.injector.inject
-async def run_controller(controller=current_controller):
+async def run_controller(controller=current_controller_dependency):
     await controller.run()
 
 

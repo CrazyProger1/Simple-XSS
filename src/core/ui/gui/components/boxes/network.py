@@ -2,9 +2,9 @@ import asyncio
 
 import flet as ft
 
-from src.core.context.dependencies import current_context
-from src.core.transports.dependencies import transport_service_factory
-from src.core.tunneling.dependencies import tunneling_service_factory
+from src.core.context.dependencies import current_context_dependency
+from src.core.transports.dependencies import transport_service_factory_dependency
+from src.core.tunneling.dependencies import tunneling_service_factory_dependency
 
 from src.utils import di
 from ..control import CustomControl
@@ -21,8 +21,8 @@ class NetworkBox(CustomControl):
     @di.injector.inject
     def __init__(
             self,
-            transport_factory=transport_service_factory,
-            tunneling_factory=tunneling_service_factory
+            transport_factory=transport_service_factory_dependency,
+            tunneling_factory=tunneling_service_factory_dependency
     ):
         super(NetworkBox, self).__init__()
         self._transport_factory = transport_factory
@@ -137,7 +137,7 @@ class NetworkBox(CustomControl):
         await self._tunneling_service_dropdown.update_async()
 
     @di.injector.inject
-    def update_data(self, appcontext = current_context):
+    def update_data(self, appcontext = current_context_dependency):
         self._content.disabled = appcontext.active.unwrap()
         asyncio.create_task(self._content.update_async())
 

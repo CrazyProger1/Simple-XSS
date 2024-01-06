@@ -1,27 +1,31 @@
+from src.core.dependencies import (
+    io_manager_dependency
+)
 
 from src.core.ui.dependencies import (
-    current_ui,
+    current_ui_dependency,
 )
 
 from src.core.ui.gui.dependencies import (
-    main_page,
-    main_box,
-    network_box,
-    hook_box,
-    payload_box,
-    process_control_box,
-    message_area_box,
-    message_control_box
+    main_page_dependency,
+    main_box_dependency,
+    network_box_dependency,
+    hook_box_dependency,
+    payload_box_dependency,
+    process_control_box_dependency,
+    message_area_box_dependency,
+    message_control_box_dependency
 )
 
 __all__ = [
-    'current_ui',
-    'main_page',
-    'main_box',
-    'network_box',
-    'hook_box',
-    'payload_box',
-    'process_control_box',
-    'message_area_box',
-    'message_control_box'
+    'io_manager_dependency',
+    'current_ui_dependency',
+    'main_page_dependency',
+    'main_box_dependency',
+    'network_box_dependency',
+    'hook_box_dependency',
+    'payload_box_dependency',
+    'process_control_box_dependency',
+    'message_area_box_dependency',
+    'message_control_box_dependency'
 ]

@@ -3,7 +3,7 @@ import asyncio
 import flet as ft
 
 from src.utils import di, io
-from src.core.dependencies import io_manager
+from src.core.dependencies import io_manager_dependency
 
 from ..control import CustomControl
 from ...constants import (
@@ -19,7 +19,7 @@ from ...enums import Messages
 
 class MessageAreaBox(CustomControl):
     def __init__(self):
-        self._io: io.BaseIOManager = di.injector.get_dependency(io_manager)
+        self._io: io.BaseIOManager = di.injector.get_dependency(io_manager_dependency)
         self._io.print_source = self._handle_print
 
         self._message_list_view = ft.ListView(
@@ -55,7 +55,7 @@ class MessageAreaBox(CustomControl):
 class MessageControlBox(CustomControl):
 
     def __init__(self):
-        self._io = di.injector.get_dependency(io_manager)
+        self._io = di.injector.get_dependency(io_manager_dependency)
         self._io.input_source = self._handle_input
         self._input_field = ft.TextField(
             expand=True,

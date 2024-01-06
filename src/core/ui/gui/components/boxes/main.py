@@ -3,12 +3,12 @@ import flet as ft
 
 from src.utils import di
 from ...dependencies import (
-    network_box,
-    hook_box,
-    payload_box,
-    process_control_box,
-    message_area_box,
-    message_control_box
+    network_box_dependency,
+    hook_box_dependency,
+    payload_box_dependency,
+    process_control_box_dependency,
+    message_area_box_dependency,
+    message_control_box_dependency
 )
 from ..control import CustomControl
 
@@ -29,12 +29,12 @@ class MainBox(CustomControl):
     @di.injector.inject
     def build(
             self,
-            network: CustomControl = network_box,
-            hook: CustomControl = hook_box,
-            payload: CustomControl = payload_box,
-            process_control: CustomControl = process_control_box,
-            message_area: CustomControl = message_area_box,
-            message_control: CustomControl = message_control_box
+            network: CustomControl = network_box_dependency,
+            hook: CustomControl = hook_box_dependency,
+            payload: CustomControl = payload_box_dependency,
+            process_control: CustomControl = process_control_box_dependency,
+            message_area: CustomControl = message_area_box_dependency,
+            message_control: CustomControl = message_control_box_dependency
     ):
         self._left_part.controls = [
             network.build(),

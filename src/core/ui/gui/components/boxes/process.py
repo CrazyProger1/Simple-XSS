@@ -4,7 +4,7 @@ import flet as ft
 import pyperclip
 
 from src.utils import di
-from src.core.context.dependencies import current_context
+from src.core.context.dependencies import current_context_dependency
 from src.core.ui.events import ui_process_activated, ui_process_deactivated
 
 from ..control import CustomControl
@@ -80,7 +80,7 @@ class ProcessControlBox(CustomControl):
         pyperclip.copy(self._hook_field.value)
 
     @di.injector.inject
-    def update_data(self, context=current_context):
+    def update_data(self, context=current_context_dependency):
         hook = context.hook.unwrap()
         process_active = context.active.unwrap()
         self._deactivate_button.disabled = not process_active

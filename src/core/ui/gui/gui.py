@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.utils import di, clsutils
-from src.core.settings.dependencies import current_settings
+from src.core.settings.dependencies import current_settings_dependency
 from src.core import settings
 from src.core.ui.base import BaseUI
 from src.core.enums import GraphicMode
@@ -13,8 +13,8 @@ from .events import (
     gui_initialized
 )
 from .dependencies import (
-    main_page,
-    main_box,
+    main_page_dependency,
+    main_box_dependency,
     configurate_gui_dependencies
 )
 
@@ -31,14 +31,14 @@ class GUI(BaseUI):
             control.update_data()
 
     @di.injector.inject
-    async def _display_main_box(self, page: ft.Page = main_page, box: CustomControl = main_box):
+    async def _display_main_box(self, page: ft.Page = main_page_dependency, box: CustomControl = main_box_dependency):
         await page.add_async(box.build())
 
     @di.injector.inject
     async def _configurate_main_page(
             self,
-            page: ft.Page = main_page,
-            sets: settings.DefaultSettingsScheme = current_settings):
+            page: ft.Page = main_page_dependency,
+            sets: settings.DefaultSettingsScheme = current_settings_dependency):
         resolution = sets.graphics.resolution
         page.theme_mode = sets.graphics.theme
         page.window_width = resolution[0]
@@ -50,7 +50,7 @@ class GUI(BaseUI):
 
     async def _main(self, page: ft.Page):
         await async_mode_entered()
-        di.injector.bind(main_page, page)
+        di.injector.bind(main_page_dependency, page)
         await self._configurate_main_page()
         self._update_controls()
         await self._display_main_box()

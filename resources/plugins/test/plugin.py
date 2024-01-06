@@ -2,7 +2,7 @@ from src.utils import di
 
 from src.api.plugins import BasePlugin
 from src.api.events import ui_initialized
-from src.api.dependencies import current_ui
+from src.api.dependencies import current_ui_dependency
 
 from src.core.ui.gui import GUI
 
@@ -22,4 +22,4 @@ class Plugin(BasePlugin):
 
     def on_ui_init(self):
         pass
-        # di.injector.bind(current_ui, MyGUI())
+        # di.injector.bind(current_ui_dependency, MyGUI())
