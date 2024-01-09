@@ -3,7 +3,7 @@ import asyncio
 import flet as ft
 
 from src.utils import di, io
-from src.core.dependencies import io_manager_dependency
+from src.core.io.dependencies import io_manager_dependency
 
 from ..control import CustomControl
 from ...constants import (

@@ -5,6 +5,7 @@ from typeguard import typechecked
 from src.utils import clsutils
 from src.core.enums import Protocol
 from .services import BaseTransportService
+from .servers import BaseServer
 
 
 class TransportServiceFactory:
@@ -34,9 +35,9 @@ class TransportServiceFactory:
 
     @classmethod
     @typechecked
-    def create(cls, name: str) -> BaseTransportService:
+    def create(cls, name: str, server_class: BaseServer = None) -> BaseTransportService:
         service_class = cls.get_class(name=name)
         if not service_class:
             raise ValueError(f'Transport service {name} not found')
 
-        return service_class()
+        return service_class(server_class)

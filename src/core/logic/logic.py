@@ -8,6 +8,7 @@ from .events import (
     logic_initialized,
     logic_terminated
 )
+from .controller import BaseController
 
 
 def initialize():
@@ -15,15 +16,13 @@ def initialize():
 
 
 @di.injector.inject
-async def run_controller(controller=current_controller_dependency):
+async def run_controller(controller: BaseController = current_controller_dependency):
     await controller.run()
 
 
 async def run_logic():
-    # Logic init stage
     initialize()
     logic_initialized()
 
-    # Logic launch stage
     await run_controller()
     logic_terminated()
