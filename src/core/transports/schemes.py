@@ -8,7 +8,3 @@ class BaseClientScheme(BaseModel):
 class BaseEventScheme(BaseModel):
     event: str
     data: dict
-
-
-class EventScheme(BaseEventScheme):
-    pass

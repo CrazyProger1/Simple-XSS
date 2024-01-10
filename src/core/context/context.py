@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from src.utils import clsutils
 from src.core import settings
-from src.core.events import context_changed
+from .events import context_changed
 
 
 @dataclass

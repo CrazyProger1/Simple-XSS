@@ -10,7 +10,7 @@ from ..exceptions import TunnelOpeningError, ProtocolNotSupportedError
 
 
 class NgrokService(BaseTunnelingService):
-    protocols = {Protocol.HTTP, Protocol.WEBSOCKET}
+    protocols = {Protocol.WEBSOCKET, }
     name = 'ngrok'
 
     @staticmethod

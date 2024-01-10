@@ -14,14 +14,11 @@ from src.core.events import (
     application_initialized,
     application_launched,
     application_terminated,
-    async_mode_entered,
-    arguments_parsed,
-    settings_loaded,
-    plugins_loaded,
-    context_changed
+    async_mode_entered
 )
 
 from src.core.dependencies import configurate_base_dependencies
+from src.core.context.events import context_changed
 
 
 def initialize():
@@ -30,13 +27,11 @@ def initialize():
     configurate_base_dependencies()
 
     plugins.load_plugins()
-    plugins_loaded()
+
 
     arguments.parse_arguments(args=sys.argv[1:])
-    arguments_parsed()
 
     settings.load_settings()
-    settings_loaded()
 
     context.create_context()
 

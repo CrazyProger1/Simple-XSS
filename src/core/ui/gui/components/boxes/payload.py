@@ -4,7 +4,7 @@ import flet as ft
 
 from src.utils import di
 from src.core.context.dependencies import current_context_dependency
-from src.core.events import context_changed
+from src.core.context.events import context_changed
 from src.core import payloads
 
 from ..control import CustomControl

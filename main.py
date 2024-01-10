@@ -2,26 +2,24 @@
 #
 # if __name__ == '__main__':
 #     run()
+
 import asyncio
+from src.core.transports.websocket.services import WebsocketTransportService
+from src.core.transports.schemes import BaseEventScheme
 
-from src.core.transports.http.services import HTTPTransportService
-from src.core.transports.schemes import EventScheme
-
-service = HTTPTransportService()
+ws_transport = WebsocketTransportService()
 
 
-async def listener(connection, event):
-    print(connection.client, event)
-    connection.send(EventScheme(event='hellooo', data={'testr': 'testg'}))
+async def test(connection, event):
+    await connection.send(BaseEventScheme(event='hahaha', data={}))
 
 
 async def main():
-    session = await service.run('localhost', 4445)
-    session.add_listener(listener)
+    session = await ws_transport.run('localhost', 4444)
+    session.add_listener(test)
 
     while True:
         await asyncio.sleep(1)
 
 
-if __name__ == '__main__':
-    asyncio.run(main())
+asyncio.run(main())

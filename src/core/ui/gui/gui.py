@@ -5,7 +5,8 @@ from src.core.settings.dependencies import current_settings_dependency
 from src.core import settings
 from src.core.ui.base import BaseUI
 from src.core.enums import GraphicMode
-from src.core.events import async_mode_entered, context_changed
+from src.core.events import async_mode_entered
+from src.core.context.events import context_changed
 from src.core.config import MIN_RESOLUTION, APP, VERSION
 from .components import CustomControl
 from .events import (

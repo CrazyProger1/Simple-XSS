@@ -4,9 +4,6 @@ from .sessions import BaseSession
 
 
 class BaseServer(ABC):
-    def __init__(self, host: str, port: int):
-        self._host = host
-        self._port = port
 
     @abstractmethod
     async def stop(self): ...
@@ -19,12 +16,12 @@ class BaseServer(ABC):
     def session(self) -> BaseSession: ...
 
     @property
-    def host(self) -> str:
-        return self._host
+    @abstractmethod
+    def host(self) -> str: ...
 
     @property
-    def port(self) -> int:
-        return self._port
+    @abstractmethod
+    def port(self) -> int: ...
 
     def __repr__(self):
         return f'<Server: {self.host}:{self.port}>'
