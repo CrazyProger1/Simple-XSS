@@ -3,22 +3,41 @@ import asyncio
 import websockets
 from functools import cache
 
+from src.utils import di
 from ..connections import BaseClientConnection, ClientConnection
 from ..exceptions import AddressInUseError
 from ..schemes import BaseClientScheme, BaseEventScheme
 from ..servers import BaseServer
 from ..sessions import Session
-from ..encoders import BaseEncoder, JSONEncoder
+from ..encoders import BaseEncoder
+from ..dependencies import encoder_class_dependency
+from .dependencies import (
+    websocket_event_schema_dependency,
+    websocket_client_schema_dependency,
+    websocket_connection_class_dependency
+)
 
 
 class WebsocketServer(BaseServer):
-    def __init__(self, host: str, port: int, encoder: BaseEncoder = JSONEncoder):
+    @di.injector.inject
+    def __init__(
+            self,
+            host: str,
+            port: int,
+            encoder: type[BaseEncoder] = encoder_class_dependency,
+            event_scheme: type[BaseEventScheme] = websocket_event_schema_dependency,
+            client_scheme: type[BaseClientScheme] = websocket_client_schema_dependency,
+            connection_class: type[ClientConnection] = websocket_connection_class_dependency
+    ):
         self._host = host
         self._port = port
+        self._encoder = encoder
+        self._event_scheme = event_scheme
+        self._client_scheme = client_scheme
+        self._connection_class = connection_class
         self._session = Session(host=host, port=port)
         self._running = True
         self._ws_client_pairs = {}
-        self._encoder = encoder
 
     @property
     def session(self) -> Session:
@@ -49,14 +68,14 @@ class WebsocketServer(BaseServer):
 
     async def _authenticate(self, ws_connection) -> BaseClientConnection:
         if ws_connection not in self._ws_client_pairs:
-            self._ws_client_pairs[ws_connection] = ClientConnection(
+            self._ws_client_pairs[ws_connection] = self._connection_class(
                 client=BaseClientScheme(origin=ws_connection.origin),
                 on_send=self._send_event
             )
         return self._ws_client_pairs[ws_connection]
 
     async def _handle_message(self, client: BaseClientConnection, message: str):
-        event = self._encoder.decode(raw=message, scheme=BaseEventScheme)
+        event = self._encoder.decode(raw=message, scheme=self._event_scheme)
         await self._handle_event(client=client, event=event)
 
     async def _wait_for_message(self, ws_connection, client: BaseClientConnection):
