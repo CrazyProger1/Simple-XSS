@@ -56,9 +56,6 @@ class Injector:
 
         value = self._dependencies.get(dependency, default)
 
-        if value == default and callable(default):
-            value = default()
-
         if not value:
             logger.error(f'Dependency not bound: {dependency}')
             raise ValueError(f'Dependency not bound: {dependency}')
