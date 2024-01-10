@@ -3,8 +3,9 @@ import asyncio
 import flet as ft
 
 from src.utils import di
-from src.core.context.dependencies import current_context_dependency
 from src.core import hooks
+from src.core.context.dependencies import current_context_dependency
+from src.core.ui.utils import validation
 
 from ..control import CustomControl
 from ...enums import Messages
@@ -71,32 +72,30 @@ class HookBox(CustomControl):
         )
 
     @di.injector.inject
-    async def _handle_choose_hook_button_click(self, event, appcontext = current_context_dependency):
+    async def _handle_choose_hook_button_click(self, event, context=current_context_dependency):
         await self._hook_picker.get_directory_path_async(
-            initial_directory=appcontext.settings.hook.directory,
+            initial_directory=context.settings.hook.directory,
             dialog_title=Messages.CHOOSE_HOOK_TITLE
         )
 
     @di.injector.inject
-    def _handle_hook_chosen(self,
-                            event: ft.FilePickerResultEvent,
-                            appcontext= current_context_dependency):
+    def _handle_hook_chosen(
+            self,
+            event: ft.FilePickerResultEvent,
+            context=current_context_dependency):
         path = event.path
-        if not path:
-            return
-        if hooks.is_hook(path):
-            appcontext.settings.hook.current = path
+        if path and validation.is_valid_hook_path(path=path):
+            context.settings.hook.current = path
 
         else:
             asyncio.create_task(
                 banners.show_warning(Messages.HOOK_LOADING_ERROR.format(path=path))
             )
 
-    def _update_hook_data(self, path: str):
-        if not path:
-            return
-
-        if hooks.is_hook(path):
+    @di.injector.inject
+    def _update_hook_data(self, context=current_context_dependency):
+        path = str(context.settings.hook.current)
+        if path and validation.is_valid_hook_path(path=path):
             hook_cls = hooks.load_hook_class(path)
             self._hook_name_text.value = f'{hook_cls.NAME} - {hook_cls.VERSION or 0.1}'
             self._hook_description_text.value = hook_cls.DESCRIPTION
@@ -104,11 +103,14 @@ class HookBox(CustomControl):
             self._hook_path_field.value = path
 
     @di.injector.inject
-    def update_data(self, appcontext = current_context_dependency):
-        self._content.disabled = appcontext.active.unwrap()
-        path = str(appcontext.settings.hook.current)
-        self._update_hook_data(path=path)
+    def update_data(self, context=current_context_dependency):
+        self._content.disabled = context.process_active.unwrap()
+        self._update_hook_data()
         asyncio.create_task(self._content.update_async())
+
+    @di.injector.inject
+    def setup_data(self):
+        self.update_data()
 
     def build(self):
         return ft.Container(

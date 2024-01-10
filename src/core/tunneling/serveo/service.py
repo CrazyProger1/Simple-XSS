@@ -4,24 +4,24 @@ from typeguard import typechecked
 from loguru import logger
 
 from src.core.enums import Protocol
-from src.utils import system
+from src.utils import system, network
+from ..constants import PROTOCOL_PREFIXES
 from ..services import BaseTunnelingService
 from ..sessions import Session
-from ..exceptions import TunnelOpeningError, ProtocolNotSupportedError
+from ..exceptions import (
+    TunnelOpeningError,
+    ProtocolNotSupportedError
+)
 
 
 class ServeoService(BaseTunnelingService):
-    protocols = {Protocol.HTTP, }
+    protocols = {Protocol.HTTP, Protocol.WEBSOCKET}
     name = 'serveo'
 
     def __init__(self):
         self._processes = {}
 
-    @typechecked
-    async def run_http(self, port: int) -> Session:
-        if not (0 <= port <= 65535):
-            raise ValueError(f'{port} is not valid port number')
-
+    async def _create_tunnel(self, port: int) -> str:
         command = f'ssh -R 80:localhost:{port} serveo.net'
         process = system.execute(command=command)
         await asyncio.sleep(3)
@@ -34,19 +34,23 @@ class ServeoService(BaseTunnelingService):
             logger.error(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
             raise TunnelOpeningError(port=port)
 
-        return Session(protocol=Protocol.HTTP, port=port, public_url=public_url)
+        return public_url
+
+    async def _create_session(self, port: int, protocol: Protocol) -> Session:
+        network.validate_port(port=port, raise_exceptions=True)
+        prefix = PROTOCOL_PREFIXES[protocol]
+        public_url = await self._create_tunnel(port=port)
+        return Session(
+            protocol=protocol,
+            port=port,
+            public_url=network.change_protocol(public_url, prefix)
+        )
 
     @typechecked
     async def run(self, protocol: str | Protocol, port: int) -> Session:
         if protocol not in self.protocols:
             raise ProtocolNotSupportedError(protocol=protocol)
-
-        match protocol:
-            case Protocol.HTTP.value:
-                session = await self.run_http(port=port)
-            case _:
-                raise ProtocolNotSupportedError(protocol=protocol)
-        return session
+        return await self._create_session(port=port, protocol=protocol)
 
     @typechecked
     async def stop(self, session: Session):

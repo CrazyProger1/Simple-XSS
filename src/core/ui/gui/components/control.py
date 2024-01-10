@@ -6,8 +6,14 @@ class CustomControl(ABC):
 
     overlay = []
 
+    def setup_data(self):
+        pass
+
     def update_data(self):
         """Called when the application context changes."""
+
+    def save_data(self):
+        """Called when process launched."""
 
     @abstractmethod
     def build(self): ...

@@ -1,13 +1,20 @@
 import flet as ft
 
 from src.utils import di, clsutils
-from src.core.settings.dependencies import current_settings_dependency
 from src.core import settings
+from src.core.settings.dependencies import current_settings_dependency
 from src.core.ui.base import BaseUI
 from src.core.enums import GraphicMode
 from src.core.events import async_mode_entered
-from src.core.context.events import context_changed
-from src.core.config import MIN_RESOLUTION, APP, VERSION
+from src.core.context.events import (
+    context_changed
+)
+from src.core.config import (
+    MIN_RESOLUTION,
+    APP,
+    VERSION
+)
+
 from .components import CustomControl
 from .events import (
     gui_terminated,
@@ -18,16 +25,30 @@ from .dependencies import (
     main_box_dependency,
     configurate_gui_dependencies
 )
+from ..events import ui_process_activated
 
 
 class GUI(BaseUI):
     mode = GraphicMode.GUI
 
-    def _initialize(self):
+    def __init__(self):
+        ui_process_activated.add_listener(self._save_controls_data)
         context_changed.add_listener(self._update_controls)
         configurate_gui_dependencies()
+        gui_initialized()
 
-    def _update_controls(self):
+    @staticmethod
+    async def _save_controls_data():
+        for control in clsutils.iter_instances(CustomControl):
+            control.save_data()
+
+    @staticmethod
+    def _setup_controls():
+        for control in clsutils.iter_instances(CustomControl):
+            control.setup_data()
+
+    @staticmethod
+    def _update_controls():
         for control in clsutils.iter_instances(CustomControl):
             control.update_data()
 
@@ -51,13 +72,16 @@ class GUI(BaseUI):
 
     async def _main(self, page: ft.Page):
         await async_mode_entered()
+
         di.injector.bind(main_page_dependency, page)
+
         await self._configurate_main_page()
-        self._update_controls()
+
+        self._setup_controls()
+
         await self._display_main_box()
 
     def run(self):
-        self._initialize()
-        gui_initialized()
         ft.app(self._main)
+
         gui_terminated()

@@ -2,52 +2,47 @@ from pyngrok import ngrok, exception as ngexception
 from loguru import logger
 from typeguard import typechecked
 
-from src.utils import urlutils
+from src.utils import network
 from src.core.enums import Protocol
+from ..constants import PROTOCOL_PREFIXES
 from ..services import BaseTunnelingService
 from ..sessions import Session
-from ..exceptions import TunnelOpeningError, ProtocolNotSupportedError
+from ..exceptions import (
+    TunnelOpeningError,
+    ProtocolNotSupportedError
+)
 
 
 class NgrokService(BaseTunnelingService):
-    protocols = {Protocol.WEBSOCKET, }
+    protocols = {Protocol.WEBSOCKET, Protocol.HTTP}
     name = 'ngrok'
 
     @staticmethod
-    async def _create_tunnel(port: int) -> ngrok.NgrokTunnel:
+    async def _create_tunnel(port: int) -> str:
         try:
             tunnel = ngrok.connect(port)
             logger.debug(f'Tunnel is up: localhost:{port} -> {tunnel.public_url}')
-            return tunnel
+            return tunnel.public_url
         except ngexception.PyngrokError as e:
             logger.error(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
             raise TunnelOpeningError(port=port)
 
-    async def _create_session(self, port: int, protocol: str) -> Session:
-        tunnel = await self._create_tunnel(port=port)
-        return Session(Protocol.HTTP, port, urlutils.change_protocol(tunnel.public_url, protocol))
-
-    @typechecked
-    async def run_websocket(self, port: int) -> Session:
-        return await self._create_session(port=port, protocol='wss')
-
-    @typechecked
-    async def run_http(self, port: int) -> Session:
-        return await self._create_session(port=port, protocol='https')
+    async def _create_session(self, port: int, protocol: Protocol) -> Session:
+        network.validate_port(port=port)
+        prefix = PROTOCOL_PREFIXES[protocol]
+        public_url = await self._create_tunnel(port=port)
+        return Session(
+            protocol=protocol,
+            port=port,
+            public_url=network.change_protocol(public_url, prefix)
+        )
 
     @typechecked
     async def run(self, protocol: str | Protocol, port: int) -> Session:
         if protocol not in self.protocols:
             raise ProtocolNotSupportedError(protocol=protocol)
 
-        match protocol:
-            case Protocol.HTTP.value:
-                session = await self.run_http(port=port)
-            case Protocol.WEBSOCKET.value:
-                session = await self.run_websocket(port=port)
-            case _:
-                raise ProtocolNotSupportedError(protocol=protocol)
-        return session
+        return await self._create_session(port=port, protocol=protocol)
 
     @typechecked
     async def stop(self, session: Session):

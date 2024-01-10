@@ -1,3 +1,4 @@
+from . import websocket
 from .services import (
     BaseTransportService
 )

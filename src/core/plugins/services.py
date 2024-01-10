@@ -1,8 +1,12 @@
 from src.utils import packages, di
 from src.core.config import PLUGINS_DIRECTORY
-from .dependencies import plugin_manager_dependency, plugin_loader_dependency
+
 from .managers import PluginManager
 from .events import plugins_loaded
+from .dependencies import (
+    plugin_manager_dependency,
+    plugin_loader_dependency
+)
 
 
 @di.injector.inject

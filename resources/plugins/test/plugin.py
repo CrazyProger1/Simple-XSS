@@ -4,13 +4,14 @@ from src.api.plugins import BasePlugin
 from src.api.events import ui_initialized
 from src.api.dependencies import current_ui_dependency
 
-from src.core.ui.gui import GUI
+from src.core.ui.base import BaseUI
 
 
-class MyGUI(GUI):
+class MyGUI(BaseUI):
+    mode = 4
+
     def run(self):
-        print('RUN MY GUI!')
-        super(MyGUI, self).run()
+        print('RUUUM')
 
 
 class Plugin(BasePlugin):

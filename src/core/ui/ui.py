@@ -1,8 +1,14 @@
 from src.utils import di
 
-from .dependencies import configurate_ui_dependencies, current_ui_dependency
-from .events import ui_initialized, ui_terminated
 from .base import BaseUI
+from .dependencies import (
+    configurate_ui_dependencies,
+    current_ui_dependency
+)
+from .events import (
+    ui_initialized,
+    ui_terminated
+)
 
 
 @di.injector.inject
@@ -15,10 +21,8 @@ def initialize():
 
 
 def run_ui():
-    # UI init stage
     initialize()
     ui_initialized()
 
-    # UI launch stage
     launch()
     ui_terminated()

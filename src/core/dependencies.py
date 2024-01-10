@@ -9,6 +9,7 @@ from .settings.dependencies import settings_scheme_dependency
 from .transports.dependencies import transport_service_factory_dependency
 from .tunneling.dependencies import tunneling_service_factory_dependency
 from .io.dependencies import io_manager_dependency
+from .ui.dependencies import ui_factory_dependency
 
 from .arguments import DefaultArgumentsScheme
 from .settings import DefaultSettingsScheme
@@ -16,6 +17,7 @@ from .plugins import PluginManager
 from .context import DefaultContext
 from .tunneling import TunnelingServiceFactory
 from .transports import TransportServiceFactory
+from .ui import UIFactory
 
 
 def configurate_base_dependencies():
@@ -41,3 +43,5 @@ def configurate_base_dependencies():
 
     di.injector.bind(transport_service_factory_dependency, TransportServiceFactory())
     di.injector.bind(tunneling_service_factory_dependency, TunnelingServiceFactory())
+
+    di.injector.bind(ui_factory_dependency, UIFactory())

@@ -1,4 +1,3 @@
-
 import flet as ft
 
 from src.utils import di
@@ -22,9 +21,6 @@ class MainBox(CustomControl):
         self._right_part = ft.Column(
             expand=True
         )
-        self._option_controls = [
-
-        ]
 
     @di.injector.inject
     def build(

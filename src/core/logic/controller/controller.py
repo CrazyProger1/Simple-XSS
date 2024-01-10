@@ -1,12 +1,11 @@
 from src.utils import di, io
 
+from src.core.context.dependencies import current_context_dependency
+from src.core.context import DefaultContext
 from src.core.ui.events import (
     ui_process_activated,
     ui_process_deactivated
 )
-from src.core.context.dependencies import current_context_dependency
-from src.core.context import DefaultContext
-
 from src.core.io.dependencies import io_manager_dependency
 
 from .enums import Messages
@@ -23,11 +22,12 @@ class Controller(BaseController):
 
     @di.injector.inject
     async def _handle_process_activated(self, context: DefaultContext = current_context_dependency):
-        context.active = True
+        context.process_active = True
+        await self._io.info(Messages.LAUNCHING)
 
     @di.injector.inject
     async def _handle_process_deactivated(self, context: DefaultContext = current_context_dependency):
-        context.active = False
+        context.process_active = False
 
     async def run(self):
-        await self._io.print(Messages.PROGRAM_LAUNCHED)
+        await self._io.info(Messages.PROGRAM_LAUNCHED)

@@ -2,8 +2,9 @@ import os
 from abc import ABC, abstractmethod
 
 from loguru import logger
+from typeguard import typechecked
 
-from src.utils import imputils
+from .. import imputils
 from .packages import BasePackage
 from .config import PACKAGE_FILE, PACKAGE_CLASS_NAME
 
@@ -39,6 +40,7 @@ class BasePackageLoader(ABC):
 class PackageLoader(BasePackageLoader):
 
     @classmethod
+    @typechecked
     def is_package(
             cls,
             directory: str,
@@ -55,6 +57,7 @@ class PackageLoader(BasePackageLoader):
             return False
 
     @classmethod
+    @typechecked
     def load_class(cls, directory: str, package_file: str = PACKAGE_FILE,
                    package_class_name: str = PACKAGE_CLASS_NAME) -> type[BasePackage]:
         package_file = os.path.join(directory, package_file)
@@ -71,6 +74,7 @@ class PackageLoader(BasePackageLoader):
         return package_class
 
     @classmethod
+    @typechecked
     def load(cls, directory: str,
              package_file: str = PACKAGE_FILE,
              package_class_name: str = PACKAGE_CLASS_NAME

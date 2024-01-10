@@ -3,12 +3,11 @@ import asyncio
 import flet as ft
 
 from src.utils import di
+from src.core import payloads
 from src.core.context.dependencies import current_context_dependency
 from src.core.context.events import context_changed
-from src.core import payloads
-
+from src.core.ui.utils import validation
 from ..control import CustomControl
-from ...enums import Messages
 from ...constants import (
     TEXT_FONT_SIZE,
     DESCRIPTION_MAX_LINES,
@@ -16,6 +15,7 @@ from ...constants import (
     BOX_BORDER_RADIUS,
     BOX_PADDING
 )
+from ...enums import Messages
 from ...services import banners
 
 
@@ -72,16 +72,21 @@ class PayloadBox(CustomControl):
         )
 
     @di.injector.inject
+    async def _handle_choose_payload_button_click(self, event, appcontext=current_context_dependency):
+        await self._payload_picker.get_directory_path_async(
+            initial_directory=appcontext.settings.payload.directory,
+            dialog_title=Messages.CHOOSE_PAYLOAD_TITLE
+        )
+
+    @di.injector.inject
     def _handle_payload_chosen(
             self,
             event: ft.FilePickerResultEvent,
-            appcontext= current_context_dependency
+            context=current_context_dependency
     ):
         path = event.path
-        if not path:
-            return
-        if payloads.is_payload(path):
-            appcontext.settings.payload.current = path
+        if path and validation.is_valid_payload_path(path=path):
+            context.settings.payload.current = path
             context_changed()
 
         else:
@@ -89,11 +94,10 @@ class PayloadBox(CustomControl):
                 banners.show_warning(Messages.PAYLOAD_LOADING_ERROR.format(path=path))
             )
 
-    def _update_payload_data(self, path: str):
-        if not path or path == self._payload_path_field.value:
-            return
-
-        if payloads.is_payload(path):
+    @di.injector.inject
+    def _update_payload_data(self, context=current_context_dependency):
+        path = str(context.settings.payload.current)
+        if path and validation.is_valid_payload_path(path=path):
             payload_cls = payloads.load_payload_class(path)
             self._payload_name_text.value = f'{payload_cls.NAME} - {payload_cls.VERSION or 0.1}'
             self._payload_description_text.value = payload_cls.DESCRIPTION
@@ -101,18 +105,14 @@ class PayloadBox(CustomControl):
             self._payload_path_field.value = path
 
     @di.injector.inject
-    def update_data(self, appcontext = current_context_dependency):
-        self._content.disabled = appcontext.active.unwrap()
-        path = str(appcontext.settings.payload.current)
-        self._update_payload_data(path=path)
+    def update_data(self, context=current_context_dependency):
+        self._content.disabled = context.process_active.unwrap()
+        self._update_payload_data()
         asyncio.create_task(self._content.update_async())
 
     @di.injector.inject
-    async def _handle_choose_payload_button_click(self, event, appcontext = current_context_dependency):
-        await self._payload_picker.get_directory_path_async(
-            initial_directory=appcontext.settings.payload.directory,
-            dialog_title=Messages.CHOOSE_PAYLOAD_TITLE
-        )
+    def setup_data(self):
+        self.update_data()
 
     def build(self):
         return ft.Container(

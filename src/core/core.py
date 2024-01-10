@@ -1,5 +1,3 @@
-import sys
-
 from src.core import (
     arguments,
     logging,
@@ -28,8 +26,7 @@ def initialize():
 
     plugins.load_plugins()
 
-
-    arguments.parse_arguments(args=sys.argv[1:])
+    arguments.parse_arguments()
 
     settings.load_settings()
 

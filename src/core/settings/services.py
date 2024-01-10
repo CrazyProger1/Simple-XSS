@@ -6,8 +6,15 @@ from src.utils import settings as setutil, di
 from src.core.config import DEFAULT_SETTINGS_FILE
 from src.core.arguments.dependencies import current_arguments_dependency
 from src.core import arguments
-from .dependencies import current_settings_dependency, settings_scheme_dependency
-from .events import settings_loaded, settings_saved
+
+from .dependencies import (
+    current_settings_dependency,
+    settings_scheme_dependency
+)
+from .events import (
+    settings_loaded,
+    settings_saved
+)
 
 
 @typechecked
@@ -19,7 +26,6 @@ def load_settings(
     try:
         settings = setutil.load(schema=scheme, file=file)
     except (FileNotFoundError, setutil.exceptions.FormatError, ValueError) as e:
-        print(e)
         settings = scheme()
         save_settings(settings=settings)
 

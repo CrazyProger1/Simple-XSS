@@ -5,7 +5,10 @@ import pyperclip
 
 from src.utils import di
 from src.core.context.dependencies import current_context_dependency
-from src.core.ui.events import ui_process_activated, ui_process_deactivated
+from src.core.ui.events import (
+    ui_process_activated,
+    ui_process_deactivated
+)
 
 from ..control import CustomControl
 from ...constants import ICON_SIZE
@@ -81,15 +84,15 @@ class ProcessControlBox(CustomControl):
 
     @di.injector.inject
     def update_data(self, context=current_context_dependency):
-        hook = context.hook.unwrap()
-        process_active = context.active.unwrap()
+        hook_code = context.hook_code.unwrap()
+        process_active = context.process_active.unwrap()
         self._deactivate_button.disabled = not process_active
         self._activate_button.disabled = process_active
 
         self._hook_field.disabled = not process_active
 
         if process_active:
-            self._hook_field.value = hook
+            self._hook_field.value = hook_code
         else:
             self._hook_field.value = ''
 

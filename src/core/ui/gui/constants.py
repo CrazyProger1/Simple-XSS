@@ -1,15 +1,25 @@
 import flet as ft
 
+from src.utils import io
+
 ICON_SIZE = 35
 BOX_PADDING = 15
-BOX_BORDER_RADIUS = 5
-BOX_BORDER = ft.border.all(1, ft.colors.OUTLINE)
 TEXT_FONT_SIZE = 20
 DESCRIPTION_MAX_LINES = 3
+
+# Box Border
+BOX_BORDER_RADIUS = 5
+BOX_BORDER = ft.border.all(1, ft.colors.OUTLINE)
 
 # Messages
 MESSAGE_SPACING = 15
 MESSAGE_FONT_SIZE = 16
+COLOR_TABLE = {
+    io.Color.WHITE: ft.colors.WHITE,
+    io.Color.RED: ft.colors.RED,
+    io.Color.BLUE: ft.colors.BLUE,
+    io.Color.YELLOW: ft.colors.YELLOW
+}
 
 # Warning banner
 WARNING_BANNER_TEXT_COLOR = ft.colors.RED
