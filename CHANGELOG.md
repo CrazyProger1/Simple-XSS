@@ -1,11 +1,17 @@
-## V0.3 (TODO)
+## V0.3
 
-- [ ] Update GUI (GUI code to OOP style)
-- [ ] Extend Python payload library
+- [ ] Rewritten from scratch to improve maintainability and expand functionality
+
+- [ ] Extended payload possibilities
     - [ ] Template rendering
     - [ ] Default event handlers
-- [ ] Add JS payload library
-- [ ] Add support for different protocols for hook
-    - [ ] HTTP(GET) hook
-    - [x] Websockets hook
-- [ ] Add more tunneling services
+
+- [ ] Added support for various protocols
+    - [x] HTTP
+    - [x] Websockets
+
+- [ ] Added more tunneling services
+    - [x] Serveo
+    - [x] Ngrok
+
+- [x] Added plugin system
