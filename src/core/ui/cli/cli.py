@@ -5,5 +5,5 @@ from src.core.ui.base import BaseUI
 class CLI(BaseUI):
     mode = GraphicMode.CLI
 
-    def run(self):
+    async def run(self):
         pass

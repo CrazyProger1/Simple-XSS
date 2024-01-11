@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.utils import di
-from ...dependencies import (
+from ..dependencies import (
     network_box_dependency,
     hook_box_dependency,
     payload_box_dependency,
@@ -9,7 +9,7 @@ from ...dependencies import (
     message_area_box_dependency,
     message_control_box_dependency
 )
-from ..control import CustomControl
+from ..base import CustomControl
 
 
 class MainBox(CustomControl):

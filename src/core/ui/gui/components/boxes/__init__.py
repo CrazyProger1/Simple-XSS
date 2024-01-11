@@ -1,4 +1,3 @@
-from .main import MainBox
 from .network import NetworkBox
 from .hook import HookBox
 from .payload import PayloadBox

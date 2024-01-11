@@ -7,16 +7,16 @@ from src.core import hooks
 from src.core.context.dependencies import current_context_dependency
 from src.core.ui.utils import validation
 
-from ..control import CustomControl
-from ...enums import Messages
-from ...constants import (
+from ..base import CustomControl
+from ..enums import Messages
+from ..constants import (
     TEXT_FONT_SIZE,
     DESCRIPTION_MAX_LINES,
     BOX_BORDER,
     BOX_BORDER_RADIUS,
     BOX_PADDING
 )
-from ...services import banners
+from ..services import banners
 
 
 class HookBox(CustomControl):
@@ -92,8 +92,7 @@ class HookBox(CustomControl):
                 banners.show_warning(Messages.HOOK_LOADING_ERROR.format(path=path))
             )
 
-    @di.injector.inject
-    def _update_hook_data(self, context=current_context_dependency):
+    def _update_hook_data(self, context):
         path = str(context.settings.hook.current)
         if path and validation.is_valid_hook_path(path=path):
             hook_cls = hooks.load_hook_class(path)
@@ -102,15 +101,13 @@ class HookBox(CustomControl):
             self._hook_author_text.value = f'@{hook_cls.AUTHOR}'
             self._hook_path_field.value = path
 
-    @di.injector.inject
-    def update_data(self, context=current_context_dependency):
+    def update_data(self, context):
         self._content.disabled = context.process_active.unwrap()
-        self._update_hook_data()
+        self._update_hook_data(context=context)
         asyncio.create_task(self._content.update_async())
 
-    @di.injector.inject
-    def setup_data(self):
-        self.update_data()
+    def setup_data(self, context):
+        self.update_data(context=context)
 
     def build(self):
         return ft.Container(

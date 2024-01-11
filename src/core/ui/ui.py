@@ -12,17 +12,17 @@ from .events import (
 
 
 @di.injector.inject
-def launch(ui: BaseUI = current_ui_dependency):
-    ui.run()
+async def launch(ui: BaseUI = current_ui_dependency):
+    await ui.run()
 
 
 def initialize():
     configurate_ui_dependencies()
 
 
-def run_ui():
+async def run_ui():
     initialize()
     ui_initialized()
 
-    launch()
+    await launch()
     ui_terminated()

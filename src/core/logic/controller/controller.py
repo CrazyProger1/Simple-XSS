@@ -15,9 +15,6 @@ from .base import BaseController
 class Controller(BaseController):
     @di.injector.inject
     def __init__(self, io_manager: io.BaseIOManager = io_manager_dependency):
-        ui_process_activated.add_listener(self._handle_process_activated)
-        ui_process_deactivated.add_listener(self._handle_process_deactivated)
-
         self._io = io_manager
 
     @di.injector.inject
@@ -30,4 +27,5 @@ class Controller(BaseController):
         context.process_active = False
 
     async def run(self):
-        await self._io.info(Messages.PROGRAM_LAUNCHED)
+        ui_process_activated.add_listener(self._handle_process_activated)
+        ui_process_deactivated.add_listener(self._handle_process_deactivated)

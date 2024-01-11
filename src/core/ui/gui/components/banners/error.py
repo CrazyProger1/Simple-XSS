@@ -1,8 +1,8 @@
 import flet as ft
 
 from .banner import CustomBanner
-from ...enums import Messages
-from ...constants import (
+from ..enums import Messages
+from ..constants import (
     ERROR_BANNER_ICON,
     ERROR_BANNER_ICON_COLOR,
     ERROR_BANNER_TEXT_COLOR,

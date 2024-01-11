@@ -11,8 +11,7 @@ from src.core import (
 from src.core.events import (
     application_initialized,
     application_launched,
-    application_terminated,
-    async_mode_entered
+    application_terminated
 )
 
 from src.core.dependencies import configurate_base_dependencies
@@ -32,16 +31,16 @@ def initialize():
 
     context.create_context()
 
-    async_mode_entered.add_listener(logic.run_logic)
     context_changed.add_listener(context.save_context)
 
 
-def run():
+async def run():
     application_launched()
 
     initialize()
     application_initialized()
 
-    ui.run_ui()
+    await logic.run_logic()
+    await ui.run_ui()
 
     application_terminated()

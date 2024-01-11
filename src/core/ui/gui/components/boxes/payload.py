@@ -7,16 +7,16 @@ from src.core import payloads
 from src.core.context.dependencies import current_context_dependency
 from src.core.context.events import context_changed
 from src.core.ui.utils import validation
-from ..control import CustomControl
-from ...constants import (
+from ..base import CustomControl
+from ..constants import (
     TEXT_FONT_SIZE,
     DESCRIPTION_MAX_LINES,
     BOX_BORDER,
     BOX_BORDER_RADIUS,
     BOX_PADDING
 )
-from ...enums import Messages
-from ...services import banners
+from ..enums import Messages
+from ..services import banners
 
 
 class PayloadBox(CustomControl):
@@ -94,8 +94,7 @@ class PayloadBox(CustomControl):
                 banners.show_warning(Messages.PAYLOAD_LOADING_ERROR.format(path=path))
             )
 
-    @di.injector.inject
-    def _update_payload_data(self, context=current_context_dependency):
+    def _update_payload_data(self, context):
         path = str(context.settings.payload.current)
         if path and validation.is_valid_payload_path(path=path):
             payload_cls = payloads.load_payload_class(path)
@@ -104,15 +103,13 @@ class PayloadBox(CustomControl):
             self._payload_author_text.value = f'@{payload_cls.AUTHOR}'
             self._payload_path_field.value = path
 
-    @di.injector.inject
-    def update_data(self, context=current_context_dependency):
+    def update_data(self, context):
         self._content.disabled = context.process_active.unwrap()
-        self._update_payload_data()
+        self._update_payload_data(context=context)
         asyncio.create_task(self._content.update_async())
 
-    @di.injector.inject
-    def setup_data(self):
-        self.update_data()
+    def setup_data(self, context):
+        self.update_data(context)
 
     def build(self):
         return ft.Container(

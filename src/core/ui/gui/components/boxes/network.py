@@ -12,14 +12,14 @@ from src.core.transports.dependencies import transport_service_factory_dependenc
 from src.core.tunneling.dependencies import tunneling_service_factory_dependency
 from src.core.ui.utils import validation
 
-from ..control import CustomControl
-from ...constants import (
+from ..base import CustomControl
+from src.core.ui.gui.components.constants import (
     TEXT_FONT_SIZE,
     BOX_BORDER,
     BOX_BORDER_RADIUS,
     BOX_PADDING
 )
-from ...enums import Messages
+from src.core.ui.gui.components.enums import Messages
 
 
 class NetworkBox(CustomControl):

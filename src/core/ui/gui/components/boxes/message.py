@@ -5,8 +5,8 @@ import flet as ft
 from src.utils import di, io
 from src.core.io.dependencies import io_manager_dependency
 
-from ..control import CustomControl
-from ...constants import (
+from ..base import CustomControl
+from src.core.ui.gui.components.constants import (
     MESSAGE_SPACING,
     BOX_BORDER,
     BOX_BORDER_RADIUS,
@@ -16,7 +16,7 @@ from ...constants import (
     COLOR_TABLE
 )
 
-from ...enums import Messages
+from src.core.ui.gui.components.enums import Messages
 
 
 class MessageAreaBox(CustomControl):

@@ -5,14 +5,10 @@ import pyperclip
 
 from src.utils import di
 from src.core.context.dependencies import current_context_dependency
-from src.core.ui.events import (
-    ui_process_activated,
-    ui_process_deactivated
-)
 
-from ..control import CustomControl
-from ...constants import ICON_SIZE
-from ...enums import Messages
+from ..base import CustomControl
+from ..constants import ICON_SIZE
+from ..enums import Messages
 
 
 class ProcessControlBox(CustomControl):
@@ -74,10 +70,11 @@ class ProcessControlBox(CustomControl):
         )
 
     async def _handle_activate_button_click(self, event):
-        await ui_process_activated()
+        pass
 
     async def _handle_deactivate_button_click(self, event):
-        await ui_process_deactivated()
+        pass
+
 
     async def _handle_copy_button_click(self, event):
         pyperclip.copy(self._hook_field.value)

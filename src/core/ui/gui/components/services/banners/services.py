@@ -3,8 +3,15 @@ import flet as ft
 from typeguard import typechecked
 
 from src.utils import di
-from ...dependencies import main_page_dependency, warning_banner_dependency, error_banner_dependency
-from ...constants import WARNING_BANNER_TEXT_COLOR, ERROR_BANNER_TEXT_COLOR
+from src.core.ui.gui.dependencies import main_page_dependency
+from ...dependencies import (
+    warning_banner_dependency,
+    error_banner_dependency
+)
+from ...constants import (
+    WARNING_BANNER_TEXT_COLOR,
+    ERROR_BANNER_TEXT_COLOR
+)
 
 
 @typechecked

@@ -1,28 +1,7 @@
-from .control import CustomControl
-from .boxes import (
-    MainBox,
-    NetworkBox,
-    PayloadBox,
-    HookBox,
-    MessageControlBox,
-    MessageAreaBox,
-    ProcessControlBox
-)
-
-from .banners import (
-    WarningBanner,
-    ErrorBanner
-)
+from .base import CustomControl
+from .controls import MainControl
 
 __all__ = [
     'CustomControl',
-    'MainBox',
-    'NetworkBox',
-    'PayloadBox',
-    'HookBox',
-    'MessageControlBox',
-    'MessageAreaBox',
-    'ProcessControlBox',
-    'WarningBanner',
-    'ErrorBanner'
+    'MainControl'
 ]
