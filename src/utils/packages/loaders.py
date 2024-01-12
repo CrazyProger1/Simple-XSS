@@ -1,3 +1,4 @@
+import inspect
 import os
 from abc import ABC, abstractmethod
 
@@ -45,12 +46,15 @@ class PackageLoader(BasePackageLoader):
             cls,
             directory: str,
             package_file: str = PACKAGE_FILE,
-            package_class_name: str = PACKAGE_CLASS_NAME) -> bool:
+            package_class_name: str = PACKAGE_CLASS_NAME,
+            base_class: type[BasePackage] = BasePackage
+    ) -> bool:
         try:
             cls.load_class(
                 directory=directory,
                 package_file=package_file,
-                package_class_name=package_class_name
+                package_class_name=package_class_name,
+                base_class=base_class
             )
             return True
         except (ValueError, TypeError, ImportError):
@@ -58,8 +62,17 @@ class PackageLoader(BasePackageLoader):
 
     @classmethod
     @typechecked
-    def load_class(cls, directory: str, package_file: str = PACKAGE_FILE,
-                   package_class_name: str = PACKAGE_CLASS_NAME) -> type[BasePackage]:
+    def load_class(
+            cls,
+            directory: str,
+            package_file: str = PACKAGE_FILE,
+            package_class_name: str = PACKAGE_CLASS_NAME,
+            base_class: type[BasePackage] = BasePackage
+    ) -> type[BasePackage]:
+        if not os.path.isdir(directory):
+            logger.error(f'Not a directory: {directory}')
+            raise ValueError(f'Not a directory: {directory}')
+
         package_file = os.path.join(directory, package_file)
         if not os.path.isfile(package_file):
             logger.error(f'File {package_file} not found at {directory}')
@@ -68,7 +81,7 @@ class PackageLoader(BasePackageLoader):
         package_class = imputils.import_class_by_filepath(
             package_file,
             package_class_name,
-            base_class=BasePackage
+            base_class=base_class
         )
         logger.debug(f'Package class loaded {package_class} from {directory}')
         return package_class
@@ -77,12 +90,14 @@ class PackageLoader(BasePackageLoader):
     @typechecked
     def load(cls, directory: str,
              package_file: str = PACKAGE_FILE,
-             package_class_name: str = PACKAGE_CLASS_NAME
+             package_class_name: str = PACKAGE_CLASS_NAME,
+             base_class: type[BasePackage] = BasePackage
              ) -> BasePackage:
         package_class = cls.load_class(
             directory=directory,
             package_file=package_file,
-            package_class_name=package_class_name
+            package_class_name=package_class_name,
+            base_class=base_class
         )
         package: BasePackage = package_class()
         logger.debug(f'Package loaded {package} from {directory}')

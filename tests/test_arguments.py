@@ -8,7 +8,7 @@ from src.core.services import GraphicMode
 class ArgumentsTests(TestCase):
 
     def setUp(self) -> None:
-        self.parser = argutil.SchemedArgumentParser(schema=DefaultArgumentsSchema)
+        self.parser = argutil.SchemedArgumentParser(scheme=DefaultArgumentsSchema)
 
     def test_parse_graphic_mode(self):
         args = self.parser.parse_typed_args(['-g', str(GraphicMode.GUI.value)])

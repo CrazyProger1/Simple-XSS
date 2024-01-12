@@ -1,3 +1,5 @@
 from src.utils import di, io
 
-io_manager_dependency = di.Dependency(io.BaseIOManager)
+
+class IODependencyContainer(di.DeclarativeContainer):
+    io_manager: io.BaseIOManager = io.AsyncIOManager()

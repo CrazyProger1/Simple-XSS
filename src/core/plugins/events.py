@@ -1,3 +1,5 @@
 from src.utils import events
 
-plugins_loaded = events.Event('plugins_loaded')
+
+class PluginsEventChannel(events.EventChannel):
+    plugins_loaded = events.Event()

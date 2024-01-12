@@ -1,27 +1,14 @@
-from abc import ABC, abstractmethod
 from functools import cache
 
 from typeguard import typechecked
 
-from .services import BaseTransportService
 from src.utils import clsutils
+from src.core.enums import Protocol
+from .services import BaseTransportService
+from .servers import BaseServer
 
 
-class BaseTransportServiceFactory(ABC):
-    @classmethod
-    @abstractmethod
-    def get_names(cls) -> set[str]: ...
-
-    @classmethod
-    @abstractmethod
-    def get_class(cls, name: str) -> type[BaseTransportService] | None: ...
-
-    @classmethod
-    @abstractmethod
-    def create(cls, name: str) -> BaseTransportService: ...
-
-
-class TransportServiceFactory(BaseTransportServiceFactory):
+class TransportServiceFactory:
     @classmethod
     @typechecked
     def get_names(cls) -> set[str]:
@@ -39,10 +26,18 @@ class TransportServiceFactory(BaseTransportServiceFactory):
                 return subcls
 
     @classmethod
+    @cache
     @typechecked
-    def create(cls, name: str) -> BaseTransportService:
+    def get_protocol(cls, name: str) -> Protocol | None:
+        service_class = cls.get_class(name=name)
+        if service_class:
+            return service_class.protocol
+
+    @classmethod
+    @typechecked
+    def create(cls, name: str, server_class: BaseServer = None) -> BaseTransportService:
         service_class = cls.get_class(name=name)
         if not service_class:
             raise ValueError(f'Transport service {name} not found')
 
-        return service_class()
+        return service_class(server_class)

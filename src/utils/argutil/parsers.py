@@ -13,7 +13,7 @@ class SchemedArgumentParser(argparse.ArgumentParser):
     def __init__(
             self,
             *,
-            schema: type[pydantic.BaseModel] | None = None,
+            scheme: type[pydantic.BaseModel] | None = None,
             ignore_fields: Container[str] | None = None,
             positional_arguments: Container[str] | None = None,
             short_aliases: dict[str, str] | None = None,
@@ -21,12 +21,12 @@ class SchemedArgumentParser(argparse.ArgumentParser):
     ):
 
         super(SchemedArgumentParser, self).__init__(**kwargs)
-        self._schema = schema
+        self._scheme = scheme
         self._ignore_fields = ignore_fields or set()
         self._positional_arguments = positional_arguments or set()
         self._short_aliases = short_aliases or {}
 
-        if schema:
+        if scheme:
             self._add_arguments_from_schema()
 
     @staticmethod
@@ -99,7 +99,7 @@ class SchemedArgumentParser(argparse.ArgumentParser):
         )
 
     def _add_arguments_from_schema(self):
-        fields = self._schema.model_fields
+        fields = self._scheme.model_fields
 
         for field_name, field_info in fields.items():
             if field_name not in self._ignore_fields:
@@ -116,4 +116,4 @@ class SchemedArgumentParser(argparse.ArgumentParser):
         logger.debug('Parsing arguments')
         namespace = self.parse_args(args=args, namespace=namespace)
         logger.debug(f'Args: {namespace}')
-        return self._schema.model_validate(namespace.__dict__)
+        return self._scheme.model_validate(namespace.__dict__)

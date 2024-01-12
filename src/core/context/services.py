@@ -1,28 +1,25 @@
 from src.utils import di
 
-from src.core.settings.dependencies import current_settings_dependency
 from src.core.settings import (
     save_settings,
-    DefaultSettingsScheme
+    SettingsDependencyContainer
 )
 from .context import DefaultContext
-from .dependencies import (
-    context_class_dependency,
-    current_context_dependency
-)
-from .events import context_created
+from .dependencies import ContextDependenciesContainer
+
+from .events import ContextEventChannel
 
 
-@di.injector.inject
+@di.inject
 def create_context(
-        setting: DefaultSettingsScheme = current_settings_dependency,
-        context_class: DefaultContext = context_class_dependency
+        setting=SettingsDependencyContainer.current_settings,
+        context_class=ContextDependenciesContainer.context_class
 ):
     context = context_class(settings=setting)
-    di.injector.bind(current_context_dependency, context)
-    context_created()
+    di.bind(ContextDependenciesContainer.current_context, context)
+    ContextEventChannel.context_created()
 
 
-@di.injector.inject
-def save_context(context: DefaultContext = current_context_dependency):
+@di.inject
+def save_context(context: DefaultContext = ContextDependenciesContainer.current_context):
     save_settings(settings=context.settings.unwrap())

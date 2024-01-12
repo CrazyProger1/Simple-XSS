@@ -4,5 +4,11 @@ from src.utils import di, argutil
 
 from .schemes import DefaultArgumentsScheme
 
-current_arguments_dependency = di.Dependency(BaseModel, DefaultArgumentsScheme)
-argument_parser_dependency = di.Dependency(argutil.SchemedArgumentParser)
+
+class ArgumentsDependencyContainer(di.DeclarativeContainer):
+    current_arguments: BaseModel
+    argument_parser: argutil.SchemedArgumentParser
+
+    @classmethod
+    def configure(cls):
+        di.bind(cls.argument_parser, argutil.SchemedArgumentParser(scheme=DefaultArgumentsScheme))

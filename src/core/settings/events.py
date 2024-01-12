@@ -1,4 +1,5 @@
 from src.utils import events
 
-settings_loaded = events.Event('settings_loaded')
-settings_saved = events.Event('settings_saved')
+class SettingsEventChannel(events.EventChannel):
+    settings_loaded = events.Event()
+    settings_saved = events.Event()

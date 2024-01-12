@@ -8,20 +8,15 @@ from src.core import (
     logic
 )
 
-from src.core.events import (
-    application_initialized,
-    application_launched,
-    application_terminated
-)
-
-from src.core.dependencies import configurate_base_dependencies
-from src.core.context.events import context_changed
+from src.core.events import ApplicationEventChannel
+from src.core.dependencies import configure_base_dependencies
+from src.core.context.events import ContextEventChannel
 
 
 def initialize():
     logging.configurate_logging()
 
-    configurate_base_dependencies()
+    configure_base_dependencies()
 
     plugins.load_plugins()
 
@@ -31,16 +26,16 @@ def initialize():
 
     context.create_context()
 
-    context_changed.add_listener(context.save_context)
+    ContextEventChannel.context_changed.add_listener(context.save_context)
 
 
 async def run():
-    application_launched()
+    ApplicationEventChannel.application_launched()
 
     initialize()
-    application_initialized()
+    ApplicationEventChannel.application_initialized()
 
     await logic.run_logic()
     await ui.run_ui()
 
-    application_terminated()
+    ApplicationEventChannel.application_terminated()

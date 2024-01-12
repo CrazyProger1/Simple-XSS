@@ -3,10 +3,14 @@ from .services import (
     BaseTunnelingService
 )
 from .factories import (
-    TunnelingServiceFactory
+    BaseTunnelingServiceFactory
+)
+from .dependencies import (
+    TunnelingDependencyContainer
 )
 
 __all__ = [
     'BaseTunnelingService',
-    'TunnelingServiceFactory'
+    'BaseTunnelingServiceFactory',
+    'TunnelingDependencyContainer'
 ]

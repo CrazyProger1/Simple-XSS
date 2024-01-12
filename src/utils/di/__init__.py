@@ -1,9 +1,8 @@
-from .injectors import Injector
-from .dependencies import Dependency
+from .funcs import (
+    inject,
+    bind
+)
 
-injector = Injector()
-
-__all__ = [
-    'Injector',
-    'Dependency'
-]
+from .containers import (
+    DeclarativeContainer
+)

@@ -1,8 +1,10 @@
 from src.utils import di
 from .controller import BaseController, Controller
 
-current_controller_dependency = di.Dependency(BaseController)
 
+class LogicDependenciesContainer(di.DeclarativeContainer):
+    current_controller: BaseController
 
-def configurate_logic_dependencies():
-    di.injector.bind(current_controller_dependency, Controller())
+    @classmethod
+    def configure(cls):
+        di.bind(LogicDependenciesContainer.current_controller, Controller())

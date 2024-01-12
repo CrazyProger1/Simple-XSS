@@ -1,4 +1,10 @@
 from src.utils import di
-from .factories import TunnelingServiceFactory
 
-tunneling_service_factory_dependency = di.Dependency(TunnelingServiceFactory)
+from .factories import (
+    BaseTunnelingServiceFactory,
+    TunnelingServiceFactory
+)
+
+
+class TunnelingDependencyContainer(di.DeclarativeContainer):
+    factory: BaseTunnelingServiceFactory = TunnelingServiceFactory

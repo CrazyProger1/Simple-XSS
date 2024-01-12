@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from functools import cache
 
 from typeguard import typechecked
@@ -7,7 +8,21 @@ from src.utils import clsutils
 from .services import BaseTunnelingService
 
 
-class TunnelingServiceFactory:
+class BaseTunnelingServiceFactory(ABC):
+    @classmethod
+    @abstractmethod
+    def get_names(cls, protocol: Protocol) -> set[str]: ...
+
+    @classmethod
+    @abstractmethod
+    def get_class(cls, name: str) -> type[BaseTunnelingService] | None: ...
+
+    @classmethod
+    @abstractmethod
+    def create(cls, name: str) -> BaseTunnelingService: ...
+
+
+class TunnelingServiceFactory(BaseTunnelingServiceFactory):
     @classmethod
     @typechecked
     def get_names(cls, protocol: Protocol) -> set[str]:
