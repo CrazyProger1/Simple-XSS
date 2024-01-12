@@ -30,7 +30,6 @@ def configurate_components_dependencies():
     )
     from .controls import MainControl
 
-
     di.injector.bind(network_box_dependency, NetworkBox())
     di.injector.bind(hook_box_dependency, HookBox())
     di.injector.bind(payload_box_dependency, PayloadBox())

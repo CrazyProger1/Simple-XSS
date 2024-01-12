@@ -4,14 +4,15 @@ from src.api.plugins import BasePlugin
 from src.api.events import ui_initialized
 from src.api.dependencies import current_ui_dependency
 
-from src.core.ui.base import BaseUI
+from src.core.ui.gui import GUI
 
 
-class MyGUI(BaseUI):
-    mode = 4
+class MyGUI(GUI):
+    mode = 2
 
-    def run(self):
+    async def run(self):
         print('RUUUM')
+        await super(MyGUI, self).run()
 
 
 class Plugin(BasePlugin):
@@ -22,5 +23,4 @@ class Plugin(BasePlugin):
         ui_initialized.add_listener(self.on_ui_init)
 
     def on_ui_init(self):
-        pass
-        # di.injector.bind(current_ui_dependency, MyGUI())
+        di.injector.bind(current_ui_dependency, MyGUI())

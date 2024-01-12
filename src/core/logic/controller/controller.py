@@ -14,13 +14,15 @@ from .base import BaseController
 
 class Controller(BaseController):
     @di.injector.inject
-    def __init__(self, io_manager: io.BaseIOManager = io_manager_dependency):
+    def __init__(self, io_manager: io.AsyncIOManager = io_manager_dependency):
         self._io = io_manager
 
     @di.injector.inject
     async def _handle_process_activated(self, context: DefaultContext = current_context_dependency):
         context.process_active = True
         await self._io.info(Messages.LAUNCHING)
+        abc = await self._io.input('abc')
+        print(abc)
 
     @di.injector.inject
     async def _handle_process_deactivated(self, context: DefaultContext = current_context_dependency):

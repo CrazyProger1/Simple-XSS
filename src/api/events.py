@@ -1,8 +1,7 @@
 from src.core.events import (
     application_launched,
     application_initialized,
-    application_terminated,
-    async_mode_entered
+    application_terminated
 )
 from src.core.ui.events import (
     ui_initialized,
@@ -20,7 +19,6 @@ __all__ = [
     'application_launched',
     'application_initialized',
     'application_terminated',
-    'async_mode_entered',
     'ui_initialized',
     'ui_terminated',
     'gui_initialized',
