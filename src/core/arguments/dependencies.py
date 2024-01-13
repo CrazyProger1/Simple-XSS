@@ -7,8 +7,8 @@ from .schemes import DefaultArgumentsScheme
 
 class ArgumentsDependencyContainer(di.DeclarativeContainer):
     current_arguments: BaseModel
-    argument_parser: argutil.SchemedArgumentParser
-
-    @classmethod
-    def configure(cls):
-        di.bind(cls.argument_parser, argutil.SchemedArgumentParser(scheme=DefaultArgumentsScheme))
+    argument_scheme: DefaultArgumentsScheme = di.Dependency(DefaultArgumentsScheme)
+    argument_parser: argutil.SchemedArgumentParser = di.Factory(
+        argutil.SchemedArgumentParser,
+        scheme=argument_scheme
+    )

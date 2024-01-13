@@ -10,7 +10,6 @@ def inject(clb: Callable):
         for param_name, param in signature.parameters.items():
             if param_name not in kwargs:
                 default = param.default
-
                 if isinstance(default, BaseDependency):
                     kwargs.update({param_name: default.value})
 
@@ -28,4 +27,8 @@ def inject(clb: Callable):
 
 
 def bind(dependency: any, value: any):
-    dependency.bind(value)
+    dependency.bind_value(value)
+
+
+def get(dependency: any) -> any:
+    return dependency.value
