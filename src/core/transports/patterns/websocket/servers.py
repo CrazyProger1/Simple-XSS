@@ -5,7 +5,7 @@ from functools import cache
 
 from src.utils import di
 from ..connections import BaseClientConnection, ClientConnection
-from ..exceptions import AddressInUseError
+from src.core.transports.exceptions import AddressInUseError
 from ..schemes import BaseClientScheme, BaseEventScheme
 from ..servers import BaseServer
 from ..sessions import Session

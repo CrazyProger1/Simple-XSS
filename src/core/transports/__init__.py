@@ -1,4 +1,4 @@
-from . import http
+from . import http, websocket
 
 from .services import BaseTransportService
 from .factories import BaseTransportServiceFactory

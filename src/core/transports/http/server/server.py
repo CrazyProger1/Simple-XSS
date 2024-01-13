@@ -9,6 +9,7 @@ from typeguard import typechecked
 
 from .utils import get_fingerprint
 from ..schemes import HTTPCreateEvent, HTTPReadEvent, HTTPClient
+from ...exceptions import AddressInUseError, ServerAlreadyRunningError
 from ...schemes import BaseClient, BaseEvent
 from ...servers import BaseServer
 
@@ -21,6 +22,7 @@ class HTTPServer(BaseServer):
 
         self._app = FastAPI()
         self._uvicorn_server = None
+        self._running = False
 
         self._configure_app()
         self._register_endpoints()
@@ -61,6 +63,8 @@ class HTTPServer(BaseServer):
 
     def _add_client_event(self, client: BaseClient, event: BaseEvent):
         events = self._client_events.get(client)
+        if not event:
+            raise
         events.append(event)
 
     async def _read_payload(self, request: Request):
@@ -87,8 +91,16 @@ class HTTPServer(BaseServer):
         self._app.get('/event', response_model=HTTPReadEvent, status_code=200)(self._read_event)
         self._app.post('/event', response_model=HTTPCreateEvent, status_code=200)(self._handle_event)
 
+    async def _run_uvicorn(self, host: str, port: int):
+        try:
+            config = uvicorn.Config(app=self._app, host=host, port=port)
+            self._uvicorn_server = uvicorn.Server(config)
+            await self._uvicorn_server.serve()
+        except SystemExit:
+            raise AddressInUseError(host=host, port=port)
+
     @typechecked
-    async def send(self, client: BaseClient, event: BaseEvent):
+    async def send(self, client: HTTPClient, event: BaseEvent):
         self._add_client_event(client=client, event=event)
 
     @typechecked
@@ -97,9 +109,11 @@ class HTTPServer(BaseServer):
 
     @typechecked
     async def run(self, host: str, port: int):
-        config = uvicorn.Config(app=self._app, host=host, port=port)
-        self._uvicorn_server = uvicorn.Server(config)
-        asyncio.create_task(self._uvicorn_server.serve())
+        if self._running:
+            raise ServerAlreadyRunningError()
+
+        self._running = True
+        asyncio.create_task(self._run_uvicorn(host=host, port=port))
 
     async def stop(self):
         if self._uvicorn_server:
