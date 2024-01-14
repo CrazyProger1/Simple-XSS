@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from src.core.enums import Protocol
-from .sessions import BaseSession
+from .servers import BaseServer
 
 
 class BaseTransportService(ABC):
@@ -9,7 +9,7 @@ class BaseTransportService(ABC):
     protocol: Protocol
 
     @abstractmethod
-    async def run(self, host: str, port: int) -> BaseSession: ...
+    async def run(self, host: str, port: int) -> BaseServer: ...
 
     @abstractmethod
-    async def stop(self, session: BaseSession): ...
+    async def stop(self, host: str, port: int): ...

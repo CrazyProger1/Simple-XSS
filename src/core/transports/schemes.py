@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
 
-class BaseClientScheme(BaseModel):
+class BaseClient(BaseModel):
     origin: str
 
 
-class BaseEventScheme(BaseModel):
+class BaseEvent(BaseModel):
     event: str
-    data: dict
+    data: dict = None

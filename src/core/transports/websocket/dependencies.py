@@ -1,13 +1,10 @@
 from src.utils import di
-from .schemes import (
-    BaseClientScheme,
-    WebsocketClientScheme,
-    BaseEventScheme,
-    WebsocketEventScheme
-)
 
-from .connections import ClientConnection, WebsocketClientConnection
+from .server import WebsocketServer
+from ..servers import BaseServer
 
-websocket_client_schema_dependency = di.Dependency(BaseClientScheme, default=WebsocketClientScheme)
-websocket_event_schema_dependency = di.Dependency(BaseEventScheme, default=WebsocketEventScheme)
-websocket_connection_class_dependency = di.Dependency(ClientConnection, default=WebsocketClientConnection)
+
+
+class WebsocketTransportDependencyContainer(di.DeclarativeContainer):
+    server: BaseServer = di.Factory(WebsocketServer)
+

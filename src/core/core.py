@@ -1,5 +1,3 @@
-import sys
-
 from src.core import (
     arguments,
     logging,
@@ -10,41 +8,32 @@ from src.core import (
     logic
 )
 
-from src.core.events import (
-    application_initialized,
-    application_launched,
-    application_terminated,
-    async_mode_entered
-)
-
-from src.core.dependencies import configurate_base_dependencies
-from src.core.context.events import context_changed
+from src.core.events import ApplicationEventChannel
+from src.core.dependencies import configure_base_dependencies
+from src.core.context.events import ContextEventChannel
 
 
 def initialize():
     logging.configurate_logging()
 
-    configurate_base_dependencies()
+    configure_base_dependencies()
 
     plugins.load_plugins()
 
-
-    arguments.parse_arguments(args=sys.argv[1:])
+    arguments.parse_arguments()
 
     settings.load_settings()
 
-    context.create_context()
-
-    async_mode_entered.add_listener(logic.run_logic)
-    context_changed.add_listener(context.save_context)
+    ContextEventChannel.context_changed.add_listener(context.save_context)
 
 
-def run():
-    application_launched()
+async def run():
+    ApplicationEventChannel.application_launched()
 
     initialize()
-    application_initialized()
+    ApplicationEventChannel.application_initialized()
 
-    ui.run_ui()
+    await logic.run_logic()
+    await ui.run_ui()
 
-    application_terminated()
+    ApplicationEventChannel.application_terminated()

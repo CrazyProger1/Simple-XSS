@@ -1,9 +1,9 @@
-from ..schemes import BaseClientScheme, BaseEventScheme
+from ..schemes import BaseClient, BaseEvent
 
 
-class WebsocketClientScheme(BaseClientScheme):
+class WebsocketClient(BaseClient):
     pass
 
 
-class WebsocketEventScheme(BaseEventScheme):
+class WebsocketEvent(BaseEvent):
     pass

@@ -1,8 +1,10 @@
 from src.utils import di
-from .controller import BaseController, Controller
-
-current_controller_dependency = di.Dependency(BaseController)
+from .process import BaseProcess, Process
 
 
-def configurate_logic_dependencies():
-    di.injector.bind(current_controller_dependency, Controller())
+class LogicDependenciesContainer(di.DeclarativeContainer):
+    process: BaseProcess = di.Singleton(Process)
+
+
+def configure_logic_dependencies():
+    LogicDependenciesContainer.configure()

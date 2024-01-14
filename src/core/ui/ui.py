@@ -1,24 +1,25 @@
 from src.utils import di
 
-from .dependencies import configurate_ui_dependencies, current_ui_dependency
-from .events import ui_initialized, ui_terminated
-from .base import BaseUI
+from .types import BaseUI
+from .dependencies import (
+    UIDependencyContainer,
+    configure_ui_dependencies
+)
+from .events import UIEventChannel
 
 
-@di.injector.inject
-def launch(ui: BaseUI = current_ui_dependency):
-    ui.run()
+@di.inject
+async def launch(ui: BaseUI = UIDependencyContainer.current_ui):
+    await ui.run()
 
 
 def initialize():
-    configurate_ui_dependencies()
+    configure_ui_dependencies()
 
 
-def run_ui():
-    # UI init stage
+async def run_ui():
     initialize()
-    ui_initialized()
+    UIEventChannel.ui_initialized()
 
-    # UI launch stage
-    launch()
-    ui_terminated()
+    await launch()
+    UIEventChannel.ui_terminated()

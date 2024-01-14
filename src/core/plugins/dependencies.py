@@ -1,5 +1,8 @@
 from src.utils import di
 from src.utils import packages
+from .managers import PluginManager
 
-plugin_manager_dependency = di.Dependency(packages.BasePackageManager)
-plugin_loader_dependency = di.Dependency(packages.BasePackageLoader)
+
+class PluginsDependencyContainer(di.DeclarativeContainer):
+    plugin_manager: packages.BasePackageManager = di.Factory(PluginManager)
+    plugin_loader: packages.BasePackageLoader = di.Factory(packages.PackageLoader)

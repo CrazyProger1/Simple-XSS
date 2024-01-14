@@ -1,4 +1,6 @@
 from src.utils import events
 
 
-context_changed = events.Event('context_changed')
+class ContextEventChannel(events.EventChannel):
+    context_changed = events.Event()
+    context_created = events.Event()

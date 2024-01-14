@@ -1,3 +1,5 @@
 from src.utils import events
 
-arguments_parsed = events.Event('arguments_parsed')
+
+class ArgumentsEventChannel(events.EventChannel):
+    arguments_parsed = events.Event()

@@ -1,42 +1,47 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from src.core.config import (
-    DEFAULT_RESOLUTION
+    DEFAULT_RESOLUTION,
+    DEFAULT_THEME,
+    DEFAULT_HOST,
+    DEFAULT_PORT,
+    DEFAULT_TRANSPORT,
+    DEFAULT_PAYLOADS_DIRECTORY,
+    DEFAULT_HOOKS_DIRECTORY,
+    DEFAULT_TUNNELING_SERVICE
 )
 
 
 class HookSettingsScheme(BaseModel):
     current: str = None
-    directory: str = './resources/hooks'
+    directory: str = DEFAULT_HOOKS_DIRECTORY
 
 
 class PayloadSettingsScheme(BaseModel):
     current: str = None
-    directory: str = './resources/payloads'
+    directory: str = DEFAULT_PAYLOADS_DIRECTORY
 
 
 class TransportSettingsScheme(BaseModel):
-    current: str = 'http'
-    directory: str = './resources/services/transport'
-    host: str = 'localhost'
-    port: int = 4444
+    current: str = DEFAULT_TRANSPORT
+    host: str = DEFAULT_HOST
+    port: int = DEFAULT_PORT
 
 
-class TunnellingSettingsScheme(BaseModel):
-    current: str = 'ngrok'
-    directory: str = './resources/services/tunnelling'
+class TunnelingSettingsScheme(BaseModel):
+    current: str = DEFAULT_TUNNELING_SERVICE
     use: bool = True
     public_url: str = ''
 
 
 class GraphicsSettingsScheme(BaseModel):
     resolution: tuple = DEFAULT_RESOLUTION
-    theme: str = 'dark'
+    theme: str = Field(DEFAULT_THEME)
 
 
 class DefaultSettingsScheme(BaseModel):
     hook: HookSettingsScheme = HookSettingsScheme()
     payload: PayloadSettingsScheme = PayloadSettingsScheme()
     transport: TransportSettingsScheme = TransportSettingsScheme()
-    tunnelling: TunnellingSettingsScheme = TunnellingSettingsScheme()
+    tunneling: TunnelingSettingsScheme = TunnelingSettingsScheme()
     graphics: GraphicsSettingsScheme = GraphicsSettingsScheme()

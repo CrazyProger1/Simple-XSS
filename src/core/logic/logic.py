@@ -1,28 +1,33 @@
 from src.utils import di
 
 from .dependencies import (
-    configurate_logic_dependencies,
-    current_controller_dependency
+    configure_logic_dependencies,
+    LogicDependenciesContainer
 )
 from .events import (
-    logic_initialized,
-    logic_terminated
+    LogicEventChannel
 )
-from .controller import BaseController
+
+
+@di.inject
+async def activate_process(process=LogicDependenciesContainer.process):
+    await process.activate()
+
+
+@di.inject
+async def deactivate_process(process=LogicDependenciesContainer.process):
+    await process.deactivate()
 
 
 def initialize():
-    configurate_logic_dependencies()
-
-
-@di.injector.inject
-async def run_controller(controller: BaseController = current_controller_dependency):
-    await controller.run()
+    configure_logic_dependencies()
 
 
 async def run_logic():
-    initialize()
-    logic_initialized()
+    from src.core.ui import UIEventChannel
 
-    await run_controller()
-    logic_terminated()
+    initialize()
+    LogicEventChannel.logic_initialized()
+
+    UIEventChannel.process_activated.add_listener(activate_process)
+    UIEventChannel.process_deactivated.add_listener(deactivate_process)

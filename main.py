@@ -1,5 +1,10 @@
+import asyncio
 from src.core import run
 
-if __name__ == '__main__':
-    run()
 
+async def main():
+    await run()
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

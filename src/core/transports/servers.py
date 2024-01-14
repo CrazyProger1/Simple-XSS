@@ -1,27 +1,18 @@
 from abc import ABC, abstractmethod
+from typing import Callable
 
-from .sessions import BaseSession
+from .schemes import BaseClient, BaseEvent
 
 
 class BaseServer(ABC):
+    @abstractmethod
+    async def send(self, client: BaseClient, event: BaseEvent): ...
+
+    @abstractmethod
+    def add_listener(self, callback: Callable[["BaseServer", BaseClient, BaseEvent], any]): ...
+
+    @abstractmethod
+    async def run(self, host: str, port: int): ...
 
     @abstractmethod
     async def stop(self): ...
-
-    @abstractmethod
-    async def run(self): ...
-
-    @property
-    @abstractmethod
-    def session(self) -> BaseSession: ...
-
-    @property
-    @abstractmethod
-    def host(self) -> str: ...
-
-    @property
-    @abstractmethod
-    def port(self) -> int: ...
-
-    def __repr__(self):
-        return f'<Server: {self.host}:{self.port}>'

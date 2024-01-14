@@ -1,4 +1,11 @@
 from src.utils import events
 
-gui_initialized = events.Event('gui_initialized')
-gui_terminated = events.Event('gui_terminated')
+
+class GUIEventChannel(events.EventChannel):
+    gui_initialized = events.Event()
+    gui_terminated = events.Event()
+
+    process_activated = events.AsyncEvent()
+    process_deactivated = events.AsyncEvent()
+
+    internal_error_occurred = events.Event(required_kwargs=('error',))

@@ -1,19 +1,12 @@
 from src.utils import di
 
-from src.core.settings.dependencies import current_settings_dependency
-from src.core.settings import save_settings
-
+from src.core.settings import (
+    save_settings
+)
 from .context import DefaultContext
-from .dependencies import context_class_dependency, current_context_dependency
+from .dependencies import ContextDependenciesContainer
 
 
-@di.injector.inject
-def create_context(setting=current_settings_dependency,
-                   context_cls: DefaultContext = context_class_dependency):
-    context = context_cls(settings=setting)
-    di.injector.bind(current_context_dependency, context)
-
-
-@di.injector.inject
-def save_context(appcontext: DefaultContext = current_context_dependency):
-    save_settings(settings=appcontext.settings.unwrap())
+@di.inject
+def save_context(context: DefaultContext = ContextDependenciesContainer.current_context):
+    save_settings(settings=context.settings.unwrap())

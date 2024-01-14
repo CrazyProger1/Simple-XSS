@@ -1,33 +1,31 @@
-from typeguard import typechecked
-
+from src.utils import di
 from src.core.enums import Protocol
+from .dependencies import WebsocketTransportDependencyContainer
 from ..services import BaseTransportService
-from ..sessions import BaseSession
-from .servers import WebsocketServer
+from ..servers import BaseServer
 
 
 class WebsocketTransportService(BaseTransportService):
     name = 'websocket'
     protocol = Protocol.WEBSOCKET
 
-    @typechecked
-    def __init__(self, server: type[WebsocketServer] | None = None):
-        self._server_class = server or WebsocketServer
-        self._sessions_servers = {}
+    def __init__(self):
+        self._sessions = {}
 
-    @typechecked
-    async def run(self, host: str, port: int) -> BaseSession:
-        server = self._server_class(
+    @di.inject
+    async def run(
+            self,
+            host: str, port: int,
+            server: BaseServer = WebsocketTransportDependencyContainer.server
+    ) -> BaseServer:
+        await server.run(
             host=host,
             port=port
         )
-        await server.run()
-        session = server.session
-        self._sessions_servers[session] = server
-        return server.session
+        self._sessions[(host, port)] = server
+        return server
 
-    @typechecked
-    async def stop(self, session: BaseSession):
-        server: WebsocketServer = self._sessions_servers.get(session)
-        if server:
-            await server.stop()
+    async def stop(self, host: str, port: int):
+        session = self._sessions.get((host, port))
+        if session:
+            await session.stop()

@@ -7,3 +7,6 @@ class Hook(BaseHook):
     NAME = 'HTTP Hook'
     VERSION = '0.1'
     TRANSPORT = 'http'
+
+    def hook(self) -> str:
+        pass

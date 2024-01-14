@@ -1,4 +1,12 @@
 from src.utils import di
 
-context_class_dependency = di.Dependency(type)
-current_context_dependency = di.Dependency(object)
+from .context import DefaultContext
+from src.core.settings import SettingsDependencyContainer
+
+
+class ContextDependenciesContainer(di.DeclarativeContainer):
+    context_class: type = DefaultContext
+    current_context: object = di.Singleton(
+        DefaultContext,
+        settings=SettingsDependencyContainer.current_settings
+    )
