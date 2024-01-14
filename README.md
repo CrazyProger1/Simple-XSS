@@ -311,6 +311,8 @@ browser and in the graphical interface._
 
 ### Graphical
 
+![img.png](resources/images/v0.3.png)
+
 ### WEB
 
 ### Command-Line
