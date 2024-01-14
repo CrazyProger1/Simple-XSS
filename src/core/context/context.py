@@ -16,3 +16,4 @@ class DefaultContext:
     settings: settings.DefaultSettingsScheme
     process_active: bool = False
     hook_code: str = None
+

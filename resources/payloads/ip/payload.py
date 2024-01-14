@@ -10,3 +10,7 @@ class Payload(BasePayload):
         'http',
         'websocket'
     }
+
+    @property
+    def payload(self) -> str:
+        return ''

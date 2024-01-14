@@ -9,6 +9,9 @@ class HTTPTransportService(BaseTransportService):
     name = 'http'
     protocol = Protocol.HTTP
 
+    def __init__(self):
+        self._sessions = {}
+
     @di.inject
     async def run(
             self,
@@ -19,7 +22,10 @@ class HTTPTransportService(BaseTransportService):
             host=host,
             port=port
         )
+        self._sessions[(host, port)] = server
         return server
 
-    async def stop(self, session: BaseServer):
-        await session.stop()
+    async def stop(self, host: str, port: int):
+        session = self._sessions.get((host, port))
+        if session:
+            await session.stop()

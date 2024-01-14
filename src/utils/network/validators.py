@@ -25,9 +25,9 @@ def validate_host(host: str, raise_exceptions: bool = False) -> bool:
 
 
 @typechecked
-def validate_url(url: str, raise_exceptions: bool = False):
+def validate_domain(url: str, raise_exceptions: bool = False):
     url_pattern = re.compile(
-        r'[(\w+):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)'
+        r'^(?!:\/\/)([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$'
     )
     if url_pattern.match(url):
         return True

@@ -3,10 +3,10 @@ from typeguard import typechecked
 from src.utils import clsutils
 from src.core.enums import GraphicMode
 from src.core.config import DEFAULT_GRAPHIC_MODE
-from .base import BaseUI
+from .types import BaseUI, BaseUIFactory
 
 
-class UIFactory:
+class UIFactory(BaseUIFactory):
     @classmethod
     def get_modes(cls) -> set[int]:
         modes = set()

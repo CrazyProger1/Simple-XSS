@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+from typing import Iterable
 
 
 class BaseContainer:
@@ -7,6 +8,11 @@ class BaseContainer:
     @classmethod
     @abstractmethod
     def configure(cls): ...
+
+    @classmethod
+    @property
+    @abstractmethod
+    def dependencies(cls) -> Iterable["BaseDependency"]: ...
 
     def __repr__(self):
         return f'<Dependency Container: {self.__class__.__name__}>'

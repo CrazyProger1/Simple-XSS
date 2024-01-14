@@ -1,6 +1,5 @@
 import inspect
 import os
-from functools import cache
 
 from .exceptions import DependencyNotBoundError
 from .types import (
@@ -104,12 +103,15 @@ class Factory(BaseDependency):
                 kwargs.update({key: arg})
         return args, kwargs
 
-    def _create_instance(self, *args, **kwargs):
+    def _create_instance(self):
+        args, kwargs = self._inject_dependencies()
         return self._class(*args, **kwargs)
 
     def bind(self, name: str, base_type: type, default: any, container: BaseContainer):
         self._name = name
         self._base = base_type
+        if not issubclass(self._class, self._base):
+            raise TypeError(f'Bound class of {self} dependency must be subclass of {self._base}')
         self._container = container
 
     def bind_value(self, value: any):
@@ -130,8 +132,7 @@ class Factory(BaseDependency):
 
     @property
     def value(self) -> any:
-        args, kwargs = self._inject_dependencies()
-        return self._create_instance(*args, **kwargs)
+        return self._create_instance()
 
     @property
     def nullable(self) -> bool:
@@ -140,19 +141,14 @@ class Factory(BaseDependency):
 
 class Singleton(Factory):
     def __init__(self, cls: type, *args, **kwargs):
+        self._instance = None
+
         super(Singleton, self).__init__(cls=cls, *args, **kwargs)
 
-    @cache
-    def _create_instance(self, *args, **kwargs):
-        return super(Singleton, self)._create_instance(*args, **kwargs)
-
-    @cache
-    def _inject_dependencies(self) -> tuple[list, dict]:
-        return super(Singleton, self)._inject_dependencies()
-
-    def bind_value(self, value: any):
-        self._create_instance.cache_clear()
-        super(Singleton, self).bind_value(value=value)
+    def _create_instance(self):
+        if not self._instance:
+            self._instance = super(Singleton, self)._create_instance()
+        return self._instance
 
 
 class Environment(Dependency):

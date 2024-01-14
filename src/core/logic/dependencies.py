@@ -1,10 +1,10 @@
 from src.utils import di
-from .controller import BaseController, Controller
+from .process import BaseProcess, Process
 
 
 class LogicDependenciesContainer(di.DeclarativeContainer):
-    current_controller: BaseController
+    process: BaseProcess = di.Singleton(Process)
 
-    @classmethod
-    def configure(cls):
-        di.bind(LogicDependenciesContainer.current_controller, Controller())
+
+def configure_logic_dependencies():
+    LogicDependenciesContainer.configure()

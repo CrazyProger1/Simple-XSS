@@ -1,5 +1,5 @@
 from src.core.enums import GraphicMode
-from src.core.ui.base import BaseUI
+from src.core.ui.types import BaseUI
 
 
 class CLI(BaseUI):

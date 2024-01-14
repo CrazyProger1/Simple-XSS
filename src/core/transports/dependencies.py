@@ -7,4 +7,4 @@ from .factories import (
 
 
 class TransportsDependencyContainer(di.DeclarativeContainer):
-    factory: BaseTransportServiceFactory = TransportServiceFactory
+    factory: BaseTransportServiceFactory = di.Singleton(TransportServiceFactory)

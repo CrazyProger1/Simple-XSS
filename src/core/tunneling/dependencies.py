@@ -7,4 +7,4 @@ from .factories import (
 
 
 class TunnelingDependencyContainer(di.DeclarativeContainer):
-    factory: BaseTunnelingServiceFactory = TunnelingServiceFactory
+    factory: BaseTunnelingServiceFactory = di.Singleton(TunnelingServiceFactory)

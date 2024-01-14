@@ -1,7 +1,10 @@
 from src.utils import di
 
-from .base import BaseUI
-from .dependencies import UIDependencyContainer
+from .types import BaseUI
+from .dependencies import (
+    UIDependencyContainer,
+    configure_ui_dependencies
+)
 from .events import UIEventChannel
 
 
@@ -11,7 +14,7 @@ async def launch(ui: BaseUI = UIDependencyContainer.current_ui):
 
 
 def initialize():
-    UIDependencyContainer.configure()
+    configure_ui_dependencies()
 
 
 async def run_ui():

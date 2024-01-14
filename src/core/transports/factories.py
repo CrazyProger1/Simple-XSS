@@ -3,14 +3,19 @@ from functools import cache
 
 from typeguard import typechecked
 
-from .services import BaseTransportService
 from src.utils import clsutils
+from src.core.enums import Protocol
+from .services import BaseTransportService
 
 
 class BaseTransportServiceFactory(ABC):
     @classmethod
     @abstractmethod
     def get_names(cls) -> set[str]: ...
+
+    @classmethod
+    @abstractmethod
+    def get_transport_protocol(cls, name: str) -> Protocol: ...
 
     @classmethod
     @abstractmethod
@@ -22,6 +27,7 @@ class BaseTransportServiceFactory(ABC):
 
 
 class TransportServiceFactory(BaseTransportServiceFactory):
+
     @classmethod
     @typechecked
     def get_names(cls) -> set[str]:
@@ -33,10 +39,18 @@ class TransportServiceFactory(BaseTransportServiceFactory):
     @classmethod
     @cache
     @typechecked
+    def get_transport_protocol(cls, name: str) -> Protocol:
+        transport_class = cls.get_class(name)
+        return transport_class.protocol
+
+    @classmethod
+    @cache
+    @typechecked
     def get_class(cls, name: str) -> type[BaseTransportService] | None:
         for subcls in clsutils.iter_subclasses(BaseTransportService):
             if name == subcls.name:
                 return subcls
+        raise ValueError(f'Transport service class {name} not found')
 
     @classmethod
     @typechecked

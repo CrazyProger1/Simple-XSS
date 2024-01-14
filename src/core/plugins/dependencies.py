@@ -4,5 +4,5 @@ from .managers import PluginManager
 
 
 class PluginsDependencyContainer(di.DeclarativeContainer):
-    plugin_manager: packages.BasePackageManager = PluginManager()
-    plugin_loader: packages.BasePackageLoader = packages.PackageLoader()
+    plugin_manager: packages.BasePackageManager = di.Factory(PluginManager)
+    plugin_loader: packages.BasePackageLoader = di.Factory(packages.PackageLoader)

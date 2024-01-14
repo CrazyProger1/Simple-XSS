@@ -1,7 +1,7 @@
-from .base import CustomControl
-from .controls import MainControl
+from .types import BaseComponentManager
+from .manager import ComponentManager
 
 __all__ = [
-    'CustomControl',
-    'MainControl'
+    'ComponentManager',
+    'BaseComponentManager'
 ]

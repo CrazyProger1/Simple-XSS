@@ -8,11 +8,22 @@ from typeguard import typechecked
 class Event:
 
     @typechecked
-    def __init__(self, name: str | None = None):
+    def __init__(self, name: str | None = None, required_kwargs: Iterable[str] | None = None):
         self._listeners = {}
         self._last_instance = None
         self._name = None
+        self._required_kwargs = required_kwargs or ()
         self.name = name
+
+    @staticmethod
+    def _validate_listener(listener: Callable):
+        if not callable(listener):
+            raise ValueError('listener must be callable')
+
+    def _check_kwargs(self, kwargs: dict):
+        for key in self._required_kwargs:
+            if not kwargs.get(key):
+                raise TypeError(f"{self.name}() missing 1 required key argument: '{key}'")
 
     @property
     def name(self):
@@ -23,11 +34,6 @@ class Event:
         if value:
             logger.debug(f'{self.__class__.__name__} {value} registered')
             self._name = value
-
-    @staticmethod
-    def _validate_listener(listener: Callable):
-        if not callable(listener):
-            raise ValueError('listener must be callable')
 
     def add_listener(self, listener: Callable, pass_subject: bool = False):
         self._validate_listener(listener=listener)
@@ -47,6 +53,7 @@ class Event:
         return self
 
     def __call__(self, **kwargs):
+        self._check_kwargs(kwargs)
         logger.debug(f'Event {self._name} called')
         for listener, pass_subj in self._listeners.items():
             if pass_subj:
@@ -63,6 +70,7 @@ class Event:
 
 class AsyncEvent(Event):
     async def __call__(self, **kwargs):
+        self._check_kwargs(kwargs)
         logger.debug(f'Async Event {self._name} called')
         for listener, pass_subj in self._listeners.items():
             if pass_subj:

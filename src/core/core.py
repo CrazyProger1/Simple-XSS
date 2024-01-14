@@ -24,8 +24,6 @@ def initialize():
 
     settings.load_settings()
 
-    context.create_context()
-
     ContextEventChannel.context_changed.add_listener(context.save_context)
 
 
