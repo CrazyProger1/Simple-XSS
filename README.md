@@ -30,6 +30,10 @@ that may result from the use of this program.
 
 ## Usage
 
+## Status
+
+**V0.3 - indev**
+
 ### GUI-Guide
 
 [//]: # (> Use `--help` argument to get help.)
