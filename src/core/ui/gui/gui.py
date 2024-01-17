@@ -28,7 +28,7 @@ class GUI(BaseUI):
         GUIEventChannel.gui_initialized()
 
     @di.inject
-    async def _setup_page(
+    async def _init_page(
             self,
             page: ft.Page,
             context: Context = DataDependencyContainer.context,
@@ -45,9 +45,11 @@ class GUI(BaseUI):
         page.window_min_height = MIN_RESOLUTION[1]
         page.title = f'{APP} - V{VERSION}'
 
+        GUIEventChannel.page_initialized()
+
         await page.update_async()
         await manager.show(page=page)
 
     async def run(self):
-        await ft.app_async(self._setup_page)
+        await ft.app_async(self._init_page)
         GUIEventChannel.gui_terminated()
