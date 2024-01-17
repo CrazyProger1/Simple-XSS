@@ -1,5 +1,5 @@
-from src.core.context import (
-    ContextDependenciesContainer
+from src.core.data import (
+    DataDependencyContainer
 )
 from src.core.arguments import (
     ArgumentsDependencyContainer

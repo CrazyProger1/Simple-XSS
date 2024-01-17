@@ -3,14 +3,14 @@ from src.core import (
     logging,
     plugins,
     settings,
-    context,
+    data,
     ui,
     logic
 )
 
 from src.core.events import ApplicationEventChannel
 from src.core.dependencies import configure_base_dependencies
-from src.core.context.events import ContextEventChannel
+from src.core.data.events import DataEventChannel
 
 
 def initialize():
@@ -24,7 +24,7 @@ def initialize():
 
     settings.load_settings()
 
-    ContextEventChannel.context_changed.add_listener(context.save_context)
+    DataEventChannel.context_changed.add_listener(data.save_contexts)
 
 
 async def run():

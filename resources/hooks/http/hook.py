@@ -8,5 +8,12 @@ class Hook(BaseHook):
     VERSION = '0.1'
     TRANSPORT = 'http'
 
+    def __init__(self):
+        self._public_url = None
+
+    async def on_launched(self, environment):
+        self._public_url = environment.settings.tunneling.public_url
+
+    @property
     def hook(self) -> str:
-        pass
+        return f"<script src='{self._public_url}/script.js'></script>"

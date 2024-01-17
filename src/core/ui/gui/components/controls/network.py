@@ -6,7 +6,7 @@ from src.core.config import (
     DEFAULT_HOST
 )
 from src.core.ui.utils import validation
-from src.core.context import DefaultContext, ContextDependenciesContainer
+from src.core.data import Context, DataDependencyContainer
 from src.core.transports import TransportsDependencyContainer
 from src.core.tunneling import TunnelingDependencyContainer
 
@@ -138,20 +138,20 @@ class NetworkBox(CustomControl):
 
     @di.inject
     async def _handle_change_transport(self, _,
-                                       context: DefaultContext = ContextDependenciesContainer.current_context):
+                                       context: Context = DataDependencyContainer.context):
 
         self._tunneling_dropdown.options = self._get_tunneling_options()
         context.settings.transport.current = self._transport_dropdown.value
 
     @di.inject
     async def _handle_change_tunneling(self, _,
-                                       context: DefaultContext = ContextDependenciesContainer.current_context):
+                                       context: Context = DataDependencyContainer.context):
         name = self._tunneling_dropdown.value
         context.settings.tunneling.current = name
 
     @di.inject
     async def _handle_change_checkbox(self, _,
-                                      context: DefaultContext = ContextDependenciesContainer.current_context):
+                                      context: Context = DataDependencyContainer.context):
         use_tunneling = self._use_tunneling_checkbox.value
         self._tunneling_dropdown.visible = use_tunneling
         self._public_url_field.visible = not use_tunneling
@@ -167,7 +167,7 @@ class NetworkBox(CustomControl):
     async def _handle_change_url(self, _):
         await validate_field(self._public_url_field, validation.is_valid_public_url)
 
-    def setup(self, context: DefaultContext):
+    def setup(self, context: Context):
         self._transport_dropdown.options = self._get_transport_options()
 
         transport_settings = context.settings.transport.unwrap()
@@ -180,14 +180,14 @@ class NetworkBox(CustomControl):
 
         self._tunneling_dropdown.options = self._get_tunneling_options()
 
-    def update(self, context: DefaultContext):
+    def update(self, context: Context):
         self._container.disabled = context.process_active.unwrap()
         use_tunneling = context.settings.tunneling.use.unwrap()
         self._use_tunneling_checkbox.value = use_tunneling
         self._tunneling_dropdown.visible = use_tunneling
         self._public_url_field.visible = not use_tunneling
 
-    def validate(self, context: DefaultContext) -> bool:
+    def validate(self, context: Context) -> bool:
         host = self._host_field.value
         port = self._port_field.value
         public_url = self._public_url_field.value
@@ -205,7 +205,7 @@ class NetworkBox(CustomControl):
             return False
         return True
 
-    def save(self, context: DefaultContext):
+    def save(self, context: Context):
         host = self._host_field.value or DEFAULT_HOST
         port = self._port_field.value or DEFAULT_PORT
         public_url = self._public_url_field.value

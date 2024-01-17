@@ -11,9 +11,9 @@ from .constants import (
     DESCRIPTION_MAX_LINES,
     TEXT_FONT_SIZE
 )
-from src.core.context import (
-    DefaultContext,
-    ContextDependenciesContainer
+from src.core.data import (
+    Context,
+    DataDependencyContainer
 )
 from .utils import show_error
 from ..types import CustomControl
@@ -81,7 +81,7 @@ class PayloadBox(CustomControl):
     @di.inject
     async def _handle_choose_payload_button_click(
             self, _,
-            context: DefaultContext = ContextDependenciesContainer.current_context
+            context: Context = DataDependencyContainer.context
     ):
         await self._payload_picker.get_directory_path_async(
             initial_directory=context.settings.payload.directory,
@@ -90,7 +90,7 @@ class PayloadBox(CustomControl):
 
     @di.inject
     async def _handle_payload_chosen(self, event: ft.FilePickerResultEvent,
-                                     context: DefaultContext = ContextDependenciesContainer.current_context):
+                                     context: Context = DataDependencyContainer.context):
         path = event.path
         if not path:
             return
@@ -114,12 +114,12 @@ class PayloadBox(CustomControl):
         except (ValueError, ImportError):
             pass
 
-    def update(self, context: DefaultContext):
+    def update(self, context: Context):
         self._container.disabled = context.process_active.unwrap()
         path = context.settings.payload.current.unwrap()
         self._open_payload(path)
 
-    def validate(self, context: DefaultContext) -> bool:
+    def validate(self, context: Context) -> bool:
         if not self._payload_path_field.value:
             show_error(Messages.PAYLOAD_REQUIRED)
             return False

@@ -2,7 +2,7 @@ import flet as ft
 
 from abc import ABC, abstractmethod
 
-from src.core.context import DefaultContext
+from src.core.data import Context
 
 
 class CustomControl(ABC):
@@ -10,17 +10,17 @@ class CustomControl(ABC):
 
     overlay = []
 
-    def setup(self, context: DefaultContext):
+    def setup(self, context: Context):
         """Called after components initialized."""
 
-    def update(self, context: DefaultContext):
+    def update(self, context: Context):
         """Called when the application context changes."""
 
-    def validate(self, context: DefaultContext) -> bool:
+    def validate(self, context: Context) -> bool:
         """Called before process launched."""
         return True
 
-    def save(self, context: DefaultContext):
+    def save(self, context: Context):
         """Called when process launched."""
 
     @abstractmethod

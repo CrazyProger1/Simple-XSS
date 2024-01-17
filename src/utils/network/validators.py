@@ -25,9 +25,21 @@ def validate_host(host: str, raise_exceptions: bool = False) -> bool:
 
 
 @typechecked
-def validate_domain(url: str, raise_exceptions: bool = False):
-    url_pattern = re.compile(
+def validate_domain(domain: str, raise_exceptions: bool = False) -> bool:
+    domain_pattern = re.compile(
         r'^(?!:\/\/)([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$'
+    )
+    if domain_pattern.match(domain):
+        return True
+    elif raise_exceptions:
+        raise ValueError(f'Domain {domain} is invalid')
+    return False
+
+
+@typechecked
+def validate_url(url: str, raise_exceptions: bool = False) -> bool:
+    url_pattern = re.compile(
+        r'(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})?'
     )
     if url_pattern.match(url):
         return True

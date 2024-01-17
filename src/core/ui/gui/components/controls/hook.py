@@ -1,9 +1,9 @@
 import flet as ft
 
 from src.utils import di
-from src.core.context import (
-    ContextDependenciesContainer,
-    DefaultContext
+from src.core.data import (
+    DataDependencyContainer,
+    Context
 )
 
 from src.core.ui.utils import validation
@@ -78,7 +78,7 @@ class HookBox(CustomControl):
 
     @di.inject
     async def _handle_choose_hook_button_click(self, _,
-                                               context: DefaultContext = ContextDependenciesContainer.current_context):
+                                               context: Context = DataDependencyContainer.context):
         await self._hook_picker.get_directory_path_async(
             initial_directory=context.settings.hook.directory,
             dialog_title=Messages.CHOOSE_HOOK_TITLE
@@ -86,7 +86,7 @@ class HookBox(CustomControl):
 
     @di.inject
     async def _handle_hook_chosen(self, event: ft.FilePickerResultEvent,
-                                  context: DefaultContext = ContextDependenciesContainer.current_context):
+                                  context: Context = DataDependencyContainer.context):
         path = event.path
         if not path:
             return
@@ -110,12 +110,12 @@ class HookBox(CustomControl):
         except (ValueError, ImportError):
             pass
 
-    def update(self, context: DefaultContext):
+    def update(self, context: Context):
         self._container.disabled = context.process_active.unwrap()
         path = context.settings.hook.current.unwrap()
         self._open_hook(path)
 
-    def validate(self, context: DefaultContext) -> bool:
+    def validate(self, context: Context) -> bool:
         if not self._hook_path_field.value:
             show_error(Messages.HOOK_REQUIRED)
             return False

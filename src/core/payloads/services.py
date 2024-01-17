@@ -3,6 +3,7 @@ from src.core.config import (
     PAYLOAD_FILE,
     PAYLOAD_CLASS_NAME
 )
+
 from .dependencies import PayloadsDependencyContainer
 
 
@@ -12,12 +13,14 @@ def load_payload(
         loader: packages.PackageLoader = PayloadsDependencyContainer.payload_loader,
         base_class: type[packages.BasePackage] = PayloadsDependencyContainer.payload_base_class
 ):
-    return loader.load(
+    payload = loader.load(
         directory=directory,
         package_file=PAYLOAD_FILE,
         package_class_name=PAYLOAD_CLASS_NAME,
         base_class=base_class
     )
+    di.bind(PayloadsDependencyContainer.current_payload, payload)
+    return payload
 
 
 @di.inject
