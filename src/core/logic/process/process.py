@@ -117,14 +117,14 @@ class Process(BaseProcess):
         try:
             await self._transport_service.stop(self._transport_session)
             await self._io.info(Messages.TRANSPORT_STOPPED)
-        except AttributeError:
+        except Exception:
             pass
 
     async def _stop_tunneling(self):
         try:
             await self._io.info(Messages.TUNNELING_STOPPED)
             await self._tunneling_service.stop(self._tunneling_session)
-        except AttributeError:
+        except Exception:
             pass
 
     async def activate(self):
