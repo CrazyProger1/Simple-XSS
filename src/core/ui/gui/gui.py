@@ -5,9 +5,9 @@ from src.core.config import (
     VERSION,
     APP
 )
-from src.core.context import (
-    ContextDependenciesContainer,
-    DefaultContext
+from src.core.data import (
+    DataDependencyContainer,
+    Context
 )
 from src.core.enums import GraphicMode
 from src.utils import di
@@ -31,7 +31,7 @@ class GUI(BaseUI):
     async def _setup_page(
             self,
             page: ft.Page,
-            context: DefaultContext = ContextDependenciesContainer.current_context,
+            context: Context = DataDependencyContainer.context,
             manager: BaseComponentManager = GUIDependencyContainer.component_manager
     ):
         di.bind(GUIDependencyContainer.main_page, page)

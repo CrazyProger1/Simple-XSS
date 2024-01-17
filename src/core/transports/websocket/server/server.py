@@ -4,6 +4,7 @@ from typing import Callable
 import websockets
 from typeguard import typechecked
 
+from src.core.payloads import PayloadsDependencyContainer
 from src.utils import di
 from .dependencies import WebsocketServerDependencyContainer
 from ..encoders import BaseEncoder
@@ -15,7 +16,9 @@ from ...servers import BaseServer
 
 class WebsocketServer(BaseServer):
     @di.inject
-    def __init__(self, encoder: BaseEncoder = WebsocketServerDependencyContainer.encoder):
+    def __init__(self, encoder: BaseEncoder = WebsocketServerDependencyContainer.encoder,
+                 payload=PayloadsDependencyContainer.current_payload):
+        self._payload = payload
         self._encoder = encoder
         self._running = False
         self._host = None
@@ -47,6 +50,7 @@ class WebsocketServer(BaseServer):
 
     async def _handle_connection(self, connection):
         client = self._authenticate(connection=connection)
+        await connection.send(self._payload.payload)
         try:
             async for message in connection:
                 await self._handle_message(message=message, client=client)
@@ -77,7 +81,7 @@ class WebsocketServer(BaseServer):
     async def send(self, client: WebsocketClient, event: BaseEvent):
         connection = self._get_connection(client=client)
         raw = self._encoder.encode(event)
-        await connection.send(raw.encode('utf-8'))
+        await connection.send(raw)
 
     @typechecked
     def add_listener(self, callback: Callable[["BaseServer", BaseClient, BaseEvent], any]):

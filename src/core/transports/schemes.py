@@ -6,5 +6,5 @@ class BaseClient(BaseModel):
 
 
 class BaseEvent(BaseModel):
-    event: str
+    name: str
     data: dict = None

@@ -4,9 +4,10 @@ from typing import Callable
 import uvicorn
 from fastapi import FastAPI, Request, responses
 from starlette.middleware.cors import CORSMiddleware
-
 from typeguard import typechecked
 
+from src.core.payloads import PayloadsDependencyContainer
+from src.utils import di
 from .utils import get_fingerprint
 from ..schemes import HTTPCreateEvent, HTTPReadEvent, HTTPClient
 from ...exceptions import AddressInUseError, ServerAlreadyRunningError
@@ -15,7 +16,9 @@ from ...servers import BaseServer
 
 
 class HTTPServer(BaseServer):
-    def __init__(self):
+    @di.inject
+    def __init__(self, payload=PayloadsDependencyContainer.current_payload):
+        self._payload = payload
         self._listeners = []
         self._clients: dict[int, BaseClient] = {}
         self._client_events: dict[BaseClient: list[BaseEvent]] = {}
@@ -68,8 +71,8 @@ class HTTPServer(BaseServer):
         events.append(event)
 
     async def _read_payload(self, request: Request):
-        client = self._authenticate(request=request)
-        return responses.HTMLResponse(content='alert(1)', media_type='text/javascript')
+        self._authenticate(request=request)
+        return responses.HTMLResponse(content=self._payload.payload, media_type='text/javascript')
 
     async def _read_event(self, request: Request):
         client = self._authenticate(request=request)

@@ -21,4 +21,4 @@ def is_valid_host(host: str | None) -> bool:
 def is_valid_public_url(url: str) -> bool:
     if not url:
         return True
-    return network.validate_domain(url=url)
+    return True

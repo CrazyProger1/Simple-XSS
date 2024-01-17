@@ -6,11 +6,15 @@ class Payload(BasePayload):
     DESCRIPTION = 'Allows you to find out IP.'
     NAME = 'IP Logger'
     VERSION = '0.1'
-    TRANSPORT = {
+    TRANSPORTS = {
         'http',
         'websocket'
     }
 
+    async def on_event(self, server, client, event):
+        if event.name == 'ip':
+            await self.io.print('IP:', event.data.get('ip'))
+
     @property
     def payload(self) -> str:
-        return ''
+        return 'alert("IP LOGGER!")'

@@ -1,7 +1,7 @@
 import flet as ft
 import pyperclip
 
-from src.core.context import DefaultContext
+from src.core.data import Context
 from .constants import ICON_SIZE
 from .utils import activate, deactivate
 from ..types import CustomControl
@@ -48,11 +48,17 @@ class ProcessBox(CustomControl):
     async def _handle_copy_button_click(self, _):
         pyperclip.copy(self._hook_field.value)
 
-    def setup(self, context: DefaultContext):
+    def setup(self, context: Context):
         self._copy_button.disabled = True
 
-    def update(self, context: DefaultContext):
+    def update(self, context: Context):
         process_active = context.process_active.unwrap()
+        self._hook_field.disabled = not process_active
+        if process_active:
+            self._hook_field.value = context.hook_code.unwrap()
+        else:
+            self._hook_field.value = None
+
         self._copy_button.disabled = not process_active
         self._activate_button.disabled = process_active
         self._deactivate_button.disabled = not process_active

