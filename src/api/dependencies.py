@@ -19,3 +19,9 @@ from src.core.ui import (
 from src.core.ui.gui import (
     GUIDependencyContainer
 )
+from src.core.data import (
+    DataDependencyContainer
+)
+from src.core.payloads import (
+    PayloadsDependencyContainer
+)
