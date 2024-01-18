@@ -1,7 +1,7 @@
-from src.utils import l18n
+from src.utils import i18n
 
 
-class Messages(l18n.TranslatableEnum):
+class Messages(i18n.TranslatableEnum):
     PROGRAM_LAUNCHED = 'Program launched'
     LAUNCHING = 'Launching...'
     TERMINATING = 'Terminating...'
