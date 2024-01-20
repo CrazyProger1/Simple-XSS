@@ -32,7 +32,7 @@ that may result from the use of this program.
 
 ## Status
 
-**V0.3 - indev**
+**V0.3 - indev(refactoring)**
 
 ### GUI-Guide
 
@@ -44,10 +44,6 @@ browser and in the graphical interface._
 ### Graphical
 
 ![img.png](resources/images/v0.3.png)
-
-### WEB
-
-### Command-Line
 
 ## Warning
 
