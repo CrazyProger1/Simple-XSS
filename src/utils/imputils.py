@@ -44,7 +44,7 @@ def import_module_by_filepath(path: str):
 
 @cache
 @typechecked
-def import_class_by_filepath(path: str, class_name: str, base_class: type = None) -> type:
+def import_class_by_filepath(path: str, class_name: str, base_class: type = object) -> type:
     """Imports class from module."""
 
     module = import_module_by_filepath(path)
@@ -53,7 +53,7 @@ def import_class_by_filepath(path: str, class_name: str, base_class: type = None
         raise ImportError(f'Class {class_name} not found at {path}')
     if not inspect.isclass(imported_class):
         raise TypeError(f'Not a class {imported_class}')
-    if base_class:
-        if not issubclass(imported_class, base_class):
-            raise TypeError(f'Class must be a subclass of {base_class}')
+
+    if not issubclass(imported_class, base_class):
+        raise TypeError(f'Class must be a subclass of {base_class}')
     return imported_class

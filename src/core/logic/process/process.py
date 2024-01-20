@@ -1,3 +1,5 @@
+from loguru import logger
+
 from src.utils import di, io
 from src.core.io import IODependencyContainer
 from src.core.data import (
@@ -14,7 +16,7 @@ from .types import BaseProcess
 from .enums import Messages
 
 
-class Process(BaseProcess):
+class Process(BaseProcess): # TO REFACTOR!!!!!!!!!!!!!!!!
     @di.inject
     def __init__(
             self,
@@ -33,7 +35,8 @@ class Process(BaseProcess):
         self._transport_session = None
         self._env = env
 
-    async def _raise_error(self, error: str):
+    @staticmethod
+    def _raise_error(error: str):
         from src.core.logic import LogicEventChannel
 
         LogicEventChannel.error_occurred(error=error)
@@ -41,11 +44,11 @@ class Process(BaseProcess):
 
     async def _validate_hook(self):
         if self._hook.TRANSPORT != self._protocol:
-            await self._raise_error(Messages.HOOK_NOT_SUPPORTS_PROTOCOL_ERROR.format(protocol=self._protocol.value))
+            self._raise_error(Messages.HOOK_NOT_SUPPORTS_PROTOCOL_ERROR.format(protocol=self._protocol.value))
 
     async def _validate_payload(self):
         if self._protocol not in self._payload.TRANSPORTS:
-            await self._raise_error(Messages.PAYLOAD_NOT_SUPPORTS_PROTOCOL_ERROR.format(protocol=self._protocol.value))
+            self._raise_error(Messages.PAYLOAD_NOT_SUPPORTS_PROTOCOL_ERROR.format(protocol=self._protocol.value))
 
     async def _load_hook(self):
         try:
@@ -59,7 +62,7 @@ class Process(BaseProcess):
                 version=self._hook.VERSION
             ))
         except Exception as e:
-            await self._raise_error(
+            self._raise_error(
                 Messages.HOOK_LOADING_ERROR.format(
                     details=f'{e.__class__.__name__}: {e}'
                 )
@@ -77,7 +80,7 @@ class Process(BaseProcess):
                 version=self._payload.VERSION
             ))
         except Exception as e:
-            await self._raise_error(Messages.PAYLOAD_LOADING_ERROR.format(
+            self._raise_error(Messages.PAYLOAD_LOADING_ERROR.format(
                 details=f'{e.__class__.__name__}: {e}'
             ))
 
@@ -127,6 +130,16 @@ class Process(BaseProcess):
         except Exception:
             pass
 
+    @logger.catch
+    async def _call_on_stop(self):
+        await self._hook.on_stopped(self._env)
+        await self._payload.on_stopped(self._env)
+
+    @logger.catch
+    async def _call_on_launched(self):
+        await self._hook.on_launched(self._env)
+        await self._payload.on_launched(self._env)
+
     async def activate(self):
         await self._io.info(Messages.LAUNCHING)
         self._context.process_active = True
@@ -138,8 +151,7 @@ class Process(BaseProcess):
             await self._run_transport()
             await self._run_tunneling()
 
-            await self._hook.on_launched(self._env)
-            await self._payload.on_launched(self._env)
+            await self._call_on_launched()
 
             self._context.hook_code = self._hook.hook
         except RuntimeError:
@@ -152,5 +164,4 @@ class Process(BaseProcess):
         await self._stop_transport()
         await self._stop_tunneling()
 
-        await self._hook.on_stopped(self._env)
-        await self._payload.on_stopped(self._env)
+        await self._call_on_stop()

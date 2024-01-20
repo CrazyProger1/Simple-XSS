@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class GraphicMode(int, Enum):
-    CLI = 1
-    GUI = 2
+    GUI = 1
 
 
 class Protocol(str, Enum):
