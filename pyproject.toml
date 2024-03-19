@@ -1,5 +1,4 @@
 [tool.ruff]
-# Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
     ".direnv",
@@ -23,3 +22,30 @@ exclude = [
     "node_modules",
     "venv"
 ]
+
+[tool.poetry]
+name = "simple-xss"
+version = "0.0.3"
+description = "Simple-XSS is a multi-platform cross-site scripting (XSS) vulnerability exploitation tool for pentesting."
+authors = ["CrazyProger1 <crazyproger1@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+packages = [
+    { include = "simplexss" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.6.4"
+translatable-enums = "^0.0.3"
+pytest = "^8.1.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.3"
+mypy = "^1.9.0"
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
