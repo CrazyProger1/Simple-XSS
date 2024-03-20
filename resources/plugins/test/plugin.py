@@ -1,8 +1,12 @@
 from simplexss.api.plugins import Plugin as BasePlugin
+from simplexss.api.events import CoreChannel
 
 
 class Plugin(BasePlugin):
-    NAME = 'Simple-XSS plugin'
+    NAME = 'Settings Loading Detector'
 
     def on_loaded(self, file: str):
-        print(file)
+        CoreChannel.settings_loaded.subscribe(self.on_settings_loaded)
+
+    def on_settings_loaded(self):
+        print('SETTINGS LOADED!')

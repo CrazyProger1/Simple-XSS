@@ -55,6 +55,8 @@ class PackageManager(BasePackageManager):
 
         package = package_class()
         package.on_loaded(main_file)
+        self._packages[package.NAME] = package
+
         return package
 
     def load_packages(self, directory: str = DEFAULT_PACKAGES_DIR, **kwargs) -> Iterable[BasePackage]:
@@ -72,6 +74,8 @@ class PackageManager(BasePackageManager):
 
         if package is None:
             raise PackageNotLoadedError(name)
+
+        self._packages.pop(name)
 
     def unload_packages(self):
         for name in self._packages.keys():
