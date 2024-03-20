@@ -22,19 +22,14 @@ DEFAULT_RESOLUTION = (1280, 760)
 MIN_RESOLUTION = DEFAULT_RESOLUTION
 
 # Plugins
-PLUGIN_FILE = 'plugin.py'
-PLUGIN_CLASS_NAME = 'Plugin'
 PLUGINS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'plugins')
+PLUGIN_FILE = 'plugin.py'
 
 # Payloads
 DEFAULT_PAYLOADS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'payloads')
-PAYLOAD_FILE = 'payload.py'
-PAYLOAD_CLASS_NAME = 'Payload'
 
 # Hooks
 DEFAULT_HOOKS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'hooks')
-HOOK_FILE = 'hook.py'
-HOOK_CLASS_NAME = 'Hook'
 
 # Logging
 LOGGING_VERBOSITY = True

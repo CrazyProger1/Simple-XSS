@@ -1,3 +1,4 @@
+from simplexss.utils.packages import PackageManager
 from simplexss.utils.di import (
     containers,
     dependencies
@@ -13,6 +14,7 @@ from simplexss.core.schemas import (
     ArgumentsSchema,
     SettingsSchema
 )
+from simplexss.core.plugins import Plugin
 
 
 class CoreContainer(containers.Container):
@@ -24,5 +26,8 @@ class CoreContainer(containers.Container):
 
     arguments = dependencies.Dependency()
     settings = dependencies.Dependency()
+
+    plugin_class = dependencies.Dependency(Plugin)
+    plugin_manager = dependencies.Factory(PackageManager)
 
     core = dependencies.Singleton(Core, kwargs={'arguments': arguments, 'settings': settings})

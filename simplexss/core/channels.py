@@ -1,6 +1,5 @@
 from simplexss.utils.events import (
     EventChannel,
-    Event,
     AsyncEvent
 )
 
