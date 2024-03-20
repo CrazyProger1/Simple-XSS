@@ -1,6 +1,7 @@
 from typing import Callable
 
 from .basic import DependencyBasicFunctionality
+from ..utils import inject_into_kwargs
 
 
 class Factory(DependencyBasicFunctionality):
@@ -16,7 +17,7 @@ class Factory(DependencyBasicFunctionality):
     def _create_instance(self):
         return self._factory(
             *self._args,
-            **self._kwargs,
+            **inject_into_kwargs(**self._kwargs),
         )
 
     @property
