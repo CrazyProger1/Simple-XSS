@@ -1,9 +1,15 @@
+from typing import Callable
+
 from .factory import Factory
 
 
 class Singleton(Factory):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, factory: Callable, args: tuple = (), kwargs: dict = None):
+        super().__init__(
+            factory=factory,
+            args=args,
+            kwargs=kwargs
+        )
 
         self._instance = None
 
