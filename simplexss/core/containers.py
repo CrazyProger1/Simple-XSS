@@ -1,4 +1,5 @@
 from simplexss.utils.packages import PackageManager
+from simplexss.core.ui import UIFactory
 from simplexss.utils.di import (
     containers,
     dependencies
@@ -30,4 +31,10 @@ class CoreContainer(containers.Container):
     plugin_class = dependencies.Dependency(Plugin)
     plugin_manager = dependencies.Factory(PackageManager)
 
-    core = dependencies.Singleton(Core, kwargs={'arguments': arguments, 'settings': settings})
+    ui_factory = dependencies.Factory(UIFactory)
+
+    core = dependencies.Singleton(Core, kwargs={
+        'arguments': arguments,
+        'settings': settings,
+        'ui_factory': ui_factory
+    })

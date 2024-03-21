@@ -42,6 +42,7 @@ translatable-enums = "^0.0.3"
 pytest = "^8.1.1"
 toml = "^0.10.2"
 pyngrok = "^7.1.5"
+flet = "^0.21.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.3"

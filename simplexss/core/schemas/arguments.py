@@ -10,4 +10,4 @@ from simplexss.core.config import (
 
 class ArgumentsSchema(BaseModel):
     settings_file: str = Field(DEFAULT_SETTINGS_FILE, description='settings file path')
-    graphic_mode: int = Field(DEFAULT_GRAPHIC_MODE, description='graphic mode')
+    graphic_mode: str = Field(DEFAULT_GRAPHIC_MODE, description='graphic mode')
