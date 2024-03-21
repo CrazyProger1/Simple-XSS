@@ -27,4 +27,5 @@ class TunnelingServiceFactory(BaseTunnelingServiceFactory):
         return {
             service.name
             for service in iter_subclasses(BaseTunnelingService)
+            if protocol in service.protocols
         }
