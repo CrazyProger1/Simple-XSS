@@ -1,0 +1,2 @@
+class TunnelingError(Exception):
+    pass

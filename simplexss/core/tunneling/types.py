@@ -3,8 +3,8 @@ from abc import (
     abstractmethod
 )
 from typing import (
-    Container,
-    Iterable
+    Iterable,
+    Container
 )
 
 from .sessions import Session
