@@ -11,6 +11,7 @@ from simplexss.core.config import (
     MIN_RESOLUTION,
 
 )
+
 from .containers import GUIContainer
 from ..types import BaseUI
 from ..channels import UIChannel
@@ -19,7 +20,7 @@ from ..channels import UIChannel
 class GUI(BaseUI):
     mode = 'gui'
 
-    def __init__(self):
+    def __init__(self, ):
         self._arguments: ArgumentsSchema | None = None
         self._settings: SettingsSchema | None = None
 
@@ -29,6 +30,9 @@ class GUI(BaseUI):
     def bind_dependencies(self, **kwargs):
         self._arguments = kwargs.get('arguments')
         self._settings = kwargs.get('settings')
+
+        GUIContainer.arguments.bind(self._arguments)
+        GUIContainer.settings.bind(self._settings)
 
     async def _init_page(self, page: ft.Page):
         GUIContainer.main_page.bind(page)
@@ -42,6 +46,7 @@ class GUI(BaseUI):
         page.window_min_height = MIN_RESOLUTION[1]
         page.title = f'{APP} - V{VERSION}'
 
+        await page.add_async(GUIContainer.main_box.value.build())
         await page.update_async()
 
     async def run(self):
