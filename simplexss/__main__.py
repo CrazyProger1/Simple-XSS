@@ -39,12 +39,10 @@ async def main():
     arguments = parse_arguments()
     CoreContainer.arguments.bind(arguments)
     CoreChannel.arguments_loaded.publish()
-    logger.info(f'Arguments loaded: {arguments}')
 
     settings = load_settings()
     CoreContainer.settings.bind(settings)
     CoreChannel.settings_loaded.publish()
-    logger.info(f'Settings loaded: {settings}')
 
     load_hooks()
     logger.info('Hooks loaded')

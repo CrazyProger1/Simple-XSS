@@ -10,6 +10,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 from .types import BaseSchemedArgumentParser
+from .logging import logger
 
 
 class SchemedArgumentParser(BaseSchemedArgumentParser):
@@ -99,4 +100,7 @@ class SchemedArgumentParser(BaseSchemedArgumentParser):
             namespace: argparse.Namespace | None = None
     ) -> BaseModel:
         namespace = self.parse_args(args=args, namespace=namespace)
-        return self._schema.model_validate(namespace.__dict__)
+
+        data = self._schema.model_validate(namespace.__dict__)
+        logger.info(f'Arguments parsed: {data}')
+        return data

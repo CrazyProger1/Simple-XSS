@@ -1,6 +1,7 @@
 import toml
 from pydantic import BaseModel
 
+from ..logging import logger
 from ..types import (
     BaseLoader
 )
@@ -11,7 +12,9 @@ class TOMLLoader(BaseLoader):
     def load(self, file: str, schema: type[BaseModel], **kwargs) -> BaseModel:
         try:
             data: dict = toml.load(file)
-            return schema.model_validate(data, **kwargs)
+            settings = schema.model_validate(data, **kwargs)
+            logger.info(f'Settings loaded: {settings}')
+            return settings
         except toml.TomlDecodeError as e:
             raise FileFormatError(file=file, msg=str(e))
 
@@ -19,3 +22,4 @@ class TOMLLoader(BaseLoader):
         with open(file, 'w', encoding='utf-8') as f:
             data: dict = data.model_dump(**kwargs)
             toml.dump(data, f)
+            logger.info(f'Settings saved: {data}')
