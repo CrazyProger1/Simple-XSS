@@ -17,6 +17,7 @@ from .exceptions import (
     PackageDisabledError,
     PackageFormatError
 )
+from .logging import logger
 from ..imputils import import_class
 
 
@@ -44,18 +45,27 @@ class PackageManager(BasePackageManager):
                 class_name=class_name,
                 base=base_class
             )
-        except (ImportError, TypeError):
+        except (ImportError, TypeError) as e:
+            logger.error(e)
             raise PackageFormatError(main_file)
 
         try:
             if package_class.NAME in self._disabled:
                 raise PackageDisabledError(package_class.NAME)
-        except AttributeError:
+        except AttributeError as e:
+            logger.error(e)
             raise PackageFormatError(main_file, 'Package {package} name not set')
 
-        package = package_class()
+        try:
+            package = package_class()
+        except TypeError as e:
+            logger.error(e)
+            raise PackageFormatError(main_file, f'Package should implement all abstract methods')
+
         package.on_loaded(main_file)
         self._packages[package.NAME] = package
+
+        logger.debug(f'Package loaded: {package.NAME}')
 
         return package
 
@@ -66,7 +76,7 @@ class PackageManager(BasePackageManager):
                 if os.path.isdir(package):
                     self.load_package(package, **kwargs)
             except PackageError as e:
-                pass
+                logger.error(e)
         return self.packages
 
     def unload_package(self, name: str):
@@ -75,6 +85,7 @@ class PackageManager(BasePackageManager):
         if package is None:
             raise PackageNotLoadedError(name)
 
+        logger.debug(f'Package unloaded: {name}')
         self._packages.pop(name)
 
     def unload_packages(self):

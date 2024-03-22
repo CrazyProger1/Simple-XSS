@@ -7,3 +7,7 @@ class Hook(BaseHook):
     NAME = 'Default Websocket Hook'
     VERSION = '0.1'
     TRANSPORT = 'websocket'
+
+    @property
+    def hook(self) -> str:
+        pass

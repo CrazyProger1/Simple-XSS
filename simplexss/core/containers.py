@@ -17,9 +17,11 @@ from simplexss.core.schemas import (
     ArgumentsSchema,
     SettingsSchema
 )
-from simplexss.core.plugins import Plugin
-from simplexss.core.payloads import Payload
-from simplexss.core.hooks import Hook
+from simplexss.core.types import (
+    BaseHook,
+    BasePlugin,
+    BasePayload
+)
 
 
 class CoreContainer(containers.Container):
@@ -32,13 +34,13 @@ class CoreContainer(containers.Container):
     arguments = dependencies.Dependency()
     settings = dependencies.Dependency()
 
-    plugin_class = dependencies.Dependency(Plugin)
+    plugin_class = dependencies.Dependency(BasePlugin)
     plugin_manager = dependencies.Singleton(PackageManager)
 
-    hook_class = dependencies.Dependency(Hook)
+    hook_class = dependencies.Dependency(BaseHook)
     hook_manager = dependencies.Singleton(PackageManager)
 
-    payload_class = dependencies.Dependency(Payload)
+    payload_class = dependencies.Dependency(BasePayload)
     payload_manager = dependencies.Singleton(PackageManager)
 
     ui_factory = dependencies.Factory(UIFactory)

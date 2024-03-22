@@ -1,4 +1,4 @@
-from simplexss.core.payloads import Payload as BasePayload
+from simplexss.core.types import BasePayload
 
 __all__ = [
     'BasePayload',

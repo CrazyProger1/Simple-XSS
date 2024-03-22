@@ -1,4 +1,4 @@
-from simplexss.core.hooks import Hook as BaseHook
+from simplexss.core.types import BaseHook
 
 __all__ = [
     'BaseHook',

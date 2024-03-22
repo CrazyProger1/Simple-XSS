@@ -22,7 +22,7 @@ def load_plugins(
 ):
     manager.load_packages(
         PLUGINS_DIRECTORY,
-        class_name=cls.__name__,
+        class_name='Plugin',
         base_class=cls,
         file=PLUGIN_FILE,
     )
@@ -36,7 +36,7 @@ def load_hooks(
 ):
     manager.load_packages(
         settings.hook.directory,
-        class_name=cls.__name__,
+        class_name='Hook',
         base_class=cls,
         file=HOOK_FILE,
     )
@@ -50,7 +50,7 @@ def load_payloads(
 ):
     manager.load_packages(
         settings.payload.directory,
-        class_name=cls.__name__,
+        class_name='Payload',
         base_class=cls,
         file=PAYLOAD_FILE,
     )

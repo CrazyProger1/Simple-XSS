@@ -1,4 +1,4 @@
-from simplexss.core.plugins import Plugin as BasePlugin
+from simplexss.core.types import BasePlugin
 
 __all__ = [
     'BasePlugin',

@@ -37,8 +37,8 @@ HOOK_FILE = 'hook.py'
 LOGGING_VERBOSITY = True
 LOG_FILE = f'{APP}_{VERSION}.log'
 LOG_FILE_COMPRESSION = 'zip'
-LOGGING_LEVEL = logging.DEBUG
-LOGGING_FORMAT = '%(log_color)s%(levelname)s: %(name)s: %(message)s'
+LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO
+LOGGING_FORMAT = '%(levelname)s: %(name)s: %(message)s'
 
 # Network
 DEFAULT_HOST = 'localhost'
