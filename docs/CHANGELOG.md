@@ -1,4 +1,4 @@
-## V0.3
+## V0.0.3
 
 - [x] Rewritten from scratch to improve maintainability and expand functionality
 
@@ -11,3 +11,5 @@
     - [x] Ngrok
 
 - [x] Added plugin system
+
+- [x] Added i18n

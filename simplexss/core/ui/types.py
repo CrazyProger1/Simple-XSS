@@ -8,9 +8,6 @@ class BaseUI(ABC):
     mode: str
 
     @abstractmethod
-    def bind_dependencies(self, **kwargs): ...
-
-    @abstractmethod
     async def run(self): ...
 
 

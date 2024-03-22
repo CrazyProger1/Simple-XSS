@@ -20,7 +20,11 @@ def inject_into_kwargs(**kwargs) -> dict:
 def inject_into_params(target: Callable) -> dict:
     signature = inspect.signature(target)
     params = signature.parameters
-    default_values = {key: value.default for key, value in params.items()}
+    default_values = {
+        key: value.default
+        for key, value in params.items()
+        if value.default != inspect.Parameter.empty
+    }
     return inject_into_kwargs(**default_values)
 
 

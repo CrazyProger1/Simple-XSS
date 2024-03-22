@@ -1,5 +1,6 @@
 import flet as ft
 
+from simplexss.utils.packages import PackageManager
 from .constants import (
     BOX_BORDER,
     BOX_BORDER_RADIUS,
@@ -12,9 +13,8 @@ from ..types import CustomControl
 
 
 class PayloadBox(CustomControl):
-    def __init__(self):
-        self._payload_picker = ft.FilePicker()
-        self.overlay.append(self._payload_picker)
+    def __init__(self, manager: PackageManager):
+        self._manager = manager
 
         self._payload_name_text = ft.Text(
             value=Messages.PAYLOAD,
@@ -22,13 +22,10 @@ class PayloadBox(CustomControl):
             expand=True,
             text_align=ft.TextAlign.CENTER
         )
-        self._payload_path_field = ft.TextField(
+        self._payload_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
-            read_only=True
-        )
-        self._choose_payload_button = ft.IconButton(
-            icon=ft.icons.FOLDER_OPEN,
+            options=[ft.dropdown.Option(payload.NAME) for payload in self._manager.packages]
         )
         self._payload_description_text = ft.Text(
             visible=True,
@@ -53,8 +50,7 @@ class PayloadBox(CustomControl):
                     ),
                     ft.Row(
                         controls=[
-                            self._payload_path_field,
-                            self._choose_payload_button,
+                            self._payload_dropdown,
                         ]
                     ),
                     self._payload_description_text,
@@ -65,7 +61,6 @@ class PayloadBox(CustomControl):
                     )
                 ]
             )
-
         )
 
     def build(self):

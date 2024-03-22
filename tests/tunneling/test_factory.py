@@ -7,7 +7,7 @@ from simplexss.core.tunneling import (
 
 
 class Service(BaseTunnelingService, ABC):
-    name = 'test'
+    name = 'http'
     protocols = (
         'test_proto_1',
     )
@@ -31,7 +31,7 @@ def test_get_names():
     names = tuple(factory.get_names('test_proto_1'))
 
     assert len(names) == 1
-    assert 'test' in names
+    assert 'http' in names
 
 
 def test_get_service():

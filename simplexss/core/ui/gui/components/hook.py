@@ -1,5 +1,6 @@
 import flet as ft
 
+from simplexss.utils.packages import PackageManager
 from .constants import (
     DESCRIPTION_MAX_LINES,
     TEXT_FONT_SIZE,
@@ -12,24 +13,20 @@ from ..types import CustomControl
 
 
 class HookBox(CustomControl):
-    def __init__(self):
-        self._hook_picker = ft.FilePicker()
-        self.overlay.append(self._hook_picker)
-
+    def __init__(self, manager: PackageManager):
+        self._manager = manager
         self._hook_name_text = ft.Text(
             value=Messages.HOOK,
             size=TEXT_FONT_SIZE,
             expand=True,
             text_align=ft.TextAlign.CENTER
         )
-        self._hook_path_field = ft.TextField(
+        self._hook_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
-            read_only=True
+            options=[ft.dropdown.Option(hook.NAME) for hook in self._manager.packages]
         )
-        self._choose_hook_button = ft.IconButton(
-            icon=ft.icons.FOLDER_OPEN,
-        )
+
         self._hook_description_text = ft.Text(
             visible=True,
             max_lines=DESCRIPTION_MAX_LINES,
@@ -52,8 +49,7 @@ class HookBox(CustomControl):
                     ),
                     ft.Row(
                         controls=[
-                            self._hook_path_field,
-                            self._choose_hook_button,
+                            self._hook_dropdown,
                         ]
                     ),
                     self._hook_description_text,

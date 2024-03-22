@@ -1,5 +1,6 @@
 import flet as ft
 
+from simplexss.core.containers import CoreContainer
 from simplexss.core.logging import logger
 from simplexss.core.schemas import (
     ArgumentsSchema,
@@ -11,7 +12,7 @@ from simplexss.core.config import (
     MIN_RESOLUTION,
 
 )
-
+from simplexss.utils.di import inject
 from .containers import GUIContainer
 from ..types import BaseUI
 from ..channels import UIChannel
@@ -20,19 +21,17 @@ from ..channels import UIChannel
 class GUI(BaseUI):
     mode = 'gui'
 
-    def __init__(self, ):
-        self._arguments: ArgumentsSchema | None = None
-        self._settings: SettingsSchema | None = None
+    @inject
+    def __init__(
+            self,
+            arguments: ArgumentsSchema = CoreContainer.arguments,
+            settings: SettingsSchema = CoreContainer.settings
+    ):
+        self._arguments: ArgumentsSchema = arguments
+        self._settings: SettingsSchema = settings
 
         logger.info('GUI initialized')
         UIChannel.ui_initialized.publish()
-
-    def bind_dependencies(self, **kwargs):
-        self._arguments = kwargs.get('arguments')
-        self._settings = kwargs.get('settings')
-
-        GUIContainer.arguments.bind(self._arguments)
-        GUIContainer.settings.bind(self._settings)
 
     async def _init_page(self, page: ft.Page):
         GUIContainer.main_page.bind(page)

@@ -13,7 +13,7 @@ class Core(BaseCore):
             self,
             arguments: ArgumentsSchema,
             settings: SettingsSchema,
-            ui_factory: BaseUIFactory
+            ui_factory: BaseUIFactory,
     ):
         self._arguments = arguments
         self._settings = settings
@@ -23,12 +23,9 @@ class Core(BaseCore):
         logger.info('Core initialized')
 
     async def run(self):
+        from simplexss.core.ui import gui, cli
         ui = self._ui_factory.create(self._arguments.graphic_mode)
-        ui.bind_dependencies(
-            arguments=self._arguments,
-            settings=self._settings,
-        )
         await ui.run()
-        
+
         await CoreChannel.core_terminated.publish_async()
         logger.info('Core terminated')

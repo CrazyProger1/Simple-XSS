@@ -1,5 +1,6 @@
 import flet as ft
 
+from simplexss.core.enums import Transport
 from .enums import Messages
 from .constants import (
     TEXT_FONT_SIZE,
@@ -21,6 +22,10 @@ class NetworkBox(CustomControl):
         self._transport_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
+            options=[
+                ft.dropdown.Option(transport.value)
+                for transport in Transport
+            ]
         )
 
         self._tunneling_dropdown = ft.Dropdown(

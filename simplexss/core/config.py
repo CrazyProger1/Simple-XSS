@@ -3,6 +3,7 @@ import os
 
 from simplexss.core.enums import (
     GraphicMode,
+    Transport
 )
 
 RESOURCES_DIRECTORY = 'resources'
@@ -26,10 +27,12 @@ PLUGINS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'plugins')
 PLUGIN_FILE = 'plugin.py'
 
 # Payloads
-DEFAULT_PAYLOADS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'payloads')
+PAYLOADS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'payloads')
+PAYLOAD_FILE = 'payload.py'
 
 # Hooks
-DEFAULT_HOOKS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'hooks')
+HOOKS_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'hooks')
+HOOK_FILE = 'hook.py'
 
 # Logging
 LOGGING_VERBOSITY = True
@@ -41,5 +44,5 @@ LOGGING_FORMAT = '%(log_color)s%(levelname)s: %(name)s: %(message)s'
 # Network
 DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 4444
-DEFAULT_TRANSPORT = 'http'
+DEFAULT_TRANSPORT = Transport.HTTP.value
 DEFAULT_TUNNELING_SERVICE = 'serveo'

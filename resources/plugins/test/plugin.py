@@ -1,4 +1,4 @@
-from simplexss.api.plugins import Plugin as BasePlugin
+from simplexss.api.plugins import BasePlugin
 from simplexss.api.events import CoreChannel
 
 

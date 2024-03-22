@@ -1,59 +1,24 @@
 import asyncio
 
-from pydantic import BaseModel
-
-from simplexss.core.config import PLUGINS_DIRECTORY, PLUGIN_FILE
 from simplexss.core.logging import logger
 from simplexss.core.types import BaseCore
-from simplexss.core.containers import CoreContainer
+from simplexss.core.utils import (
+    load_hooks,
+    load_payloads,
+    load_plugins
+)
 from simplexss.core.channels import CoreChannel
-from simplexss.utils.args import BaseSchemedArgumentParser
-from simplexss.utils.settings import BaseLoader
-from simplexss.utils.packages import (
-    BasePackage,
-    BasePackageManager
+from simplexss.core.containers import CoreContainer
+from simplexss.core.arguments import parse_arguments
+
+from simplexss.core.settings import (
+    load_settings,
+    save_settings
 )
 from simplexss.utils.di import (
     inject,
     setup
 )
-
-
-@inject
-def load_settings(
-        loader: BaseLoader = CoreContainer.settings_loader,
-        arguments=CoreContainer.arguments,
-        schema: type[BaseModel] = CoreContainer.settings_schema
-):
-    return loader.load(arguments.settings_file, schema)
-
-
-@inject
-def save_settings(
-
-        loader: BaseLoader = CoreContainer.settings_loader,
-        arguments=CoreContainer.arguments,
-        settings=CoreContainer.settings,
-):
-    loader.save(arguments.settings_file, settings)
-
-
-@inject
-def parse_arguments(parser: BaseSchemedArgumentParser = CoreContainer.arguments_parser, ):
-    return parser.parse_schemed_args()
-
-
-@inject
-def load_plugins(
-        cls: BasePackage = CoreContainer.plugin_class,
-        manager: BasePackageManager = CoreContainer.plugin_manager
-):
-    manager.load_packages(
-        PLUGINS_DIRECTORY,
-        class_name=cls.__name__,
-        base_class=cls,
-        file=PLUGIN_FILE,
-    )
 
 
 @inject
@@ -69,16 +34,25 @@ async def main():
 
     load_plugins()
     logger.info(f'Plugins loaded')
+    CoreChannel.plugins_loaded.publish()
 
     arguments = parse_arguments()
     CoreContainer.arguments.bind(arguments)
-    await CoreChannel.arguments_loaded.publish_async()
+    CoreChannel.arguments_loaded.publish()
     logger.info(f'Arguments loaded: {arguments}')
 
     settings = load_settings()
     CoreContainer.settings.bind(settings)
-    await CoreChannel.settings_loaded.publish_async()
+    CoreChannel.settings_loaded.publish()
     logger.info(f'Settings loaded: {settings}')
+
+    load_hooks()
+    logger.info('Hooks loaded')
+    CoreChannel.hooks_loaded.publish()
+
+    load_payloads()
+    logger.info('Payloads loaded')
+    CoreChannel.payloads_loaded.publish()
 
     await run_core()
 

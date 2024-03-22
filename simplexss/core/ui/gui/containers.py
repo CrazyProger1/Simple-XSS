@@ -1,3 +1,4 @@
+from simplexss.core.containers import CoreContainer
 from simplexss.utils.di import (
     containers,
     dependencies
@@ -14,14 +15,15 @@ from .components import (
 
 
 class GUIContainer(containers.Container):
-    arguments = dependencies.Dependency()
-    settings = dependencies.Dependency()
-
     main_page = dependencies.Dependency()
 
     network_box = dependencies.Factory(NetworkBox)
-    hook_box = dependencies.Factory(HookBox)
-    payload_box = dependencies.Factory(PayloadBox)
+    hook_box = dependencies.Factory(HookBox, kwargs={
+        'manager': CoreContainer.hook_manager
+    })
+    payload_box = dependencies.Factory(PayloadBox, kwargs={
+        'manager': CoreContainer.payload_manager
+    })
     process_control_box = dependencies.Factory(ProcessControlBox)
     message_area_box = dependencies.Factory(MessageAreaBox)
     message_control_box = dependencies.Factory(MessageControlBox)

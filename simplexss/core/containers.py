@@ -1,10 +1,11 @@
 from simplexss.utils.packages import PackageManager
+from simplexss.core.tunneling import TunnelingServiceFactory
 from simplexss.core.ui import UIFactory
 from simplexss.utils.di import (
     containers,
     dependencies
 )
-from simplexss.utils.args import (
+from simplexss.utils.arguments import (
     SchemedArgumentParser
 )
 from simplexss.utils.settings.toml import (
@@ -16,6 +17,8 @@ from simplexss.core.schemas import (
     SettingsSchema
 )
 from simplexss.core.plugins import Plugin
+from simplexss.core.payloads import Payload
+from simplexss.core.hooks import Hook
 
 
 class CoreContainer(containers.Container):
@@ -29,12 +32,20 @@ class CoreContainer(containers.Container):
     settings = dependencies.Dependency()
 
     plugin_class = dependencies.Dependency(Plugin)
-    plugin_manager = dependencies.Factory(PackageManager)
+    plugin_manager = dependencies.Singleton(PackageManager)
+
+    hook_class = dependencies.Dependency(Hook)
+    hook_manager = dependencies.Singleton(PackageManager)
+
+    payload_class = dependencies.Dependency(Payload)
+    payload_manager = dependencies.Singleton(PackageManager)
 
     ui_factory = dependencies.Factory(UIFactory)
+
+    tunneling_service_factory = dependencies.Factory(TunnelingServiceFactory)
 
     core = dependencies.Singleton(Core, kwargs={
         'arguments': arguments,
         'settings': settings,
-        'ui_factory': ui_factory
+        'ui_factory': ui_factory,
     })
