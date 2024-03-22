@@ -1,5 +1,6 @@
 from simplexss.utils.packages import PackageManager
 from simplexss.core.tunneling import TunnelingServiceFactory
+from simplexss.core.transports import TransportServiceFactory
 from simplexss.core.ui import UIFactory
 from simplexss.utils.di import (
     containers,
@@ -43,6 +44,7 @@ class CoreContainer(containers.Container):
     ui_factory = dependencies.Factory(UIFactory)
 
     tunneling_service_factory = dependencies.Factory(TunnelingServiceFactory)
+    transport_service_factory = dependencies.Factory(TransportServiceFactory)
 
     core = dependencies.Singleton(Core, kwargs={
         'arguments': arguments,

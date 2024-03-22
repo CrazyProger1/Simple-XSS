@@ -15,7 +15,7 @@ def test_parse_str_args():
     parser = SchemedArgumentParser(
         schema=Schema1
     )
-    args = parser.parse_schemed_args(['--http', '123'])
+    args = parser.parse_schemed_args(['--test', '123'])
 
     assert args.test == '123'
 
@@ -27,7 +27,7 @@ def test_parse_int_args():
     parser = SchemedArgumentParser(
         schema=Schema2
     )
-    args = parser.parse_schemed_args(['--http', '123'])
+    args = parser.parse_schemed_args(['--test', '123'])
 
     assert args.test == 123
 
@@ -44,7 +44,7 @@ def test_parse_str_enum_args():
     parser = SchemedArgumentParser(
         schema=Schema3
     )
-    args = parser.parse_schemed_args(['--http', 'c'])
+    args = parser.parse_schemed_args(['--test', 'c'])
 
     assert args.test == StrEnum.C
 
@@ -61,7 +61,7 @@ def test_parse_int_enum_args():
     parser = SchemedArgumentParser(
         schema=Schema4
     )
-    args = parser.parse_schemed_args(['--http', '2'])
+    args = parser.parse_schemed_args(['--test', '2'])
 
     assert args.test == IntEnum1.TWO
 
@@ -87,7 +87,7 @@ def test_parse_short_aliases():
     parser = SchemedArgumentParser(
         schema=Schema6,
         short_aliases={
-            'http': 'b'
+            'test': 'b'
         }
     )
 

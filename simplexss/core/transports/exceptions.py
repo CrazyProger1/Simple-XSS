@@ -1,0 +1,2 @@
+class TransportError(Exception):
+    pass

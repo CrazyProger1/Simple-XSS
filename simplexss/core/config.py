@@ -3,7 +3,6 @@ import os
 
 from simplexss.core.enums import (
     GraphicMode,
-    Transport
 )
 
 RESOURCES_DIRECTORY = 'resources'
@@ -44,5 +43,5 @@ LOGGING_FORMAT = '%(log_color)s%(levelname)s: %(name)s: %(message)s'
 # Network
 DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 4444
-DEFAULT_TRANSPORT = Transport.HTTP.value
+DEFAULT_TRANSPORT = 'http'
 DEFAULT_TUNNELING_SERVICE = 'serveo'
