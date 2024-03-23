@@ -11,8 +11,8 @@ from .sessions import Session
 
 
 class BaseTunnelingService(ABC):
-    name: str
-    protocols: Container[str] = ()
+    NAME: str
+    PROTOCOLS: Container[str] = ()
 
     @abstractmethod
     async def run(self, protocol: str, port: int) -> Session: ...

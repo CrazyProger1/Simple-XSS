@@ -15,11 +15,11 @@ from ..exceptions import (
 
 
 class NgrokService(BaseTunnelingService):
-    name = 'ngrok'
-    protocols = {
+    NAME = 'ngrok'
+    PROTOCOLS = {
         'websocket',
     }
-    protocol_schemas = {
+    PROTOCOL_SCHEMAS = {
         'websocket': 'wss'
     }
 
@@ -34,7 +34,7 @@ class NgrokService(BaseTunnelingService):
             raise TunnelingError(f'Failed to open tunnel: {e.__class__.__name__}: {e}')
 
     async def _create_session(self, port: int, protocol: str) -> Session:
-        schema = self.protocol_schemas[protocol]
+        schema = self.PROTOCOL_SCHEMAS[protocol]
         public_url = await self._create_tunnel(port=port)
         return Session(
             protocol=protocol,

@@ -12,16 +12,14 @@ from .sessions import Session
 
 
 class BaseTransportService(ABC):
-    name: str
-    protocol: str
+    NAME: str
+    PROTOCOL: str
 
     @abstractmethod
     async def run(
             self,
             host: str,
             port: int,
-            hook: BaseHook,
-            payload: BasePayload,
     ) -> Session: ...
 
     @abstractmethod

@@ -20,12 +20,12 @@ class TunnelingServiceFactory(BaseTunnelingServiceFactory):
     @cache
     def get_service(self, name: str) -> type[BaseTunnelingService] | None:
         for service in iter_subclasses(BaseTunnelingService):
-            if service.name == name:
+            if service.NAME == name:
                 return service
 
     def get_names(self, protocol: str) -> Iterable[str]:
         return {
-            service.name
+            service.NAME
             for service in iter_subclasses(BaseTunnelingService)
-            if protocol in service.protocols
+            if protocol in service.PROTOCOLS
         }

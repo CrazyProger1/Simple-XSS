@@ -19,11 +19,11 @@ class TransportServiceFactory(BaseTransportServiceFactory):
     @cache
     def get_service(self, name: str) -> type[BaseTransportService] | None:
         for service in iter_subclasses(BaseTransportService):
-            if service.name == name:
+            if service.NAME == name:
                 return service
 
     def get_names(self) -> Iterable[str]:
         return {
-            service.name
+            service.NAME
             for service in iter_subclasses(BaseTransportService)
         }

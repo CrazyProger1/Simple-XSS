@@ -7,6 +7,7 @@ from .types import (
     BaseEvent,
     BaseAsyncEvent
 )
+from .logging import logger
 
 
 class Event(BaseEvent):
@@ -37,6 +38,7 @@ class Event(BaseEvent):
 
         self._channel = owner
         self._name = name
+        logger.info(f'Event registered: {name}')
 
     @property
     def channel(self) -> type[BaseEventChannel]:
@@ -46,11 +48,13 @@ class Event(BaseEvent):
         self._validate_callback(callback)
         if callback not in self._subscribers:
             self._subscribers.append(callback)
+        logger.debug(f'Callback subscribed to {self._name}: {callback}')
 
     def publish(self, *args, **kwargs):
         for callback in self._subscribers:
             self._inject_kwargs(callback, kwargs)
             callback(*args, **kwargs)
+        logger.debug(f'Event published: {self._name}')
 
 
 class AsyncEvent(BaseAsyncEvent, Event):
@@ -61,3 +65,4 @@ class AsyncEvent(BaseAsyncEvent, Event):
                 await callback(*args, **kwargs)
             else:
                 callback(*args, **kwargs)
+        logger.debug(f'Event published async: {self._name}')

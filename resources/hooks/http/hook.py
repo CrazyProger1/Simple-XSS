@@ -6,7 +6,7 @@ class Hook(BaseHook):
     DESCRIPTION = 'Default HTTP hook, uses script src.'
     NAME = 'Default HTTP Hook'
     VERSION = '0.0.1'
-    TRANSPORT = 'http'
+    PROTOCOL = 'http'
 
     @property
     def hook(self) -> str:

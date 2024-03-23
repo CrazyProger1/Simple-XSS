@@ -6,7 +6,7 @@ class Hook(BaseHook):
     DESCRIPTION = 'Default Websocket hook. Loads payload code via WebSockets and executes in eval().'
     NAME = 'Default Websocket Hook'
     VERSION = '0.1'
-    TRANSPORT = 'websocket'
+    PROTOCOL = 'websocket'
 
     @property
     def hook(self) -> str:

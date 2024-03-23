@@ -7,15 +7,15 @@ from simplexss.core.tunneling import (
 
 
 class Service(BaseTunnelingService, ABC):
-    name = 'http'
-    protocols = (
+    NAME = 'http'
+    PROTOCOLS = (
         'test_proto_1',
     )
 
 
 class Service2(BaseTunnelingService):
-    name = 'test2'
-    protocols = (
+    NAME = 'test2'
+    PROTOCOLS = (
         'test_proto_2',
     )
 

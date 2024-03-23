@@ -14,11 +14,11 @@ from ..exceptions import (
 
 
 class ServeoService(BaseTunnelingService):
-    name = 'serveo'
-    protocols = {
+    NAME = 'serveo'
+    PROTOCOLS = {
         'http',
     }
-    protocol_schemas = {
+    PROTOCOL_SCHEMAS = {
         'http': 'https'
     }
 
@@ -47,7 +47,7 @@ class ServeoService(BaseTunnelingService):
 
     async def _create_session(self, port: int, protocol: str) -> Session:
 
-        schema = self.protocol_schemas[protocol]
+        schema = self.PROTOCOL_SCHEMAS[protocol]
         public_url = await self._create_tunnel(port=port)
         return Session(
             protocol=protocol,
