@@ -12,7 +12,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-type Endpoint = Callable[[BaseEvent], BaseResponse | Coroutine | None]
+type Endpoint = Callable[[BaseClient, BaseEvent], BaseResponse | Coroutine | any | None]
 type Sink = Callable[[Sequence, Color], Coroutine]
 type Source = Callable[[Sequence, Color], Coroutine]
 
@@ -42,13 +42,19 @@ class BaseResponse(BaseModel):
     data: dict = None
 
 
+class BasePayload(BaseResponse):
+    code: str
+
+    def __init__(self, code: str):
+        super().__init__(code=code)
+
+
 class BaseClient(BaseModel):
     origin: str
 
 
 class BaseEvent(BaseModel):
     name: str
-    client: BaseClient
     data: dict = None
 
 
@@ -61,4 +67,7 @@ class BaseTransport(ABC):
     ): ...
 
     @abstractmethod
-    async def handle_event(self, event: BaseEvent) -> BaseResponse: ...
+    async def send_event(self, event: BaseEvent): ...
+
+    @abstractmethod
+    async def handle_event(self, client: BaseClient, event: BaseEvent) -> BaseResponse: ...

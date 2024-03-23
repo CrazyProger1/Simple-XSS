@@ -4,7 +4,7 @@ from .types import (
     BaseTransport,
     Endpoint,
     BaseEvent,
-    BaseResponse
+    BaseResponse, BaseClient
 )
 
 
@@ -16,18 +16,21 @@ class APITransport(BaseTransport):
     def endpoint(self, event: str, endpoint: Endpoint):
         self._endpoints[event] = endpoint
 
-    async def handle_event(self, event: BaseEvent) -> BaseResponse:
+    async def handle_event(self, client: BaseClient, event: BaseEvent) -> BaseResponse:
         endpoint = self._endpoints.get(event.name)
 
         if endpoint is None:
             raise KeyError(f'No endpoint binding for event: {event.name}')
 
         if inspect.iscoroutinefunction(endpoint):
-            response = await endpoint(event)
+            response = await endpoint(client, event)
         else:
-            response = endpoint(event)
+            response = endpoint(client, event)
 
-        if not isinstance(response, BaseResponse):
-            raise TypeError(f'Endpoint {event.name} returned invalid response: {response}')
+        if isinstance(response, dict):
+            response = BaseResponse.model_validate(response)
+
+        if response is None:
+            response = BaseResponse()
 
         return response

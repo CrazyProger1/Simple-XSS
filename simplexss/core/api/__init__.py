@@ -6,6 +6,12 @@ from .types import (
     BaseEvent,
     BaseResponse
 )
+from .transports import (
+    APITransport,
+)
+from .io import (
+    APIIOManager,
+)
 
 __all__ = [
     'BaseIOManager',
@@ -14,4 +20,6 @@ __all__ = [
     'BaseResponse',
     'BaseEvent',
     'BaseClient',
+    'APIIOManager',
+    'APITransport',
 ]

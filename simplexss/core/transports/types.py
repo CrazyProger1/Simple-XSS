@@ -20,10 +20,11 @@ class BaseTransportService(ABC):
             host: str,
             port: int,
             api: BaseTransport,
+            **kwargs
     ) -> Session: ...
 
     @abstractmethod
-    async def stop(self, session: Session): ...
+    async def stop(self, session: Session, **kwargs): ...
 
 
 class BaseTransportServiceFactory(ABC):
