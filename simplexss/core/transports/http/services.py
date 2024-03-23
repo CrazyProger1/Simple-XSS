@@ -1,6 +1,5 @@
-from simplexss.core.types import (
-    BaseHook,
-    BasePayload
+from simplexss.core.api import (
+    BaseTransport,
 )
 
 from ..sessions import Session
@@ -15,6 +14,7 @@ class HttpService(BaseTransportService):
             self,
             host: str,
             port: int,
+            api: BaseTransport,
     ) -> Session:
         pass
 

@@ -5,7 +5,6 @@ from abc import (
 
 from typing import (
     Callable,
-    Iterable,
     Coroutine,
     Sequence
 )
@@ -14,7 +13,6 @@ from enum import Enum
 from pydantic import BaseModel
 
 type Endpoint = Callable[[BaseEvent], BaseResponse | Coroutine | None]
-type Filter = Callable[[BaseEvent], bool]
 type Sink = Callable[[Sequence, Color], Coroutine]
 type Source = Callable[[Sequence, Color], Coroutine]
 
@@ -58,10 +56,9 @@ class BaseTransport(ABC):
     @abstractmethod
     def endpoint(
             self,
+            event: str,
             endpoint: Endpoint,
-            *filters: Filter
     ): ...
 
-    @property
     @abstractmethod
-    def endpoints(self) -> Iterable[tuple[Endpoint, Iterable[Filter]]]: ...
+    async def handle_event(self, event: BaseEvent) -> BaseResponse: ...

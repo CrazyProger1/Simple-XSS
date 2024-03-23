@@ -4,9 +4,8 @@ from abc import (
 )
 from typing import Iterable
 
-from simplexss.core.types import (
-    BaseHook,
-    BasePayload
+from simplexss.core.api import (
+    BaseTransport,
 )
 from .sessions import Session
 
@@ -20,6 +19,7 @@ class BaseTransportService(ABC):
             self,
             host: str,
             port: int,
+            api: BaseTransport,
     ) -> Session: ...
 
     @abstractmethod
