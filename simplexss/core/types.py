@@ -4,8 +4,9 @@ from abc import (
     abstractmethod
 )
 
-from simplexss.utils.packages import Package
 from simplexss.core.io import BaseIOManagerAPI
+from simplexss.core.transports import BaseTransportAPI
+from simplexss.utils.packages import Package
 
 
 class BaseCore(ABC):
@@ -22,14 +23,14 @@ class BaseHook(Package, ABC):
 
 
 class BasePayload(Package):
-    transport = None
+    transport: BaseTransportAPI = None
     io: BaseIOManagerAPI = None
 
     @property
     def payload(self) -> str:
-        return 'alert(1)'
+        return ''
 
-    def bind_transport(self, transport):
+    def bind_transport(self, transport: BaseTransportAPI):
         self.transport = transport
         self.transport.bind_payload(self.payload)
 

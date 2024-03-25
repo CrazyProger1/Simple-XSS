@@ -2,7 +2,7 @@ from pyngrok import (
     ngrok,
     exception as ngexception
 )
-from simplexss.core.logging import logger
+
 from simplexss.utils.network import (
     change_protocol,
     validate_port,
@@ -16,6 +16,7 @@ from ..types import (
 from ..exceptions import (
     TunnelingError
 )
+from ..logging import logger
 
 
 class NgrokService(BaseTunnelingService):

@@ -4,6 +4,7 @@ from .types import (
     Sink,
     Color
 )
+from .logging import logger
 
 
 class IOManagerAPI(BaseIOManagerAPI):
@@ -13,9 +14,11 @@ class IOManagerAPI(BaseIOManagerAPI):
 
     async def print(self, *args, color: Color = Color.DEFAULT, sep: str = ' ', end: str = '\n'):
         seq = sep.join(map(str, args)) + end
+        logger.debug(f'apicall: print called: {seq}')
         return await self._sink(seq, color)
 
     async def input(self, prompt: str, /, *, color: Color = Color.DEFAULT):
+        logger.debug(f'apicall: input called: {prompt}')
         return await self._source(prompt, color)
 
     def add_sink(self, sink: Sink):

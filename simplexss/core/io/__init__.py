@@ -3,7 +3,7 @@ from .types import (
     Color
 )
 
-from .managers import IOManagerAPI
+from .api import IOManagerAPI
 
 __all__ = [
     'BaseIOManagerAPI',

@@ -7,3 +7,5 @@ class Payload(BasePayload):
     NAME = 'IP Stealer'
     VERSION = '0.0.1'
 
+    def payload(self) -> str:
+        return f'alert({self.NAME} - V{self.VERSION})'
