@@ -1,6 +1,5 @@
 import flet as ft
 
-from simplexss.core.transports import BaseTransportServiceFactory
 from simplexss.core.tunneling import BaseTunnelingServiceFactory
 from .enums import Messages
 from .constants import (
@@ -13,8 +12,7 @@ from ..types import CustomControl
 
 
 class NetworkBox(CustomControl):
-    def __init__(self, transport_factory: BaseTransportServiceFactory, tunneling_factory: BaseTunnelingServiceFactory):
-        self._transport_factory = transport_factory
+    def __init__(self, tunneling_factory: BaseTunnelingServiceFactory):
         self._tunneling_factory = tunneling_factory
 
         self._box_name_text = ft.Text(
@@ -26,10 +24,6 @@ class NetworkBox(CustomControl):
         self._transport_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
-            options=[
-                ft.dropdown.Option(name)
-                for name in transport_factory.get_names()
-            ]
         )
 
         self._tunneling_dropdown = ft.Dropdown(

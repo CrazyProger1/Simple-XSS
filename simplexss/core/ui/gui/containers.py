@@ -18,7 +18,6 @@ class GUIContainer(containers.Container):
     main_page = dependencies.Dependency()
 
     network_box = dependencies.Factory(NetworkBox, kwargs={
-        'transport_factory': CoreContainer.transport_service_factory,
         'tunneling_factory': CoreContainer.tunneling_service_factory,
     })
     hook_box = dependencies.Factory(HookBox, kwargs={

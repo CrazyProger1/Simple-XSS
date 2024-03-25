@@ -1,3 +1,3 @@
-from simplexss.core.api import (
+from simplexss.core.io import (
     BaseIOManager,
 )

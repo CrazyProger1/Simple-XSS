@@ -1,8 +1,8 @@
-from . import Color
 from .types import (
     BaseIOManager,
     Source,
     Sink,
+    Color
 )
 
 
@@ -19,7 +19,11 @@ class APIIOManager(BaseIOManager):
         return await self._source(prompt, color)
 
     def add_sink(self, sink: Sink):
+        if not callable(sink):
+            raise TypeError('Sink must be callable')
         self._sink = sink
 
     def add_source(self, source: Source):
+        if not callable(source):
+            raise TypeError('Source must be callable')
         self._source = source
