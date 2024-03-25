@@ -4,7 +4,8 @@ from abc import (
 )
 from typing import (
     Callable,
-    Coroutine, Iterable
+    Coroutine,
+    Iterable
 )
 
 from pydantic import BaseModel
@@ -13,7 +14,7 @@ from dataclasses import dataclass
 type Endpoint = Callable[[BaseClient, BaseEvent], Coroutine | BaseEvent | any | None]
 
 
-@dataclass
+@dataclass(frozen=True)
 class BaseSession:
     host: str
     port: int
@@ -40,7 +41,7 @@ class BaseTransportAPI(ABC):
     def endpoint(self, event: str, endpoint: Endpoint): ...
 
     @abstractmethod
-    def send_event(self, client: BaseClient, event: BaseEvent): ...
+    async def send_event(self, client: BaseClient, event: BaseEvent): ...
 
 
 class BaseTransportService(ABC):
@@ -48,10 +49,10 @@ class BaseTransportService(ABC):
     PROTOCOL: str
 
     @abstractmethod
-    def run(self, host: str, port: int) -> BaseSession: ...
+    async def run(self, host: str, port: int, **kwargs) -> BaseSession: ...
 
     @abstractmethod
-    def stop(self, session: BaseSession) -> None: ...
+    async def stop(self, session: BaseSession) -> None: ...
 
 
 class BaseTransportServiceFactory(ABC):

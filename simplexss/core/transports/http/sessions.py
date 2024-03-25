@@ -4,6 +4,6 @@ from ..types import (
 )
 
 
-@dataclass
+@dataclass(frozen=True)
 class HTTPSession(BaseSession):
     pass

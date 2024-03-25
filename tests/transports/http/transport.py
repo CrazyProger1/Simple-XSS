@@ -1,21 +1,18 @@
 import asyncio
 
-from simplexss.core.transports.http.server import FastAPIServer
-from simplexss.core.api import APITransport, BaseResponse
+from simplexss.core.transports.http.fastapi import FastAPIServer
 
 
-async def endpoint(client, event):
-    print(event)
-    return BaseResponse()
+async def test_endpoint(client, event):
+    print(client, event)
 
 
 async def main():
-    transport = APITransport()
-    transport.endpoint('test', endpoint)
-
     server = FastAPIServer()
-    await server.run('localhost', 4444, transport)
-
+    api = await server.run('localhost', 4444)
+    api.bind_payload('alert(1)')
+    api.endpoint('test', test_endpoint)
+    
     print('Server started')
 
     while True:
