@@ -7,7 +7,14 @@ from typing import (
     Container
 )
 
-from .sessions import Session
+from dataclasses import dataclass
+
+
+@dataclass
+class BaseSession:
+    protocol: str
+    port: int
+    public_url: str
 
 
 class BaseTunnelingService(ABC):
@@ -15,10 +22,10 @@ class BaseTunnelingService(ABC):
     PROTOCOLS: Container[str] = ()
 
     @abstractmethod
-    async def run(self, protocol: str, port: int) -> Session: ...
+    async def run(self, protocol: str, port: int) -> BaseSession: ...
 
     @abstractmethod
-    async def stop(self, session: Session): ...
+    async def stop(self, session: BaseSession): ...
 
 
 class BaseTunnelingServiceFactory(ABC):

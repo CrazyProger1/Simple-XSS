@@ -5,7 +5,7 @@ from abc import (
 )
 
 from simplexss.utils.packages import Package
-from simplexss.core.io import BaseIOManager
+from simplexss.core.io import BaseIOManagerAPI
 
 
 class BaseCore(ABC):
@@ -22,13 +22,18 @@ class BaseHook(Package, ABC):
 
 
 class BasePayload(Package):
-    # transport: BaseTransport = None
-    io: BaseIOManager = None
+    transport = None
+    io: BaseIOManagerAPI = None
 
-    # def bind_transport(self, transport: BaseTransport):
-    #     self.transport = transport
+    @property
+    def payload(self) -> str:
+        return 'alert(1)'
 
-    def bind_io(self, io: BaseIOManager):
+    def bind_transport(self, transport):
+        self.transport = transport
+        self.transport.bind_payload(self.payload)
+
+    def bind_io(self, io: BaseIOManagerAPI):
         self.io = io
 
 

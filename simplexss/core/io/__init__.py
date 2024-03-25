@@ -1,11 +1,11 @@
 from .types import (
-    BaseIOManager,
+    BaseIOManagerAPI,
     Color
 )
 
-from .managers import APIIOManager
+from .managers import IOManagerAPI
 
 __all__ = [
-    'BaseIOManager',
-    'APIIOManager',
+    'BaseIOManagerAPI',
+    'IOManagerAPI',
 ]

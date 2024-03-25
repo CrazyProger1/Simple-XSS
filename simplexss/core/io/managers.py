@@ -1,12 +1,12 @@
 from .types import (
-    BaseIOManager,
+    BaseIOManagerAPI,
     Source,
     Sink,
     Color
 )
 
 
-class APIIOManager(BaseIOManager):
+class IOManagerAPI(BaseIOManagerAPI):
     def __init__(self):
         self._sink: Sink | None = None
         self._source: Source | None = None

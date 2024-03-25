@@ -6,8 +6,12 @@ from simplexss.utils.network import (
     change_protocol,
     validate_port,
 )
-from ..sessions import Session
-from ..types import BaseTunnelingService
+
+from .sessions import ServeoSession
+from ..types import (
+    BaseTunnelingService,
+    BaseSession,
+)
 from ..exceptions import (
     TunnelingError
 )
@@ -45,25 +49,25 @@ class ServeoService(BaseTunnelingService):
 
         return public_url
 
-    async def _create_session(self, port: int, protocol: str) -> Session:
+    async def _create_session(self, port: int, protocol: str) -> BaseSession:
 
         schema = self.PROTOCOL_SCHEMAS[protocol]
         public_url = await self._create_tunnel(port=port)
-        return Session(
+        return ServeoSession(
             protocol=protocol,
             port=port,
             public_url=change_protocol(public_url, schema)
         )
 
-    async def run(self, protocol: str, port: int) -> Session:
-        if protocol not in self.protocols:
+    async def run(self, protocol: str, port: int) -> BaseSession:
+        if protocol not in self.PROTOCOLS:
             raise ValueError(f'Protocol {protocol} not supported')
 
         validate_port(port=port, raise_exceptions=True)
 
         return await self._create_session(port=port, protocol=protocol)
 
-    async def stop(self, session: Session):
+    async def stop(self, session: BaseSession):
         process = self._processes.pop(session.public_url, None)
         if process is not None:
             process.kill()

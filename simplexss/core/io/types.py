@@ -13,7 +13,7 @@ class Color(str, Enum):
     DEFAULT = 'default'
 
 
-class BaseIOManager(ABC):
+class BaseIOManagerAPI(ABC):
     @abstractmethod
     async def print(self, *args, color: Color = Color.DEFAULT, sep: str = ' ', end: str = '\n'): ...
 
