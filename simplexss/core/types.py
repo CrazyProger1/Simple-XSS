@@ -14,7 +14,7 @@ class BaseCore(ABC):
 
 
 class BaseHook(Package, ABC):
-    PROTOCOL: str = ''
+    TRANSPORTS: Container[str] = set()
 
     @property
     @abstractmethod
@@ -22,7 +22,6 @@ class BaseHook(Package, ABC):
 
 
 class BasePayload(Package):
-    PROTOCOLS: Container[str] = set()
     # transport: BaseTransport = None
     io: BaseIOManager = None
 
