@@ -11,6 +11,8 @@ from typing import (
 from pydantic import BaseModel
 from dataclasses import dataclass
 
+from simplexss.core.data import Environment
+
 type Endpoint = Callable[[BaseClient, BaseEvent], Coroutine | BaseEvent | any | None]
 
 
@@ -36,6 +38,9 @@ class BaseEvent(BaseModel):
 class BaseTransportAPI(ABC):
     @abstractmethod
     def bind_payload(self, payload: str): ...
+
+    @abstractmethod
+    def bind_environment(self, env: Environment): ...
 
     @abstractmethod
     def endpoint(self, event: str, endpoint: Endpoint): ...

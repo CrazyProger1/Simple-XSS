@@ -6,6 +6,7 @@ from abc import (
 
 from simplexss.core.io import BaseIOManagerAPI
 from simplexss.core.transports import BaseTransportAPI
+from simplexss.core.data import Environment
 from simplexss.utils.packages import Package
 
 
@@ -25,17 +26,16 @@ class BaseHook(Package, ABC):
 class BasePayload(Package):
     transport: BaseTransportAPI = None
     io: BaseIOManagerAPI = None
+    env: Environment = None
 
     @property
-    def payload(self) -> str:
-        return ''
+    @abstractmethod
+    def payload(self) -> str: ...
 
-    def bind_transport(self, transport: BaseTransportAPI):
-        self.transport = transport
-        self.transport.bind_payload(self.payload)
-
-    def bind_io(self, io: BaseIOManagerAPI):
-        self.io = io
+    def bind_dependencies(self, **deps):
+        self.transport = deps.get('transport')
+        self.io = deps.get('io')
+        self.env = deps.get('env')
 
 
 class BasePlugin(Package):

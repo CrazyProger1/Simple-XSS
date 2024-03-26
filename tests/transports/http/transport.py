@@ -4,15 +4,17 @@ from simplexss.core.transports.http.fastapi import FastAPIServer
 
 
 async def test_endpoint(client, event):
-    print(client, event)
+    event.data = {'yest': 'helloworld!'}
+    print('SEND BACK')
+    return event
 
 
 async def main():
     server = FastAPIServer()
     api = await server.run('localhost', 4444)
-    api.bind_payload('alert(1)')
+    api.bind_payload('{transport}\nalert(1)')
     api.endpoint('test', test_endpoint)
-    
+
     print('Server started')
 
     while True:

@@ -1,3 +1,4 @@
+import asyncio
 import threading
 
 import uvicorn
@@ -8,6 +9,7 @@ from fastapi import (
     responses,
     Request
 )
+from jinja2 import Template
 
 from simplexss.core.transports import (
     BaseTransportAPI,
@@ -15,8 +17,8 @@ from simplexss.core.transports import (
     BaseClient, BaseEvent,
 )
 from simplexss.utils.theads import thread
+from .constants import TRANSPORT_JS_CODE
 from .dependencies import authenticate
-from .services import get_client
 from ..types import (
     BaseHTTPTransportServer,
 )
@@ -75,18 +77,40 @@ class FastAPIServer(BaseHTTPTransportServer):
         except SystemExit:
             raise
 
-    async def _read_payload(self, client: BaseClient = Depends(authenticate)):
+    def _get_full_payload(self, client: BaseClient) -> str:
+        transport = Template(TRANSPORT_JS_CODE).render(
+            token=client.token,
+            environment=self._api.environment,
+        )
+
         code = self._api.payload
+        try:
+            code = code.format(
+                transport=transport,
+            )
+        except KeyError:
+            pass
+
+        return code
+
+    async def _read_payload(self, client: BaseClient = Depends(authenticate)):
+        code = self._get_full_payload(client=client)
         return responses.HTMLResponse(
             content=code,
             media_type='text/javascript'
         )
 
     async def _read_event(self, client: BaseClient = Depends(authenticate)):
-        pass
+        event = self._api.pop_event(client)
+
+        while not event:
+            await asyncio.sleep(0.1)
+            event = self._api.pop_event(client)
+
+        return event
 
     async def _create_event(self, event: BaseEvent, client: BaseClient = Depends(authenticate)):
-        pass
+        await self._api.handle_event(client, event)
 
     async def run(self, host: str = None, port: int = None) -> BaseTransportAPI:
         if self._running:
