@@ -30,7 +30,7 @@ class CommonTransportAPI(BaseTransportAPI):
 
     def bind_payload(self, payload: str):
         if not isinstance(payload, str):
-            raise TypeError('Payload must be a string JS js')
+            raise TypeError('Payload must be a string JS code')
 
         self._payload = payload
         logger.debug(f'apicall: Bound payload: {payload}')

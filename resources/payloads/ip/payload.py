@@ -7,5 +7,6 @@ class Payload(BasePayload):
     NAME = 'IP Stealer'
     VERSION = '0.0.1'
 
+    @property
     def payload(self) -> str:
-        return f'alert({self.NAME} - V{self.VERSION})'
+        return f'{{transport}}\nalert({self.NAME} - V{self.VERSION})'

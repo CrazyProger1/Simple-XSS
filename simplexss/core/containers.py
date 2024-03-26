@@ -1,7 +1,9 @@
 from simplexss.utils.packages import PackageManager
 from simplexss.core.tunneling import TunnelingServiceFactory
+from simplexss.core.transports import TransportServiceFactory
 from simplexss.core.ui import UIFactory
 from simplexss.core.io import IOManagerAPI
+from simplexss.core.process import SimpleXSSProcessor
 from simplexss.utils.di import (
     containers,
     dependencies
@@ -46,11 +48,29 @@ class CoreContainer(containers.Container):
     ui_factory = dependencies.Factory(UIFactory)
 
     tunneling_service_factory = dependencies.Factory(TunnelingServiceFactory)
+    transport_service_factory = dependencies.Factory(TransportServiceFactory)
 
-    api_io_manager = dependencies.Factory(IOManagerAPI)
+    io_manager = dependencies.Factory(IOManagerAPI)
 
-    core = dependencies.Singleton(Core, kwargs={
-        'arguments': arguments,
-        'settings': settings,
-        'ui_factory': ui_factory,
-    })
+    processor = dependencies.Factory(
+        SimpleXSSProcessor,
+        kwargs={
+            'arguments': arguments,
+            'settings': settings,
+            'transport_factory': transport_service_factory,
+            'tunneling_factory': tunneling_service_factory,
+            'hook_manager': hook_manager,
+            'payload_manager': payload_manager,
+            'io_manager': io_manager,
+        }
+    )
+
+    core = dependencies.Singleton(
+        Core,
+        kwargs={
+            'arguments': arguments,
+            'settings': settings,
+            'ui_factory': ui_factory,
+            'processor': processor
+        }
+    )

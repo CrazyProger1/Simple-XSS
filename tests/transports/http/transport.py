@@ -1,9 +1,10 @@
 import asyncio
 
 from simplexss.core.transports.http.fastapi import FastAPIServer
+from simplexss.core.data import Environment
 
 
-async def test_endpoint(client, event):
+async def endpoint(client, event):
     event.data = {'yest': 'helloworld!'}
     print('SEND BACK')
     return event
@@ -12,8 +13,9 @@ async def test_endpoint(client, event):
 async def main():
     server = FastAPIServer()
     api = await server.run('localhost', 4444)
+    api.bind_environment(Environment(url='http://example.com'))
     api.bind_payload('{transport}\nalert(1)')
-    api.endpoint('test', test_endpoint)
+    api.endpoint('test', endpoint)
 
     print('Server started')
 
