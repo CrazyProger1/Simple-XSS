@@ -1,6 +1,11 @@
 import flet as ft
 
+from simplexss.core.transports import BaseTransportServiceFactory
 from simplexss.core.tunneling import BaseTunnelingServiceFactory
+from simplexss.core.schemas import (
+    ArgumentsSchema,
+    SettingsSchema
+)
 from .enums import Messages
 from .constants import (
     TEXT_FONT_SIZE,
@@ -8,12 +13,23 @@ from .constants import (
     BOX_BORDER_RADIUS,
     BOX_PADDING,
 )
-from ..types import CustomControl
+from ..exceptions import ValidationError
+from ..types import BaseComponent
 
 
-class NetworkBox(CustomControl):
-    def __init__(self, tunneling_factory: BaseTunnelingServiceFactory):
+class NetworkBox(BaseComponent):
+    def __init__(
+            self,
+            settings: SettingsSchema,
+            arguments: ArgumentsSchema,
+            tunneling_factory: BaseTunnelingServiceFactory,
+            transport_factory: BaseTransportServiceFactory,
+
+    ):
+        self._settings = settings
+        self._arguments = arguments
         self._tunneling_factory = tunneling_factory
+        self._transport_factory = transport_factory
 
         self._box_name_text = ft.Text(
             value=Messages.NETWORK,
@@ -24,15 +40,12 @@ class NetworkBox(CustomControl):
         self._transport_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
+            on_change=self._handle_transport_change
         )
 
         self._tunneling_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
-            options=[
-                ft.dropdown.Option(name)
-                for name in tunneling_factory.get_names('http')
-            ]
         )
         self._host_field = ft.TextField(
             visible=True,
@@ -55,6 +68,7 @@ class NetworkBox(CustomControl):
 
         self._use_tunneling_checkbox = ft.Checkbox(
             label=Messages.USE_TUNNELLING_SERVICE,
+            on_change=self._handle_checkbox_change
         )
 
         self._container = ft.Container(
@@ -99,6 +113,59 @@ class NetworkBox(CustomControl):
             ),
             expand=True
         )
+
+    async def _handle_checkbox_change(self, e):
+        await self.update_async()
+
+    async def _handle_transport_change(self, e):
+        await self.update_async()
+
+    async def setup_async(self):
+        transport = self._transport_factory.get_service(self._settings.transport.current)
+
+        self._transport_dropdown.options = [
+            ft.dropdown.Option(option)
+            for option in self._transport_factory.get_names()
+        ]
+
+        if transport is not None:
+            self._transport_dropdown.value = transport.NAME
+
+            self._tunneling_dropdown.options = [
+                ft.dropdown.Option(option)
+                for option in self._tunneling_factory.get_names(transport.PROTOCOL)
+            ]
+
+            self._tunneling_dropdown.value = self._settings.tunneling.current
+
+        use_tunneling = self._settings.tunneling.use
+        self._use_tunneling_checkbox.value = use_tunneling
+        self._tunneling_dropdown.visible = use_tunneling
+        self._public_url_field.visible = not use_tunneling
+        self._public_url_field.value = self._settings.tunneling.public_url
+
+        self._host_field.value = self._settings.transport.host
+        self._port_field.value = self._settings.transport.port
+
+    async def update_async(self):
+        use_tunneling = self._use_tunneling_checkbox.value
+        self._tunneling_dropdown.visible = use_tunneling
+        self._public_url_field.visible = not use_tunneling
+
+        transport = self._transport_factory.get_service(self._transport_dropdown.value)
+        if transport is not None:
+            self._tunneling_dropdown.options = [
+                ft.dropdown.Option(option)
+                for option in self._tunneling_factory.get_names(transport.PROTOCOL)
+            ]
+        await self._container.update_async()
+
+    async def validate_async(self):
+        if self._transport_dropdown.value is None:
+            raise ValidationError('Transport must be selected')
+
+    async def save_async(self):
+        pass
 
     def build(self):
         return self._container

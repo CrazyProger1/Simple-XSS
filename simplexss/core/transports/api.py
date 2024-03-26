@@ -38,7 +38,7 @@ class CommonTransportAPI(BaseTransportAPI):
     def bind_environment(self, env: Environment):
         self._env = env
 
-    def endpoint(self, event: str, endpoint: Endpoint):
+    def bind_endpoint(self, event: str, endpoint: Endpoint):
         self._endpoints[event] = endpoint
         logger.debug(f'apicall: Endpoint bound on event {event}: {endpoint}')
 
@@ -61,7 +61,9 @@ class CommonTransportAPI(BaseTransportAPI):
 
         if result is not None:
             if isinstance(result, BaseEvent):
-                await self.send_event(client, event)
+                await self.send_event(client, result)
+            elif isinstance(result, dict):
+                await self.send_event(client, BaseEvent.model_validate(result))
 
     def pop_event(self, client: BaseClient) -> BaseEvent | None:
         try:

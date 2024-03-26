@@ -6,4 +6,6 @@ from simplexss.utils.events import (
 
 
 class GUIChannel(EventChannel):
-    pass
+    need_update = AsyncEvent()
+    process_launched = AsyncEvent()
+    process_terminated = AsyncEvent()

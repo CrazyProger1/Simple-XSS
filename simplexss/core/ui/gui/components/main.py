@@ -1,17 +1,17 @@
 import flet as ft
 
-from ..types import CustomControl
+from ..types import BaseComponent
 
 
-class MainBox(CustomControl):
+class MainBox(BaseComponent):
     def __init__(
             self,
-            network_box: CustomControl,
-            hook_box: CustomControl,
-            payload_box: CustomControl,
-            process_control_box: CustomControl,
-            message_area_box: CustomControl,
-            message_control_box: CustomControl,
+            network_box: BaseComponent,
+            hook_box: BaseComponent,
+            payload_box: BaseComponent,
+            process_control_box: BaseComponent,
+            message_area_box: BaseComponent,
+            message_control_box: BaseComponent,
     ):
         self._network_box = network_box
         self._hook_box = hook_box

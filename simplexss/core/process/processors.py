@@ -91,12 +91,13 @@ class SimpleXSSProcessor(BaseProcessor):
         self._transport_session.api.bind_payload(self._payload.payload)
         await self._run_tunneling()
         self._create_environment()
+        self._transport_session.api.bind_environment(self._environment)
         self._payload.bind_dependencies(
             env=self._environment,
             transport=self._transport_session.api,
             io=self._io_manager
         )
-        self._transport_session.api.bind_environment(self._environment)
+        self._payload.bind_endpoints()
 
     async def stop(self):
         pass

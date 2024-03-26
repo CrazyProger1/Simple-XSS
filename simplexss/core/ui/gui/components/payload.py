@@ -9,10 +9,10 @@ from .constants import (
     TEXT_FONT_SIZE
 )
 from .enums import Messages
-from ..types import CustomControl
+from ..types import BaseComponent
 
 
-class PayloadBox(CustomControl):
+class PayloadBox(BaseComponent):
     def __init__(self, manager: PackageManager):
         self._manager = manager
 

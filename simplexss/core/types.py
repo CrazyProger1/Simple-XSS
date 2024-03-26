@@ -26,7 +26,7 @@ class BaseHook(Package, ABC):
 class BasePayload(Package):
     transport: BaseTransportAPI = None
     io: BaseIOManagerAPI = None
-    env: Environment = None
+    environment: Environment = None
 
     @property
     @abstractmethod
@@ -35,7 +35,10 @@ class BasePayload(Package):
     def bind_dependencies(self, **deps):
         self.transport = deps.get('transport')
         self.io = deps.get('io')
-        self.env = deps.get('env')
+        self.environment = deps.get('env')
+
+    def bind_endpoints(self):
+        pass
 
 
 class BasePlugin(Package):

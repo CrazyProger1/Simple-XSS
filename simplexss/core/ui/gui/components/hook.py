@@ -9,10 +9,10 @@ from .constants import (
     BOX_PADDING
 )
 from .enums import Messages
-from ..types import CustomControl
+from ..types import BaseComponent
 
 
-class HookBox(CustomControl):
+class HookBox(BaseComponent):
     def __init__(self, manager: PackageManager):
         self._manager = manager
         self._hook_name_text = ft.Text(

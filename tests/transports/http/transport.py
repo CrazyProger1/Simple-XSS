@@ -15,7 +15,7 @@ async def main():
     api = await server.run('localhost', 4444)
     api.bind_environment(Environment(url='http://example.com'))
     api.bind_payload('{transport}\nalert(1)')
-    api.endpoint('test', endpoint)
+    api.bind_endpoint('test', endpoint)
 
     print('Server started')
 

@@ -1,4 +1,5 @@
 from simplexss.core.ui import BaseUIFactory
+from simplexss.core.ui.channels import UIChannel
 from simplexss.core.channels import CoreChannel
 from simplexss.core.logging import logger
 from simplexss.core.process import BaseProcessor
@@ -27,6 +28,9 @@ class Core(BaseCore):
         CoreChannel.core_initialized.publish()
         logger.info('Core initialized')
 
+        UIChannel.process_launched.subscribe(self._run_process)
+        UIChannel.process_terminated.subscribe(self._stop_process)
+
     async def _run_process(self):
         await self._processor.run()
 
@@ -34,8 +38,6 @@ class Core(BaseCore):
         await self._processor.stop()
 
     async def run(self):
-        await self._run_process()
-
         from simplexss.core.ui import gui, cli
         ui = self._ui_factory.create(self._arguments.graphic_mode)
         await ui.run()

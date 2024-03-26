@@ -9,10 +9,10 @@ from .constants import (
     ICON_SIZE
 )
 from .enums import Messages
-from ..types import CustomControl
+from ..types import BaseComponent
 
 
-class MessageAreaBox(CustomControl):
+class MessageAreaBox(BaseComponent):
     def __init__(self):
         self._message_list_view = ft.ListView(
             expand=True,
@@ -36,7 +36,7 @@ class MessageAreaBox(CustomControl):
         return self._content
 
 
-class MessageControlBox(CustomControl):
+class MessageControlBox(BaseComponent):
     def __init__(self):
         self._input_field = ft.TextField(
             expand=True,

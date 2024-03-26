@@ -45,8 +45,8 @@ class GUI(BaseUI):
         page.window_min_height = MIN_RESOLUTION[1]
         page.title = f'{APP} - V{VERSION}'
 
-        await page.add_async(GUIContainer.main_box.value.build())
-        await page.update_async()
+        manager = GUIContainer.gui_manager.value
+        await manager.show()
 
     async def run(self):
         await ft.app_async(self._init_page)
