@@ -1,5 +1,7 @@
 import flet as ft
 
+from simplexss.core.io import Color
+
 # Box
 BOX_BORDER_RADIUS = 5
 BOX_BORDER = ft.border.all(1, ft.colors.OUTLINE)
@@ -16,3 +18,10 @@ ICON_SIZE = 35
 # Messages
 MESSAGE_SPACING = 5
 MESSAGE_FONT_SIZE = 15
+
+COLOR_TABLE = {
+    Color.DEFAULT: ft.colors.WHITE,
+    Color.RED: ft.colors.RED,
+    Color.GREEN: ft.colors.GREEN,
+    Color.BLUE: ft.colors.BLUE,
+}

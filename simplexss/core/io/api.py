@@ -12,14 +12,14 @@ class IOManagerAPI(BaseIOManagerAPI):
         self._sinks: list[Sink] = []
         self._source: Source | None = None
 
-    async def print(self, *args, color: Color = Color.DEFAULT, sep: str = ' ', end: str = '\n'):
+    async def print(self, *args, color: Color | str = Color.DEFAULT, sep: str = ' ', end: str = '\n'):
         seq = sep.join(map(str, args)) + end
         logger.debug(f'apicall: print called: {seq}')
 
         for sink in self._sinks:
             return await sink(seq, color)
 
-    async def input(self, prompt: str, /, *, color: Color = Color.DEFAULT):
+    async def input(self, prompt: str, /, *, color: Color | str = Color.DEFAULT):
         logger.debug(f'apicall: input called: {prompt}')
 
         assert self._source is not None, 'Source not set'
