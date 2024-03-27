@@ -24,37 +24,29 @@ and will not be held responsible for any such actions taken by others who may us
 By downloading or using this program, you acknowledge that you are solely responsible for any consequences
 that may result from the use of this program.
 
-## Vocabulary
-
-**Hook** - snippet of JS code designed to be injected via XSS on the client side.
-
-**Payload** - a program that will be launched remotely in the client’s browser.
-
 ## Usage
+
+See **[docs](./docs/README.md)**
 
 ## Status
 
 **V0.3 - indev(refactoring)**
 
-### GUI-Guide
-
 ## Interface
-
-> _Thanks to the use of the [Python Flet framework](https://flet.dev/), the application works equally well both in the
-browser and in the graphical interface._
 
 ### Graphical
 
-![img.png](resources/images/v0.3.png)
+![v0.0.3](resources/images/v0.0.3.png)
 
 ## Warning
 
 In favor of ease of use and expanded capabilities, we had to sacrifice backward compatibility between versions 0.2 and
-0.3. The features of the previous version are retained and expanded, but older versions of hook & payload will not work.
+0.0.3. The features of the previous version are retained and expanded, but older versions of hook & payload will not
+work.
 
 ## Installation
 
-**Note:** _make sure you have installed [Python 3.11](https://www.python.org/downloads/release/python-3115/)_
+**Note:** _make sure you have installed [Python 3.12](https://www.python.org/) or higher._
 
 First you need to clone the repository:
 
@@ -81,7 +73,7 @@ pip install -r  requirements/linux.txt
 And finally you can launch it:
 
 ```commandline
-python main.py
+python simplexss
 ```
 
 ## License

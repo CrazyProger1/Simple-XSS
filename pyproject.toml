@@ -43,12 +43,12 @@ pytest = "^8.1.1"
 toml = "^0.10.2"
 pyngrok = "^7.1.5"
 flet = "^0.21.2"
+pyperclip = "^1.8.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.3"
 mypy = "^1.9.0"
 pytest = "^8.1.1"
-colorlog = "^6.8.2"
 pytest-asyncio = "^0.23.6"
 
 [build-system]

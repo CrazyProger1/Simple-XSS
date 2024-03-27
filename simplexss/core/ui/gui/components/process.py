@@ -1,4 +1,5 @@
 import flet as ft
+import pyperclip
 
 from .constants import ICON_SIZE
 from .enums import Messages
@@ -28,7 +29,8 @@ class ProcessControlBox(BaseComponent):
             icon=ft.icons.COPY,
             icon_size=ICON_SIZE,
             icon_color=ft.colors.BLUE,
-            tooltip=Messages.COPY
+            tooltip=Messages.COPY,
+            on_click=self._handle_copy,
         )
         self._hook_field = ft.TextField(
             disabled=True,
@@ -69,10 +71,14 @@ class ProcessControlBox(BaseComponent):
     async def _terminate_process(self, e):
         await GUIChannel.process_terminated.publish_async()
 
+    async def _handle_copy(self, e):
+        pyperclip.copy(self._hook_field.value)
+
     async def update_async(self):
         self._hook_field.disabled = not self.context.process_running
         self._terminate_button.disabled = not self.context.process_running
         self._launch_button.disabled = self.context.process_running
+        self._copy_button.disabled = not self.context.process_running
 
         await self._container.update_async()
 

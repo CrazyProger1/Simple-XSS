@@ -1,6 +1,7 @@
-flet
-loguru
+pydantic
+translatable-enums
+pytest
 toml
-typeguard
 pyngrok
-tabulate
+flet
+pyperclip
