@@ -90,7 +90,7 @@ class HookBox(BaseComponent):
             raise ValidationError('Please choose hook')
 
     async def save_async(self):
-        pass
+        self.context.settings.hook.current = self._hook_dropdown.value
 
     def build(self):
         return self._container

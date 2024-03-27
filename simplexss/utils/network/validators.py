@@ -35,7 +35,9 @@ def validate_domain(domain: str, raise_exceptions: bool = False) -> bool:
 def validate_url(url: str, raise_exceptions: bool = False) -> bool:
     try:
         result = urlparse(url)
-        return all([result.scheme, result.netloc])
+        scheme = result.scheme
+        netloc = url.removeprefix(scheme + '://')
+        return all([scheme, netloc]) and validate_host(netloc)
     except ValueError:
         if raise_exceptions:
             raise ValueError(f'URL {url} is invalid')

@@ -2,6 +2,11 @@ import flet as ft
 
 from simplexss.core.transports import BaseTransportServiceFactory
 from simplexss.core.tunneling import BaseTunnelingServiceFactory
+from simplexss.utils.network import (
+    validate_port,
+    validate_host,
+    validate_url
+)
 from .enums import Messages
 from .constants import (
     TEXT_FONT_SIZE,
@@ -46,6 +51,7 @@ class NetworkBox(BaseComponent):
             expand=True,
             border_color=ft.colors.OUTLINE,
             hint_text=Messages.HOST,
+            on_change=self._handle_host_change
         )
 
         self._port_field = ft.TextField(
@@ -53,11 +59,13 @@ class NetworkBox(BaseComponent):
             width=100,
             border_color=ft.colors.OUTLINE,
             hint_text=Messages.PORT,
+            on_change=self._handle_port_change
         )
         self._public_url_field = ft.TextField(
             expand=True,
             border_color=ft.colors.OUTLINE,
             hint_text=Messages.PUBLIC_URL,
+            on_change=self._handle_url_change
         )
 
         self._use_tunneling_checkbox = ft.Checkbox(
@@ -119,6 +127,31 @@ class NetworkBox(BaseComponent):
         self.context.settings.tunneling.current = self._tunneling_dropdown.value
         await GUIChannel.need_update.publish_async()
 
+    async def _handle_host_change(self, e):
+        valid = validate_host(self._host_field.value)
+
+        self._host_field.color = ft.colors.RED if not valid else None
+
+        await self._host_field.update_async()
+
+    async def _handle_port_change(self, e):
+        port = self._port_field.value
+
+        valid = port.isdigit() and validate_port(int(port))
+
+        self._port_field.color = ft.colors.RED if not valid else None
+
+        await self._port_field.update_async()
+
+    async def _handle_url_change(self, e):
+        url = self._public_url_field.value
+
+        valid = validate_url(url)
+
+        self._public_url_field.color = ft.colors.RED if not valid else None
+
+        await self._public_url_field.update_async()
+
     async def setup_async(self):
         transport = self._transport_factory.get_service(self.context.settings.transport.current)
 
@@ -144,7 +177,7 @@ class NetworkBox(BaseComponent):
         self._public_url_field.value = self.context.settings.tunneling.public_url
 
         self._host_field.value = self.context.settings.transport.host
-        self._port_field.value = self.context.settings.transport.port
+        self._port_field.value = str(self.context.settings.transport.port)
 
     async def update_async(self):
         self._container.disabled = self.context.process_running
@@ -165,8 +198,21 @@ class NetworkBox(BaseComponent):
         if self._transport_dropdown.value is None:
             raise ValidationError('Please choose transport')
 
+        host = self._host_field.value
+        port = self._port_field.value
+
+        if not port.isdigit() or not validate_port(int(port)):
+            raise ValidationError('Invalid port')
+
+        if not validate_host(host):
+            raise ValidationError('Invalid host')
+
     async def save_async(self):
-        pass
+        self.context.settings.transport.current = self._transport_dropdown.value
+        self.context.settings.transport.port = int(self._port_field.value)
+        self.context.settings.transport.host = self._host_field.value
+        self.context.settings.tunneling.current = self._tunneling_dropdown.value
+        self.context.settings.tunneling.public_url = self._public_url_field.value
 
     def build(self):
         return self._container

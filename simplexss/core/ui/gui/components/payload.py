@@ -82,5 +82,8 @@ class PayloadBox(BaseComponent):
         if self._payload_dropdown.value is None:
             raise ValidationError('Please choose payload')
 
+    async def save_async(self):
+        self.context.settings.payload.current = self._payload_dropdown.value
+
     def build(self):
         return self._container
