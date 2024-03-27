@@ -2,7 +2,7 @@
 
 - [x] Rewritten from scratch to improve maintainability and expand functionality
 
-- [x] Added support for various protocols
+- [x] Added support for various protocols (as transport services)
     - [x] HTTP
     - [x] Websockets
 

@@ -4,16 +4,18 @@
   <img src="resources/images/logo.png"  alt="Simple-XSS logo"/>
 </p>
 
-<a href="https://github.com/CrazyProger1/Simple-XSS/releases/download/V0.2/Simple-XSS-Windows-x64.zip"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/CrazyProger1/Simple-XSS/total"></a>
-<a href="https://github.com/CrazyProger1/Simple-XSS/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/CrazyProger1/Simple-XSS"></a>
-<a href="https://github.com/CrazyProger1/Simple-XSS/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CrazyProger1/Simple-XSS"></a>
+<p align="center">
+    <a href="https://github.com/CrazyProger1/Simple-XSS/releases/download/V0.2/Simple-XSS-Windows-x64.zip"><img alt="GitHub all releases" src="https://img.shields.io/github/downloads/CrazyProger1/Simple-XSS/total"></a>
+    <a href="https://github.com/CrazyProger1/Simple-XSS/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/CrazyProger1/Simple-XSS"></a>
+    <a href="https://github.com/CrazyProger1/Simple-XSS/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CrazyProger1/Simple-XSS"></a>
+</p>
 
 Simple-XSS is a multi-platform cross-site scripting (XSS) vulnerability exploitation tool for pentesting.
 
 Problems solved by Simple-XSS:
 
 - [x] Easy creatable payloads & hooks
-- [x] Support of several payload delivering protocols
+- [x] Support of several transport services (HTTP, Websocket)
 - [x] Support of several tunneling services (to deliver payload even without white IP)
 
 **Disclaimer:** This program is provided for educational and research purposes only.

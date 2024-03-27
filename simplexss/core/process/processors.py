@@ -100,4 +100,5 @@ class SimpleXSSProcessor(BaseProcessor):
         self._payload.bind_endpoints()
 
     async def stop(self):
-        pass
+        await self._transport_service.stop(self._transport_session)
+        await self._tunneling_service.stop(self._tunneling_session)
