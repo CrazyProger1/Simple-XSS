@@ -1,3 +1,5 @@
+# Simple-XSS Changelog
+
 ## V0.0.3
 
 - [x] Rewritten from scratch to improve maintainability and expand functionality

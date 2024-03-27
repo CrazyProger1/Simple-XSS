@@ -6,7 +6,8 @@
 
 - **Plugin** - program extension.
 
-- **Transport Service** - 
+- **Transport Service** - service responsible for delivering payload to client side & data exchange between client and
+  host.
 
-- **Tunneling Service** - 
+- **Tunneling Service** - service responsible for tunneling (it's useful if you don't have white IP)
 
