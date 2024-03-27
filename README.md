@@ -24,7 +24,7 @@ and will not be held responsible for any such actions taken by others who may us
 By downloading or using this program, you acknowledge that you are solely responsible for any consequences
 that may result from the use of this program.
 
-## Usage
+## Documentation
 
 See **[docs](./docs/README.md)**
 
