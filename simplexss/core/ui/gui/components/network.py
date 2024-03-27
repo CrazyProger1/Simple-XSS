@@ -15,19 +15,16 @@ from .constants import (
 )
 from ..exceptions import ValidationError
 from ..types import BaseComponent
+from ..channels import GUIChannel
 
 
 class NetworkBox(BaseComponent):
     def __init__(
             self,
-            settings: SettingsSchema,
-            arguments: ArgumentsSchema,
             tunneling_factory: BaseTunnelingServiceFactory,
             transport_factory: BaseTransportServiceFactory,
 
     ):
-        self._settings = settings
-        self._arguments = arguments
         self._tunneling_factory = tunneling_factory
         self._transport_factory = transport_factory
 
@@ -118,10 +115,15 @@ class NetworkBox(BaseComponent):
         await self.update_async()
 
     async def _handle_transport_change(self, e):
-        await self.update_async()
+        self.context.settings.transport.current = self._transport_dropdown.value
+        await GUIChannel.need_update.publish_async()
+
+    async def _handle_tunneling_change(self, e):
+        self.context.settings.tunneling.current = self._tunneling_dropdown.value
+        await GUIChannel.need_update.publish_async()
 
     async def setup_async(self):
-        transport = self._transport_factory.get_service(self._settings.transport.current)
+        transport = self._transport_factory.get_service(self.context.settings.transport.current)
 
         self._transport_dropdown.options = [
             ft.dropdown.Option(option)
@@ -136,18 +138,20 @@ class NetworkBox(BaseComponent):
                 for option in self._tunneling_factory.get_names(transport.PROTOCOL)
             ]
 
-            self._tunneling_dropdown.value = self._settings.tunneling.current
+            self._tunneling_dropdown.value = self.context.settings.tunneling.current
 
-        use_tunneling = self._settings.tunneling.use
+        use_tunneling = self.context.settings.tunneling.use
         self._use_tunneling_checkbox.value = use_tunneling
         self._tunneling_dropdown.visible = use_tunneling
         self._public_url_field.visible = not use_tunneling
-        self._public_url_field.value = self._settings.tunneling.public_url
+        self._public_url_field.value = self.context.settings.tunneling.public_url
 
-        self._host_field.value = self._settings.transport.host
-        self._port_field.value = self._settings.transport.port
+        self._host_field.value = self.context.settings.transport.host
+        self._port_field.value = self.context.settings.transport.port
 
     async def update_async(self):
+        self._container.disabled = self.context.process_running
+
         use_tunneling = self._use_tunneling_checkbox.value
         self._tunneling_dropdown.visible = use_tunneling
         self._public_url_field.visible = not use_tunneling
@@ -162,7 +166,7 @@ class NetworkBox(BaseComponent):
 
     async def validate_async(self):
         if self._transport_dropdown.value is None:
-            raise ValidationError('Transport must be selected')
+            raise ValidationError('Please choose transport')
 
     async def save_async(self):
         pass

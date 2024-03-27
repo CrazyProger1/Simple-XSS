@@ -50,7 +50,7 @@ class CoreContainer(containers.Container):
     tunneling_service_factory = dependencies.Factory(TunnelingServiceFactory)
     transport_service_factory = dependencies.Factory(TransportServiceFactory)
 
-    io_manager = dependencies.Factory(IOManagerAPI)
+    io_manager = dependencies.Singleton(IOManagerAPI)
 
     processor = dependencies.Factory(
         SimpleXSSProcessor,

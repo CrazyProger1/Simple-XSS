@@ -64,14 +64,18 @@ class ProcessControlBox(BaseComponent):
         )
 
     async def _launch_process(self, e):
+        self._hook_field.disabled = False
         self._terminate_button.disabled = False
         self._launch_button.disabled = True
+        self.context.process_running = True
 
         await GUIChannel.process_launched.publish_async()
 
     async def _terminate_process(self, e):
+        self._hook_field.disabled = True
         self._terminate_button.disabled = True
         self._launch_button.disabled = False
+        self.context.process_running = False
 
         await GUIChannel.process_terminated.publish_async()
 

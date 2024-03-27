@@ -6,6 +6,7 @@ from .types import (
     BaseComponent
 )
 from .channels import GUIChannel
+from .contexts import Context
 from ..channels import UIChannel
 
 
@@ -14,16 +15,15 @@ class ComponentManager(BaseComponentManager):
             self,
             page: ft.Page,
             component: BaseComponent,
+            context: Context,
     ):
         self._page = page
         self._component = component
+        BaseComponent.context = context
 
         GUIChannel.need_update.subscribe(self._update_comps)
         GUIChannel.process_launched.subscribe(self._handle_process_launched)
         GUIChannel.process_terminated.subscribe(self._handle_process_terminated)
-
-    async def _update_page(self):
-        await self._page.update_async()
 
     async def _handle_process_launched(self):
         try:
@@ -32,10 +32,11 @@ class ComponentManager(BaseComponentManager):
             print(f'Validation Error Occurred BANNER: {e}')
             return
         await self._save_comps()
+        await self._update_comps()
         await UIChannel.process_launched.publish_async()
 
     async def _handle_process_terminated(self):
-        await self._update_page()
+        await self._update_comps()
         await UIChannel.process_terminated.publish_async()
 
     async def _setup_comps(self):
@@ -57,8 +58,8 @@ class ComponentManager(BaseComponentManager):
     async def show(self):
         await self._page.add_async(self._component.build())
         await self._setup_comps()
-        await self._update_page()
+        await self._update_comps()
 
     async def hide(self):
         await self._page.clean_async()
-        await self._update_page()
+        await self._page.update_async()

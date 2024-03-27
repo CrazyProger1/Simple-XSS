@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Callable, Sequence, Coroutine
 
-type Sink = Callable[[Sequence, Color], Coroutine]
-type Source = Callable[[Sequence, Color], Coroutine]
+type Sink = Callable[[str, Color], Coroutine]
+type Source = Callable[[str, Color], Coroutine]
 
 
 class Color(str, Enum):
@@ -24,4 +24,4 @@ class BaseIOManagerAPI(ABC):
     def add_sink(self, sink: Sink): ...
 
     @abstractmethod
-    def add_source(self, source: Source): ...
+    def set_source(self, source: Source): ...

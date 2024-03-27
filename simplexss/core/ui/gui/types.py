@@ -3,8 +3,11 @@ from abc import (
     abstractmethod
 )
 
+from .contexts import Context
+
 
 class BaseComponent(ABC):
+    context: Context = None
     overlay = []
     components = []
 
@@ -30,6 +33,7 @@ class BaseComponent(ABC):
 
 
 class BaseComponentManager(ABC):
+
     @abstractmethod
     async def show(self): ...
 

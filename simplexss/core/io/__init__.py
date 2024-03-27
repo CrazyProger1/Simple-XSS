@@ -8,4 +8,5 @@ from .api import IOManagerAPI
 __all__ = [
     'BaseIOManagerAPI',
     'IOManagerAPI',
+    'Color',
 ]

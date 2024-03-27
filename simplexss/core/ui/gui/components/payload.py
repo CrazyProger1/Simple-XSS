@@ -1,5 +1,6 @@
 import flet as ft
 
+from simplexss.core.schemas import SettingsSchema
 from simplexss.utils.packages import PackageManager
 from .constants import (
     BOX_BORDER,
@@ -9,6 +10,7 @@ from .constants import (
     TEXT_FONT_SIZE
 )
 from .enums import Messages
+from ..exceptions import ValidationError
 from ..types import BaseComponent
 
 
@@ -25,7 +27,7 @@ class PayloadBox(BaseComponent):
         self._payload_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
-            options=[ft.dropdown.Option(payload.NAME) for payload in self._manager.packages]
+
         )
         self._payload_description_text = ft.Text(
             visible=True,
@@ -62,6 +64,21 @@ class PayloadBox(BaseComponent):
                 ]
             )
         )
+
+    async def setup_async(self):
+        self._payload_dropdown.options = [
+            ft.dropdown.Option(payload.NAME)
+            for payload in self._manager.packages
+        ]
+        self._payload_dropdown.value = self.context.settings.payload.current
+
+    async def update_async(self):
+        self._container.disabled = self.context.process_running
+        await self._container.update_async()
+
+    async def validate_async(self):
+        if self._payload_dropdown.value is None:
+            raise ValidationError('Please choose payload')
 
     def build(self):
         return self._container

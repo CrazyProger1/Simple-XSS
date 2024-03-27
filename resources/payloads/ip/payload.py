@@ -12,7 +12,7 @@ class Payload(BasePayload):
     VERSION = '0.0.1'
 
     async def on_test(self, client: BaseClient, event: BaseEvent):
-        print('WORKS!')
+        await self.io.print('Works!')
         await self.transport.send_event(client, BaseEvent(name='response'))
 
     def bind_endpoints(self):

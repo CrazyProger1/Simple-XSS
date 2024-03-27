@@ -1,5 +1,9 @@
 import flet as ft
 
+from simplexss.core.io import (
+    BaseIOManagerAPI,
+    Color
+)
 from .constants import (
     MESSAGE_SPACING,
     BOX_BORDER,
@@ -13,7 +17,9 @@ from ..types import BaseComponent
 
 
 class MessageAreaBox(BaseComponent):
-    def __init__(self):
+    def __init__(self, io_manager: BaseIOManagerAPI):
+        self._io_manager = io_manager
+        self._io_manager.add_sink(self._sink)
         self._message_list_view = ft.ListView(
             expand=True,
             spacing=MESSAGE_SPACING,
@@ -32,12 +38,19 @@ class MessageAreaBox(BaseComponent):
             ]
         )
 
+    async def _sink(self, message: str, color: Color):
+        pass
+
+    async def update_async(self):
+        self._content.disabled = not self.context.process_running
+
     def build(self):
         return self._content
 
 
 class MessageControlBox(BaseComponent):
-    def __init__(self):
+    def __init__(self, io_manager: BaseIOManagerAPI):
+        self._io_manager = io_manager
         self._input_field = ft.TextField(
             expand=True,
             border_color=ft.colors.OUTLINE,
