@@ -3,7 +3,8 @@ import flet as ft
 from .exceptions import ValidationError
 from .types import (
     BaseComponentManager,
-    BaseComponent
+    BaseComponent,
+    BaseBanner,
 )
 from .channels import GUIChannel
 from .contexts import Context
@@ -16,9 +17,16 @@ class ComponentManager(BaseComponentManager):
             page: ft.Page,
             component: BaseComponent,
             context: Context,
+            error_banner: BaseBanner,
+            warning_banner: BaseBanner
     ):
         self._page = page
         self._component = component
+        self._error_banner = error_banner
+        self._warning_banner = warning_banner
+        self._context = context
+
+        BaseComponent.page = page
         BaseComponent.context = context
 
         GUIChannel.need_update.subscribe(self._update_comps)
@@ -26,16 +34,20 @@ class ComponentManager(BaseComponentManager):
         GUIChannel.process_terminated.subscribe(self._handle_process_terminated)
 
     async def _handle_process_launched(self):
+        self._context.process_running = True
         try:
             await self._validate_comps()
         except ValidationError as e:
-            print(f'Validation Error Occurred BANNER: {e}')
+            await self._error_banner.show(self._page, str(e))
+            self._context.process_running = False
+            await self._update_comps()
             return
         await self._save_comps()
         await self._update_comps()
         await UIChannel.process_launched.publish_async()
 
     async def _handle_process_terminated(self):
+        self._context.process_running = False
         await self._update_comps()
         await UIChannel.process_terminated.publish_async()
 

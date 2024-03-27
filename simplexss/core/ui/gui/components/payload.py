@@ -11,7 +11,9 @@ from .constants import (
 )
 from .enums import Messages
 from ..exceptions import ValidationError
-from ..types import BaseComponent
+from ..types import (
+    BaseComponent,
+)
 
 
 class PayloadBox(BaseComponent):

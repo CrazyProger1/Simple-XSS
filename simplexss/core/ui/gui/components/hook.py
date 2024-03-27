@@ -12,14 +12,16 @@ from .constants import (
 )
 from .enums import Messages
 from ..exceptions import ValidationError
-from ..types import BaseComponent
+from ..types import (
+    BaseComponent,
+)
 
 
 class HookBox(BaseComponent):
     def __init__(
             self,
             manager: PackageManager,
-            transport_factory: BaseTransportServiceFactory
+            transport_factory: BaseTransportServiceFactory,
     ):
         self._transport_factory = transport_factory
         self._manager = manager

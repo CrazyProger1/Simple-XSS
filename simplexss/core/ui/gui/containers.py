@@ -12,18 +12,26 @@ from .components import (
     MessageAreaBox,
     MessageControlBox
 )
+from .banners import (
+    ErrorBanner,
+    WarningBanner,
+)
 from .managers import ComponentManager
 from .contexts import Context
 
 
 class GUIContainer(containers.Container):
     main_page = dependencies.Dependency()
+
     gui_context = dependencies.Factory(
         Context,
         kwargs={
             'settings': CoreContainer.settings,
             'arguments': CoreContainer.arguments
         })
+
+    error_banner = dependencies.Factory(ErrorBanner)
+    warning_banner = dependencies.Factory(WarningBanner)
 
     network_box = dependencies.Factory(NetworkBox, kwargs={
         'tunneling_factory': CoreContainer.tunneling_service_factory,
@@ -58,6 +66,8 @@ class GUIContainer(containers.Container):
         kwargs={
             'component': main_box,
             'page': main_page,
-            'context': gui_context
+            'context': gui_context,
+            'error_banner': error_banner,
+            'warning_banner': warning_banner,
         }
     )

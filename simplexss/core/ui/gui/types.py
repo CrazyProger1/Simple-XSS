@@ -3,11 +3,14 @@ from abc import (
     abstractmethod
 )
 
+import flet as ft
+
 from .contexts import Context
 
 
 class BaseComponent(ABC):
     context: Context = None
+    page: ft.Page = None
     overlay = []
     components = []
 
@@ -36,6 +39,14 @@ class BaseComponentManager(ABC):
 
     @abstractmethod
     async def show(self): ...
+
+    @abstractmethod
+    async def hide(self): ...
+
+
+class BaseBanner(ft.Banner):
+    @abstractmethod
+    async def show(self, page: ft.Page, message: str): ...
 
     @abstractmethod
     async def hide(self): ...

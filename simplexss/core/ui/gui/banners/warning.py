@@ -1,0 +1,14 @@
+from .basic import BannerBasicFunctionality
+from .constants import (
+    WARNING_BANNER_ICON,
+    WARNING_BANNER_ICON_COLOR,
+    WARNING_BANNER_BG_COLOR,
+    WARNING_BANNER_TEXT_COLOR
+)
+
+
+class WarningBanner(BannerBasicFunctionality):
+    TEXT_COLOR = WARNING_BANNER_TEXT_COLOR
+    BG_COLOR = WARNING_BANNER_BG_COLOR
+    ICON = WARNING_BANNER_ICON
+    ICON_COLOR = WARNING_BANNER_ICON_COLOR

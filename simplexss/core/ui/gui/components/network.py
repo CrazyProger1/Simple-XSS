@@ -2,10 +2,6 @@ import flet as ft
 
 from simplexss.core.transports import BaseTransportServiceFactory
 from simplexss.core.tunneling import BaseTunnelingServiceFactory
-from simplexss.core.schemas import (
-    ArgumentsSchema,
-    SettingsSchema
-)
 from .enums import Messages
 from .constants import (
     TEXT_FONT_SIZE,
@@ -14,8 +10,10 @@ from .constants import (
     BOX_PADDING,
 )
 from ..exceptions import ValidationError
-from ..types import BaseComponent
 from ..channels import GUIChannel
+from ..types import (
+    BaseComponent,
+)
 
 
 class NetworkBox(BaseComponent):
@@ -23,7 +21,6 @@ class NetworkBox(BaseComponent):
             self,
             tunneling_factory: BaseTunnelingServiceFactory,
             transport_factory: BaseTransportServiceFactory,
-
     ):
         self._tunneling_factory = tunneling_factory
         self._transport_factory = transport_factory
