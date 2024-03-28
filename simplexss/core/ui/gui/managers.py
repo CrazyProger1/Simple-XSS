@@ -32,6 +32,7 @@ class ComponentManager(BaseComponentManager):
         GUIChannel.need_update.subscribe(self._update_comps)
         GUIChannel.process_launched.subscribe(self._handle_process_launched)
         GUIChannel.process_terminated.subscribe(self._handle_process_terminated)
+        UIChannel.show_error.subscribe(self._handle_error)
 
     async def _handle_process_launched(self):
         self._context.process_running = True
@@ -50,6 +51,11 @@ class ComponentManager(BaseComponentManager):
         self._context.process_running = False
         await self._update_comps()
         await UIChannel.process_terminated.publish_async()
+
+    async def _handle_error(self, error: str):
+        self._context.process_running = False
+        await self._error_banner.show(self._page, error)
+        await self._update_comps()
 
     async def _setup_comps(self):
         for component in BaseComponent.components:

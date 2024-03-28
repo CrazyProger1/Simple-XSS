@@ -1,5 +1,5 @@
 import inspect
-from typing import Callable
+from typing import Callable, Iterable
 from functools import cache
 
 from .types import (
@@ -11,10 +11,11 @@ from .logging import logger
 
 
 class Event(BaseEvent):
-    def __init__(self):
+    def __init__(self, required_kwargs: Iterable[str] = ()):
         self._subscribers = []
         self._channel = None
         self._name = None
+        self._required_kwargs = required_kwargs
 
     @staticmethod
     def _validate_callback(callback: Callable):
@@ -28,7 +29,12 @@ class Event(BaseEvent):
         params = signature.parameters
         return 'event' in params
 
-    def _inject_kwargs(self, callback: Callable, kwargs: dict):
+    def _check_kwargs(self, kwargs: dict):
+        for arg in self._required_kwargs:
+            if arg not in kwargs:
+                raise ValueError(f'Argument is required: {arg}')
+
+    def _inject_event(self, callback: Callable, kwargs: dict):
         if self._has_event_param(callback):
             kwargs.update({'event': self})
 
@@ -51,16 +57,18 @@ class Event(BaseEvent):
         logger.debug(f'Callback subscribed to {self._name}: {callback}')
 
     def publish(self, *args, **kwargs):
+        self._check_kwargs(kwargs)
         for callback in self._subscribers:
-            self._inject_kwargs(callback, kwargs)
+            self._inject_event(callback, kwargs)
             callback(*args, **kwargs)
         logger.debug(f'Event published: {self._name}')
 
 
 class AsyncEvent(BaseAsyncEvent, Event):
     async def publish_async(self, *args, **kwargs):
+        self._check_kwargs(kwargs)
         for callback in self._subscribers:
-            self._inject_kwargs(callback, kwargs)
+            self._inject_event(callback, kwargs)
             if inspect.iscoroutinefunction(callback):
                 await callback(*args, **kwargs)
             else:

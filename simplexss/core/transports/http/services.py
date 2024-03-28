@@ -1,14 +1,15 @@
 from .sessions import HTTPSession
-from ..types import (
-    BaseTransportService,
-    BaseSession,
-)
 from .types import (
     BaseHTTPTransportServer,
 )
 from .fastapi import (
     FastAPIServer,
 )
+from ..types import (
+    BaseTransportService,
+    BaseSession,
+)
+from ..exceptions import TransportError
 
 
 class HTTPService(BaseTransportService):

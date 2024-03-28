@@ -5,11 +5,13 @@ from simplexss.core.transports import (
     BaseTransportService,
     BaseSession as BaseTransportSession,
 )
+from simplexss.core.transports.exceptions import TransportError
 from simplexss.core.tunneling import (
     TunnelingServiceFactory,
     BaseTunnelingService,
     BaseSession as BaseTunnelingSession,
 )
+from simplexss.core.tunneling.exceptions import TunnelingError
 from simplexss.core.schemas import (
     ArgumentsSchema,
     SettingsSchema
@@ -20,6 +22,8 @@ from simplexss.core.types import (
 )
 from simplexss.utils.packages import BasePackageManager
 from .types import BaseProcessor
+from .channels import ProcessorChannel
+from .logging import logger
 
 
 class SimpleXSSProcessor(BaseProcessor):
@@ -49,48 +53,54 @@ class SimpleXSSProcessor(BaseProcessor):
         self._tunneling_session: BaseTunnelingSession | None = None
         self._environment: Environment | None = None
 
-    def _create_environment(self):
-        self._environment = Environment(
-            url=self._tunneling_session.public_url
-        )
+    def _setup_environment(self):
+        self._environment = Environment()
 
-    def _load_hook(self):
+    def _setup_hook(self):
         self._hook = self._hook_manager.get_package(
             self._settings.hook.current,
         )
 
-    def _load_payload(self):
+    def _setup_payload(self):
         self._payload = self._payload_manager.get_package(
             self._settings.payload.current
         )
 
-    async def _run_tunneling(self):
+    def _setup_tunneling(self):
         self._tunneling_service = self._tunneling_factory.create(
             self._settings.tunneling.current,
         )
 
-        self._tunneling_session = await self._tunneling_service.run(
-            self._transport_service.PROTOCOL,
-            self._settings.transport.port,
-        )
-
-    async def _run_transport(self):
+    def _setup_transport(self):
         self._transport_service = self._transport_factory.create(
             self._settings.transport.current
         )
 
-        self._transport_session = await self._transport_service.run(
-            host=self._settings.transport.host,
-            port=self._settings.transport.port,
-        )
+    async def _run_tunneling(self):
+        try:
+            self._tunneling_session = await self._tunneling_service.run(
+                self._transport_service.PROTOCOL,
+                self._settings.transport.port,
+            )
+        except TunnelingError as e:
+            await ProcessorChannel.error_occurred.publish_async(error=f'Tunneling Error: {e}')
+            raise
 
-    async def run(self):
-        self._load_hook()
-        self._load_payload()
-        await self._run_transport()
+    async def _run_transport(self):
+        try:
+            settings = self._settings.transport
+
+            self._transport_session = await self._transport_service.run(
+                host=settings.host,
+                port=settings.port,
+            )
+        except TransportError as e:
+            await ProcessorChannel.error_occurred.publish_async(error=f'Transport Error: {e}')
+            raise
+
+    async def _bind_dependencies(self):
+        self._environment.url = self._tunneling_session.public_url
         self._transport_session.api.bind_payload(self._payload.payload)
-        await self._run_tunneling()
-        self._create_environment()
         self._transport_session.api.bind_environment(self._environment)
         self._payload.bind_dependencies(
             env=self._environment,
@@ -99,6 +109,32 @@ class SimpleXSSProcessor(BaseProcessor):
         )
         self._payload.bind_endpoints()
 
+    async def _setup(self):
+        self._setup_environment()
+        self._setup_hook()
+        self._setup_payload()
+        self._setup_transport()
+        self._setup_tunneling()
+
+    async def _run(self):
+        await self._run_transport()
+        await self._run_tunneling()
+
+    async def run(self):
+        try:
+            await self._setup()
+            await self._run()
+            await self._bind_dependencies()
+            await ProcessorChannel.process_launched.publish_async()
+            logger.info('Process launched')
+        except Exception as e:
+            await self.stop()
+
     async def stop(self):
-        await self._transport_service.stop(self._transport_session)
-        await self._tunneling_service.stop(self._tunneling_session)
+        try:
+            await self._transport_service.stop(self._transport_session)
+            await self._tunneling_service.stop(self._tunneling_session)
+            await ProcessorChannel.process_terminated.publish_async()
+            logger.info('Process terminated')
+        except Exception as e:
+            pass

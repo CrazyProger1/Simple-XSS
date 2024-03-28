@@ -4,8 +4,6 @@ Simple-XSS is designed to be expendable, almost every component can be replaced 
 
 ## DI-Containers
 
-Dependency Injection containers allows to
-
 ## Event-System
 
 ## Services
@@ -39,7 +37,6 @@ class Plugin(BasePlugin):
 
 ### Tunneling
 
-
 ```python
 from simplexss.api import BasePlugin
 
@@ -62,4 +59,5 @@ class MyService(BaseTunnelingService):
 class Plugin(BasePlugin):
     pass
 ```
+
 ![service2.png](../resources/images/service2.png)

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Callable, Sequence, Coroutine
+from typing import Callable, Coroutine
 
 type Sink = Callable[[str, Color], Coroutine]
 type Source = Callable[[str, Color], Coroutine]

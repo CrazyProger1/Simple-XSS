@@ -1,5 +1,6 @@
 import asyncio
 import threading
+import queue
 
 import uvicorn
 from starlette.middleware.cors import CORSMiddleware
@@ -22,6 +23,7 @@ from .dependencies import authenticate
 from ..types import (
     BaseHTTPTransportServer,
 )
+from simplexss.core.transports.exceptions import TransportError
 
 
 class FastAPIServer(BaseHTTPTransportServer):
@@ -33,6 +35,7 @@ class FastAPIServer(BaseHTTPTransportServer):
         self._uvicorn_server: uvicorn.Server | None = None
         self._host: str = host
         self._port: int = port
+        self._error_queue = queue.Queue()
 
         self._configure_fastapi()
 
@@ -75,7 +78,7 @@ class FastAPIServer(BaseHTTPTransportServer):
             self._uvicorn_server.run()
 
         except SystemExit:
-            raise
+            self._error_queue.put(TransportError(f'Address is already in use: {self._host}:{self._port}'))
 
     def _get_full_payload(self, client: BaseClient) -> str:
         transport = Template(TRANSPORT_JS_CODE).render(
@@ -112,6 +115,9 @@ class FastAPIServer(BaseHTTPTransportServer):
     async def _create_event(self, event: BaseEvent, client: BaseClient = Depends(authenticate)):
         await self._api.handle_event(client, event)
 
+    async def _check_errors(self):
+        pass
+
     async def run(self, host: str = None, port: int = None) -> BaseTransportAPI:
         if self._running:
             raise RuntimeError('Server is already running')
@@ -126,6 +132,12 @@ class FastAPIServer(BaseHTTPTransportServer):
         self._api = CommonTransportAPI()
 
         self._server_thread = self._run_server()
+
+        await asyncio.sleep(0.1)
+        if not self._error_queue.empty():
+            error = self._error_queue.get()
+            raise error
+
         return self._api
 
     async def stop(self):

@@ -3,4 +3,4 @@ from dataclasses import dataclass
 
 @dataclass
 class Environment:
-    url: str
+    url: str = None

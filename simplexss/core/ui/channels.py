@@ -11,3 +11,5 @@ class UIChannel(EventChannel):
 
     process_launched = AsyncEvent()
     process_terminated = AsyncEvent()
+
+    show_error = AsyncEvent(required_kwargs=('error',))
