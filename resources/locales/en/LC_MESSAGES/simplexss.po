@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+
+msgid "Public URL"
+msgstr "Public URL"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Send"
+msgstr "Send"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Copy"
+msgstr "Copy"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Stop"
+msgstr "Stop"
+
+msgid "Run"
+msgstr "Run"
+
+msgid "Ok"
+msgstr "Ok"
+
+msgid "Network"
+msgstr "Network"
+
+msgid "Use Tunnelling Service"
+msgstr "Use Tunnelling Service"
+
+msgid "Payload"
+msgstr "Payload"
+
+msgid "Hook"
+msgstr "Hook"

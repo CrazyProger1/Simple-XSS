@@ -1,5 +1,9 @@
 import asyncio
 
+from i18n import (
+    set_language
+)
+
 from simplexss.core.logging import logger
 from simplexss.core.types import BaseCore
 from simplexss.core.utils import (
@@ -39,6 +43,8 @@ async def main():
     arguments = parse_arguments()
     CoreContainer.arguments.bind(arguments)
     CoreChannel.arguments_loaded.publish()
+
+    set_language(arguments.language)
 
     settings = load_settings()
     CoreContainer.settings.bind(settings)

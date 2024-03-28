@@ -1,6 +1,8 @@
 import logging
 import os
 
+from i18n import set_domain
+
 from simplexss.core.enums import (
     GraphicMode,
 )
@@ -45,3 +47,9 @@ DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 4444
 DEFAULT_TRANSPORT = 'http'
 DEFAULT_TUNNELING_SERVICE = 'serveo'
+
+# i18n
+DOMAIN = 'simplexss'
+LOCALES_DIRECTORY = os.path.join(RESOURCES_DIRECTORY, 'locales')
+DEFAULT_LANGUAGE = 'en'
+set_domain(DOMAIN, LOCALES_DIRECTORY)

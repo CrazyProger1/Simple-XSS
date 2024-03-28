@@ -4,10 +4,12 @@ from pydantic import (
 )
 from simplexss.core.config import (
     DEFAULT_SETTINGS_FILE,
-    DEFAULT_GRAPHIC_MODE
+    DEFAULT_GRAPHIC_MODE,
+    DEFAULT_LANGUAGE
 )
 
 
 class ArgumentsSchema(BaseModel):
     settings_file: str = Field(DEFAULT_SETTINGS_FILE, description='settings file path')
     graphic_mode: str = Field(DEFAULT_GRAPHIC_MODE, description='graphic mode')
+    language: str = Field(DEFAULT_LANGUAGE, description='language')
