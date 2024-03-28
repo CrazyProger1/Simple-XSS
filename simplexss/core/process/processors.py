@@ -148,6 +148,7 @@ class SimpleXSSProcessor(BaseProcessor):
             await self._run()
             await self._bind_dependencies()
             await ProcessorChannel.process_launched.publish_async()
+
             logger.info('Process launched')
             await self._io_manager.print(Messages.PROCESS_LAUNCHED, color='green')
         except Exception as e:
@@ -156,8 +157,12 @@ class SimpleXSSProcessor(BaseProcessor):
     async def stop(self):
         try:
             await self._transport_service.stop(self._transport_session)
-            await self._tunneling_service.stop(self._tunneling_session)
+
+            if self._settings.tunneling.use:
+                await self._tunneling_service.stop(self._tunneling_session)
+
             await ProcessorChannel.process_terminated.publish_async()
+
             logger.info('Process terminated')
             await self._io_manager.print(Messages.PROCESS_TERMINATED, color='green')
         except Exception as e:

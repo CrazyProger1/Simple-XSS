@@ -19,6 +19,14 @@ const sendEvent = async (event, data = {}) => {
     await fetch(url + '/event', options)
 }
 
+
+const addListener = (event, callback) => {
+    if (!listeners[event]) {
+        listeners[event] = [];
+    }
+    listeners[event].push(callback);
+}
+
 const listen = async () => {
     const options = {
         method: 'GET',
@@ -30,14 +38,14 @@ const listen = async () => {
     while (true) {
         const response = await fetch(url + '/event', options)
         const data = await response.json();
-        const callback = listeners[data.name]
-        callback(data.name, data.data)
+        const callbacks = listeners[data.name]
+        
+        callbacks.forEach(callback => {
+            callback(data.name, data.data);
+        });
     }
 }
 
-const addEventListener = (event, callback) => {
-    listeners[event] = callback;
-}
 
 listen()
 '''
