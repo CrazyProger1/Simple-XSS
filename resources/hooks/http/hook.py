@@ -12,4 +12,4 @@ class Hook(BaseHook):
 
     @property
     def hook(self) -> str:
-        pass
+        return f'<script src="{self.environment.url}/.js"></script>'

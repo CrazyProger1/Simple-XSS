@@ -117,6 +117,7 @@ class NetworkBox(BaseComponent):
         )
 
     async def _handle_checkbox_change(self, e):
+        self.context.settings.tunneling.use = self._use_tunneling_checkbox.value
         await self.update_async()
 
     async def _handle_transport_change(self, e):

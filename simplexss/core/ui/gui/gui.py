@@ -13,6 +13,7 @@ from simplexss.core.config import (
 
 )
 from simplexss.utils.di import inject
+from .channels import GUIChannel
 from .containers import GUIContainer
 from ..types import BaseUI
 from ..channels import UIChannel
@@ -47,6 +48,9 @@ class GUI(BaseUI):
 
         manager = GUIContainer.gui_manager.value
         await manager.show()
+
+    async def update(self):
+        await GUIChannel.need_update.publish_async()
 
     async def run(self):
         await ft.app_async(self._init_page)

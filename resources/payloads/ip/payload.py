@@ -26,4 +26,4 @@ class Payload(BasePayload):
 
     @property
     def payload(self) -> str:
-        return f'{{transport}}\nalert({self.NAME} - V{self.VERSION})'
+        return f'sendEvent("test"); addEventListener("response", (name, data) => {{alert(name)}})'

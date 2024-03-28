@@ -37,9 +37,13 @@ class Core(BaseCore):
         UIChannel.process_launched.subscribe(self._run_process)
         UIChannel.process_terminated.subscribe(self._stop_process)
         ProcessorChannel.error_occurred.subscribe(self._handle_error)
+        ProcessorChannel.process_launched.subscribe(self._handle_launched)
 
     async def _handle_error(self, error: str):
         await UIChannel.show_error.publish_async(error=error)
+
+    async def _handle_launched(self):
+        await self._ui.update()
 
     async def _run_process(self):
         await self._processor.run()

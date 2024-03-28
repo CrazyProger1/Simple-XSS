@@ -5,11 +5,11 @@ from abc import (
 
 import flet as ft
 
-from .contexts import Context
+from simplexss.core.ui.contexts import UIContext
 
 
 class BaseComponent(ABC):
-    context: Context = None
+    context: UIContext = None
     page: ft.Page = None
     overlay = []
     components = []

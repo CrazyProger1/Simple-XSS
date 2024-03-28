@@ -74,7 +74,16 @@ class PayloadBox(BaseComponent):
         ]
         self._payload_dropdown.value = self.context.settings.payload.current
 
+        await self.update_async()
+
     async def update_async(self):
+        payload = self._manager.get_package(self._payload_dropdown.value)
+
+
+        if payload:
+            self._payload_author_text.value = f'@{payload.AUTHOR}'
+            self._payload_description_text.value = str(payload.DESCRIPTION)
+
         self._container.disabled = self.context.process_running
         await self._container.update_async()
 

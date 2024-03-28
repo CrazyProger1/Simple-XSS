@@ -6,9 +6,9 @@
 
 - [x] Added support for various protocols (as transport services)
     - [x] HTTP
-    - [x] Websockets
+    - [x] Websockets (unfinished)
 
-- [x] Added more tunneling services
+- [x] Added tunneling service
     - [x] Serveo
     - [x] Ngrok
 

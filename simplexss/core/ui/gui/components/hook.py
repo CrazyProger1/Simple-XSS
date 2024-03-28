@@ -83,6 +83,13 @@ class HookBox(BaseComponent):
             for hook in self._manager.packages
             if self.context.settings.transport.current in hook.TRANSPORTS
         ]
+
+        hook = self._manager.get_package(self._hook_dropdown.value)
+
+        if hook:
+            self._hook_author_text.value = f'@{hook.AUTHOR}'
+            self._hook_description_text.value = str(hook.DESCRIPTION)
+
         await self._container.update_async()
 
     async def validate_async(self):

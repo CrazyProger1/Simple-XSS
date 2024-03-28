@@ -17,18 +17,11 @@ from .banners import (
     WarningBanner,
 )
 from .managers import ComponentManager
-from .contexts import Context
+from simplexss.core.ui.contexts import UIContext
 
 
 class GUIContainer(containers.Container):
     main_page = dependencies.Dependency()
-
-    gui_context = dependencies.Factory(
-        Context,
-        kwargs={
-            'settings': CoreContainer.settings,
-            'arguments': CoreContainer.arguments
-        })
 
     error_banner = dependencies.Factory(ErrorBanner)
     warning_banner = dependencies.Factory(WarningBanner)
@@ -66,7 +59,7 @@ class GUIContainer(containers.Container):
         kwargs={
             'component': main_box,
             'page': main_page,
-            'context': gui_context,
+            'context': CoreContainer.ui_context,
             'error_banner': error_banner,
             'warning_banner': warning_banner,
         }

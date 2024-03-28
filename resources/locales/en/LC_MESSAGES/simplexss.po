@@ -50,3 +50,9 @@ msgstr "Payload"
 
 msgid "Hook"
 msgstr "Hook"
+
+msgid "Process launched"
+msgstr "Process launched"
+
+msgid "Process terminated"
+msgstr "Process terminated"

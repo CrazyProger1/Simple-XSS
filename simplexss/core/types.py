@@ -17,10 +17,16 @@ class BaseCore(ABC):
 
 class BaseHook(Package, ABC):
     TRANSPORTS: Container[str] = set()
+    io: BaseIOManagerAPI = None
+    environment: Environment = None
 
     @property
     @abstractmethod
     def hook(self) -> str: ...
+
+    def bind_dependencies(self, **deps):
+        self.io = deps.get('io')
+        self.environment = deps.get('env')
 
 
 class BasePayload(Package):

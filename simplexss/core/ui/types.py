@@ -8,6 +8,9 @@ class BaseUI(ABC):
     mode: str
 
     @abstractmethod
+    async def update(self): ...
+
+    @abstractmethod
     async def run(self): ...
 
 

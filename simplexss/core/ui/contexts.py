@@ -7,8 +7,8 @@ from simplexss.core.schemas import (
 
 
 @dataclass
-class Context:
+class UIContext:
     settings: SettingsSchema
     arguments: ArgumentsSchema
     process_running: bool = False
-    current_hook: str = None
+    hook: str = None

@@ -80,6 +80,8 @@ class ProcessControlBox(BaseComponent):
         self._launch_button.disabled = self.context.process_running
         self._copy_button.disabled = not self.context.process_running
 
+        self._hook_field.value = self.context.hook if self.context.process_running else None
+
         await self._container.update_async()
 
     def build(self):

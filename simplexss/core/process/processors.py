@@ -24,6 +24,8 @@ from simplexss.utils.packages import BasePackageManager
 from .types import BaseProcessor
 from .channels import ProcessorChannel
 from .logging import logger
+from .enums import Messages
+from simplexss.core.ui.contexts import UIContext
 
 
 class SimpleXSSProcessor(BaseProcessor):
@@ -35,7 +37,8 @@ class SimpleXSSProcessor(BaseProcessor):
             tunneling_factory: TunnelingServiceFactory,
             hook_manager: BasePackageManager,
             payload_manager: BasePackageManager,
-            io_manager: BaseIOManagerAPI
+            io_manager: BaseIOManagerAPI,
+            ui_context: UIContext
     ):
         self._arguments = arguments
         self._settings = settings
@@ -44,6 +47,7 @@ class SimpleXSSProcessor(BaseProcessor):
         self._hook_manager = hook_manager
         self._payload_manager = payload_manager
         self._io_manager = io_manager
+        self._ui_context = ui_context
 
         self._hook: BaseHook | None = None
         self._payload: BasePayload | None = None
@@ -99,7 +103,23 @@ class SimpleXSSProcessor(BaseProcessor):
             raise
 
     async def _bind_dependencies(self):
-        self._environment.url = self._tunneling_session.public_url
+
+        if self._settings.tunneling.use:
+            self._environment.url = self._tunneling_session.public_url
+        else:
+            url = self._settings.tunneling.public_url
+
+            if not url:
+                url = f'http://{self._transport_session.host}:{self._transport_session.port}'
+
+            self._environment.url = url
+
+        self._hook.bind_dependencies(
+            env=self._environment,
+            io=self._io_manager,
+        )
+        self._ui_context.hook = self._hook.hook
+
         self._transport_session.api.bind_payload(self._payload.payload)
         self._transport_session.api.bind_environment(self._environment)
         self._payload.bind_dependencies(
@@ -118,7 +138,9 @@ class SimpleXSSProcessor(BaseProcessor):
 
     async def _run(self):
         await self._run_transport()
-        await self._run_tunneling()
+
+        if self._settings.tunneling.use:
+            await self._run_tunneling()
 
     async def run(self):
         try:
@@ -127,6 +149,7 @@ class SimpleXSSProcessor(BaseProcessor):
             await self._bind_dependencies()
             await ProcessorChannel.process_launched.publish_async()
             logger.info('Process launched')
+            await self._io_manager.print(Messages.PROCESS_LAUNCHED, color='green')
         except Exception as e:
             await self.stop()
 
@@ -136,5 +159,6 @@ class SimpleXSSProcessor(BaseProcessor):
             await self._tunneling_service.stop(self._tunneling_session)
             await ProcessorChannel.process_terminated.publish_async()
             logger.info('Process terminated')
+            await self._io_manager.print(Messages.PROCESS_TERMINATED, color='green')
         except Exception as e:
             pass

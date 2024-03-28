@@ -7,7 +7,7 @@ from .types import (
     BaseBanner,
 )
 from .channels import GUIChannel
-from .contexts import Context
+from simplexss.core.ui.contexts import UIContext
 from ..channels import UIChannel
 
 
@@ -16,7 +16,7 @@ class ComponentManager(BaseComponentManager):
             self,
             page: ft.Page,
             component: BaseComponent,
-            context: Context,
+            context: UIContext,
             error_banner: BaseBanner,
             warning_banner: BaseBanner
     ):

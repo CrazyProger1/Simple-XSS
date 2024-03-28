@@ -50,3 +50,9 @@ msgstr "Пейлоад"
 
 msgid "Hook"
 msgstr "Хук"
+
+msgid "Process launched"
+msgstr "Процес запущено"
+
+msgid "Process terminated"
+msgstr "Процес припинено"

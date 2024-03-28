@@ -87,13 +87,7 @@ class FastAPIServer(BaseHTTPTransportServer):
         )
 
         code = self._api.payload
-        try:
-            code = code.format(
-                transport=transport,
-            )
-        except KeyError:
-            pass
-
+        code = f'{transport}\n\n{code}'
         return code
 
     async def _read_payload(self, client: BaseClient = Depends(authenticate)):
