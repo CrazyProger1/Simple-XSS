@@ -4,6 +4,7 @@ from i18n import (
     set_language
 )
 
+import simplexss.api
 from simplexss.core.logging import logger
 from simplexss.core.types import BaseCore
 from simplexss.core.utils import (

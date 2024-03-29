@@ -13,6 +13,7 @@ RESOURCES_DIRECTORY = 'resources'
 DEBUG = True
 APP = 'Simple-XSS'
 VERSION = '0.3'
+ICON = 'resources/images/logo.ico'
 
 # Settings
 DEFAULT_SETTINGS_FILE = 'settings.toml'

@@ -53,7 +53,7 @@ class GUI(BaseUI):
         await GUIChannel.need_update.publish_async()
 
     async def run(self):
-        await ft.app_async(self._init_page)
+        await ft.app_async(self._init_page, )
 
         logger.info('GUI terminated')
         await UIChannel.ui_terminated.publish_async()

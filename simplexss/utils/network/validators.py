@@ -37,8 +37,21 @@ def validate_url(url: str, raise_exceptions: bool = False) -> bool:
         result = urlparse(url)
         scheme = result.scheme
         netloc = url.removeprefix(scheme + '://')
-        return all([scheme, netloc]) and validate_host(netloc)
+
+        if not all([scheme, netloc]):
+            raise ValueError
+
+        if ':/' in netloc:
+            raise ValueError
+
+        if ':' in netloc:
+            netloc = netloc.split(':', 1)[0]
+
+        if not validate_host(netloc):
+            raise ValueError
+
     except ValueError:
         if raise_exceptions:
             raise ValueError(f'URL {url} is invalid')
         return False
+    return True
