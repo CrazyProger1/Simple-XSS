@@ -41,7 +41,7 @@ const listen = async () => {
         const callbacks = listeners[data.name]
         
         callbacks.forEach(callback => {
-            callback(data.name, data.data);
+            callback(data.data);
         });
     }
 }
