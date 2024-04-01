@@ -1,0 +1,7 @@
+pydantic
+translatable-enums
+pytest
+toml
+pyngrok
+flet
+pyperclip

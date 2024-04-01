@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.2.2\n"
+
+msgid "Public URL"
+msgstr ""
+
+msgid "Port"
+msgstr "Порт"
+
+msgid "Send"
+msgstr "Надіслати"
+
+msgid "Message"
+msgstr "Повідомлення"
+
+msgid "Copy"
+msgstr "Скопіювати"
+
+msgid "Host"
+msgstr "Хост"
+
+msgid "Stop"
+msgstr "Зупинити"
+
+msgid "Run"
+msgstr "Запустити"
+
+msgid "Ok"
+msgstr "Ок"
+
+msgid "Network"
+msgstr "Налаштування Мережі"
+
+msgid "Use Tunnelling Service"
+msgstr "Використовувати сервіс тунелювання"
+
+msgid "Payload"
+msgstr "Пейлоад"
+
+msgid "Hook"
+msgstr "Хук"
+
+msgid "Process launched"
+msgstr "Процес запущено"
+
+msgid "Process terminated"
+msgstr "Процес припинено"
+
+msgid "Current hook: {hook}"
+msgstr "Хук: {hook}"

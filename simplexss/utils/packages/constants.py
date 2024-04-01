@@ -1,0 +1,3 @@
+DEFAULT_PACKAGE_FILE = 'plugin.py'
+DEFAULT_PACKAGE_CLASS = 'Package'
+DEFAULT_PACKAGES_DIR = 'packages'
