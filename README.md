@@ -30,7 +30,7 @@ See **[docs](./docs/README.md)**
 
 ## Status
 
-**V0.3 - indev(working on docs & refactorings)**
+**V0.0.3 - released**
 
 ## Interface
 
