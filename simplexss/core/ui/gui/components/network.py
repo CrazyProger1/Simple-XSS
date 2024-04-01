@@ -153,17 +153,24 @@ class NetworkBox(BaseComponent):
 
         await self._public_url_field.update_async()
 
-    async def setup_async(self):
-        transport = self._transport_factory.get_service(self.context.settings.transport.current)
+    async def _update_container(self):
+        self._container.disabled = self.context.process_running
+        await self._container.update_async()
 
+    def _update_transport_options(self):
         self._transport_dropdown.options = [
             ft.dropdown.Option(option)
             for option in self._transport_factory.get_names()
         ]
 
-        if transport is not None:
-            self._transport_dropdown.value = transport.NAME
+    def _update_tunneling_options(self):
+        use_tunneling = self._use_tunneling_checkbox.value
+        self._tunneling_dropdown.visible = use_tunneling
+        self._public_url_field.visible = not use_tunneling
 
+        transport = self._transport_factory.get_service(self._transport_dropdown.value)
+
+        if transport is not None:
             self._tunneling_dropdown.options = [
                 ft.dropdown.Option(option)
                 for option in self._tunneling_factory.get_names(transport.PROTOCOL)
@@ -171,6 +178,7 @@ class NetworkBox(BaseComponent):
 
             self._tunneling_dropdown.value = self.context.settings.tunneling.current
 
+    async def setup_async(self):
         use_tunneling = self.context.settings.tunneling.use
         self._use_tunneling_checkbox.value = use_tunneling
         self._tunneling_dropdown.visible = use_tunneling
@@ -180,20 +188,14 @@ class NetworkBox(BaseComponent):
         self._host_field.value = self.context.settings.transport.host
         self._port_field.value = str(self.context.settings.transport.port)
 
+        self._transport_dropdown.value = self.context.settings.transport.current
+        await self.update_async()
+
     async def update_async(self):
-        self._container.disabled = self.context.process_running
+        self._update_transport_options()
+        self._update_tunneling_options()
 
-        use_tunneling = self._use_tunneling_checkbox.value
-        self._tunneling_dropdown.visible = use_tunneling
-        self._public_url_field.visible = not use_tunneling
-
-        transport = self._transport_factory.get_service(self._transport_dropdown.value)
-        if transport is not None:
-            self._tunneling_dropdown.options = [
-                ft.dropdown.Option(option)
-                for option in self._tunneling_factory.get_names(transport.PROTOCOL)
-            ]
-        await self._container.update_async()
+        await self._update_container()
 
     async def validate_async(self):
         if self._transport_dropdown.value is None:

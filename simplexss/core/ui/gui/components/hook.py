@@ -34,6 +34,7 @@ class HookBox(BaseComponent):
         self._hook_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
+            on_change=self._handle_change_hook
 
         )
 
@@ -72,25 +73,47 @@ class HookBox(BaseComponent):
             )
         )
 
-    async def setup_async(self):
-        self._hook_dropdown.value = self.context.settings.hook.current
+    async def _handle_change_hook(self, e):
         await self.update_async()
 
-    async def update_async(self):
-        self._container.disabled = self.context.process_running
-        self._hook_dropdown.options = [
-            ft.dropdown.Option(hook.NAME)
+    def _update_hook_options(self):
+        options = [
+            hook.NAME
             for hook in self._manager.packages
             if self.context.settings.transport.current in hook.TRANSPORTS
         ]
+        self._hook_dropdown.options = [
+            ft.dropdown.Option(option)
+            for option in options
+        ]
+        if self._hook_dropdown.value not in options:
+            self._hook_dropdown.value = None
+
+    def _update_hook_info(self):
+        self._hook_author_text.value = f''
+        self._hook_description_text.value = ''
 
         hook = self._manager.get_package(self._hook_dropdown.value)
 
-        if hook:
+        if hook is not None:
             self._hook_author_text.value = f'@{hook.AUTHOR}'
             self._hook_description_text.value = str(hook.DESCRIPTION)
 
+    async def _update_container(self):
+        self._container.disabled = self.context.process_running
         await self._container.update_async()
+
+    async def setup_async(self):
+        self._hook_dropdown.value = self.context.settings.hook.current
+
+        await self.update_async()
+
+    async def update_async(self):
+        self._update_hook_options()
+
+        self._update_hook_info()
+
+        await self._update_container()
 
     async def validate_async(self):
         if self._hook_dropdown.value is None:

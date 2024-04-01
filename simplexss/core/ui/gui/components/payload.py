@@ -29,6 +29,7 @@ class PayloadBox(BaseComponent):
         self._payload_dropdown = ft.Dropdown(
             expand=True,
             border_color=ft.colors.OUTLINE,
+            on_change=self._handle_change_payload
 
         )
         self._payload_description_text = ft.Text(
@@ -67,25 +68,41 @@ class PayloadBox(BaseComponent):
             )
         )
 
-    async def setup_async(self):
-        self._payload_dropdown.options = [
-            ft.dropdown.Option(payload.NAME)
-            for payload in self._manager.packages
-        ]
-        self._payload_dropdown.value = self.context.settings.payload.current
-
+    async def _handle_change_payload(self, e):
         await self.update_async()
 
-    async def update_async(self):
-        payload = self._manager.get_package(self._payload_dropdown.value)
+    async def _update_container(self):
+        self._container.disabled = self.context.process_running
+        await self._container.update_async()
 
+    def _update_payload_info(self):
+        payload = self._manager.get_package(self._payload_dropdown.value)
 
         if payload:
             self._payload_author_text.value = f'@{payload.AUTHOR}'
             self._payload_description_text.value = str(payload.DESCRIPTION)
 
-        self._container.disabled = self.context.process_running
-        await self._container.update_async()
+    def _update_payload_options(self):
+        options = [
+            payload.NAME
+            for payload in self._manager.packages
+        ]
+        self._payload_dropdown.options = [
+            ft.dropdown.Option(option)
+            for option in options
+        ]
+
+        if self._payload_dropdown.value not in options:
+            self._payload_dropdown.value = None
+
+    async def setup_async(self):
+        self._payload_dropdown.value = self.context.settings.payload.current
+        await self.update_async()
+
+    async def update_async(self):
+        self._update_payload_options()
+        self._update_payload_info()
+        await self._update_container()
 
     async def validate_async(self):
         if self._payload_dropdown.value is None:

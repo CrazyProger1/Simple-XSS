@@ -1,7 +1,10 @@
 from simplexss.api import (
     BasePlugin,
     CoreChannel,
+    CoreContainer
 )
+
+from simplexss.utils.di import inject
 
 
 class Plugin(BasePlugin):
@@ -10,5 +13,6 @@ class Plugin(BasePlugin):
     def on_loaded(self, file: str):
         CoreChannel.settings_loaded.subscribe(self.on_settings_loaded)
 
-    def on_settings_loaded(self):
-        print('SETTINGS LOADED!')
+    @inject
+    def on_settings_loaded(self, settings=CoreContainer.settings):
+        print(f'Settings loaded: {settings}')

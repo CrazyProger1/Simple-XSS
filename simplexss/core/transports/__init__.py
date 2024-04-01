@@ -15,7 +15,7 @@ from .api import (
     CommonTransportAPI,
 )
 
-from . import http
+from . import http, websocket
 
 __all__ = [
     'BaseSession',

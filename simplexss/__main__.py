@@ -38,7 +38,7 @@ async def main():
     logger.info(f'DI containers configured')
 
     load_plugins()
-    logger.info(f'Plugins loaded')
+
     CoreChannel.plugins_loaded.publish()
 
     arguments = parse_arguments()
@@ -52,11 +52,11 @@ async def main():
     CoreChannel.settings_loaded.publish()
 
     load_hooks()
-    logger.info('Hooks loaded')
+
     CoreChannel.hooks_loaded.publish()
 
     load_payloads()
-    logger.info('Payloads loaded')
+
     CoreChannel.payloads_loaded.publish()
 
     await run_core()
