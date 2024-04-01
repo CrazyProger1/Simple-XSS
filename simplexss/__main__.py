@@ -39,25 +39,25 @@ async def main():
 
     load_plugins()
 
-    CoreChannel.plugins_loaded.publish()
+    await CoreChannel.plugins_loaded.publish_async()
 
     arguments = parse_arguments()
     CoreContainer.arguments.bind(arguments)
-    CoreChannel.arguments_loaded.publish()
+    await CoreChannel.arguments_loaded.publish_async()
 
     set_language(arguments.language)
 
     settings = load_settings()
     CoreContainer.settings.bind(settings)
-    CoreChannel.settings_loaded.publish()
+    await CoreChannel.settings_loaded.publish_async()
 
     load_hooks()
 
-    CoreChannel.hooks_loaded.publish()
+    await CoreChannel.hooks_loaded.publish_async()
 
     load_payloads()
 
-    CoreChannel.payloads_loaded.publish()
+    await CoreChannel.payloads_loaded.publish_async()
 
     await run_core()
 

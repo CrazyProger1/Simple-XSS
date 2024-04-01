@@ -126,7 +126,7 @@ class FastAPIServer(BaseHTTPTransportServer):
     async def _run_server(self):
         self._server_thread = self._run_server_in_thread()
 
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.5)
         self._check_errors()
 
     def _validate_params(self):
@@ -135,7 +135,7 @@ class FastAPIServer(BaseHTTPTransportServer):
 
     async def run(self, host: str = None, port: int = None) -> BaseTransportAPI:
         if self._running:
-            raise RuntimeError('Server is already running')
+            raise TransportError('Server is already running')
 
         self._host = host or self._host
         self._port = port or self._port

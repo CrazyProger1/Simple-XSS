@@ -6,10 +6,10 @@ from simplexss.utils.events import (
 
 
 class CoreChannel(EventChannel):
-    plugins_loaded = Event()
-    hooks_loaded = Event()
-    payloads_loaded = Event()
-    arguments_loaded = Event()
-    settings_loaded = Event()
+    plugins_loaded = AsyncEvent()
+    hooks_loaded = AsyncEvent()
+    payloads_loaded = AsyncEvent()
+    arguments_loaded = AsyncEvent()
+    settings_loaded = AsyncEvent()
     core_initialized = Event()
     core_terminated = AsyncEvent()

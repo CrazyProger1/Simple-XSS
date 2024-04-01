@@ -14,7 +14,7 @@ from simplexss.utils.di import inject
 
 
 @inject
-def on_settings_loaded(self, settings=CoreContainer.settings):
+def on_settings_loaded(settings=CoreContainer.settings):
     print(f'Settings loaded: {settings}')
 ```
 
@@ -131,6 +131,44 @@ class GUIContainer(containers.Container):
 
 ## Event-System
 
+Event-driven architecture allows to track and handle events. All events are organized and stores into event-channels.
+
+To subscribe on event:
+
+```python
+# for sync events
+def on_settings_loaded():
+    print(f'Settings loaded')
+
+
+CoreChannel.settings_loaded.subscribe(on_settings_loaded)
+
+
+# for async events
+async def on_settings_loaded_async():
+    print(f'Settings loaded')
+
+
+CoreChannel.settings_loaded.subscribe(on_settings_loaded_async)
+# or
+CoreChannel.settings_loaded.subscribe(on_settings_loaded)
+```
+
+**Core Channel:**
+
+```python
+class CoreChannel(EventChannel):
+    plugins_loaded = AsyncEvent()
+    hooks_loaded = AsyncEvent()
+    payloads_loaded = AsyncEvent()
+    arguments_loaded = AsyncEvent()
+    settings_loaded = AsyncEvent()
+    core_initialized = Event()
+    core_terminated = AsyncEvent()
+```
+
+
+
 ## Services
 
 To add transport or tunneling service you can just implement service interface or inherit one of existing services.
@@ -186,3 +224,27 @@ class Plugin(BasePlugin):
 ```
 
 ![service2.png](../resources/images/service2.png)
+
+
+## Examples
+
+```python
+from simplexss.api import (
+    BasePlugin,
+    CoreChannel,
+    CoreContainer
+)
+
+from simplexss.utils.di import inject
+
+
+class Plugin(BasePlugin):
+    NAME = 'Settings Loading Detector'
+
+    def on_loaded(self, file: str):
+        CoreChannel.settings_loaded.subscribe(self.on_settings_loaded)
+
+    @inject
+    def on_settings_loaded(self, settings=CoreContainer.settings):
+        print(f'Settings loaded: {settings}')
+```

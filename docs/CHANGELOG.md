@@ -6,7 +6,7 @@
 
 - [x] Added support for various protocols (as transport services)
     - [x] HTTP
-    - [x] Websockets (unfinished)
+    - [ ] Websockets (unfinished)
 
 - [x] Added tunneling service
     - [x] Serveo

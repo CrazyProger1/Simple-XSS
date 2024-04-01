@@ -52,8 +52,7 @@ class ServeoService(BaseTunnelingService):
     async def _create_session(self, port: int, protocol: str) -> BaseSession:
 
         schema = self.PROTOCOL_SCHEMAS[protocol]
-        # public_url = await self._create_tunnel(port=port)
-        public_url = 'https://test.serveo.net'
+        public_url = await self._create_tunnel(port=port)
         return ServeoSession(
             protocol=protocol,
             port=port,
