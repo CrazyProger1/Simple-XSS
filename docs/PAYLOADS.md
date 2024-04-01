@@ -91,7 +91,7 @@ const callback = (data: object) => ... // User event handler
 ```
 ### IO-API
 
-An I/O manager is provided for the payload to handle IO operations. It has interface:
+An I/O manager is provided for the payloads and hooks to handle IO operations. It has interface:
 
 ```python
 class BaseIOManagerAPI(ABC):

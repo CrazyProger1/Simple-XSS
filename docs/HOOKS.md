@@ -1,5 +1,11 @@
 # Simple-XSS Hooks
 
+See [hook.](VOCABULARY.md)
+
+See [environment](PAYLOADS.md/#environment) - same as payload.
+
+See [io](PAYLOADS.md/#io-api) - same as payload.
+
 ## Examples
 
 ### HTTP Default Hook
