@@ -58,7 +58,10 @@ class SimpleXSSProcessor(BaseProcessor):
         self._environment: Environment | None = None
 
     def _setup_environment(self):
-        self._environment = Environment()
+        self._environment = Environment(
+            settings=self._settings,
+            arguments=self._arguments
+        )
 
     def _setup_hook(self):
         self._hook = self._hook_manager.get_package(
