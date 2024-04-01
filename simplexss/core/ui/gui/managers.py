@@ -1,5 +1,6 @@
 import flet as ft
 
+from simplexss.core.ui.contexts import UIContext
 from .exceptions import ValidationError
 from .types import (
     BaseComponentManager,
@@ -7,7 +8,6 @@ from .types import (
     BaseBanner,
 )
 from .channels import GUIChannel
-from simplexss.core.ui.contexts import UIContext
 from ..channels import UIChannel
 
 

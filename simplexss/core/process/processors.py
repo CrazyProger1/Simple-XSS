@@ -101,8 +101,7 @@ class SimpleXSSProcessor(BaseProcessor):
                 host=settings.host,
                 port=settings.port,
             )
-        except TransportError as e:
-            await ProcessorChannel.error_occurred.publish_async(error=f'Transport Error: {e}')
+        except TransportError:
             raise
 
     async def _bind_dependencies(self):
@@ -150,11 +149,16 @@ class SimpleXSSProcessor(BaseProcessor):
             await self._setup()
             await self._run()
             await self._bind_dependencies()
-            await ProcessorChannel.process_launched.publish_async()
 
+            await ProcessorChannel.process_launched.publish_async()
             logger.info('Process launched')
             await self._io_manager.print(Messages.PROCESS_LAUNCHED, color='green')
+            await self._io_manager.print(Messages.CURRENT_HOOK.format(hook=self._ui_context.hook), color='green')
+
         except Exception as e:
+            await ProcessorChannel.error_occurred.publish_async(
+                error=f'Error Occurred: {e.__class__.__name__}: {e}'
+            )
             await self.stop()
 
     async def stop(self):

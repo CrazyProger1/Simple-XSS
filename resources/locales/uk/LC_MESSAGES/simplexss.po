@@ -56,3 +56,6 @@ msgstr "Процес запущено"
 
 msgid "Process terminated"
 msgstr "Процес припинено"
+
+msgid "Current hook: {hook}"
+msgstr "Хук: {hook}"

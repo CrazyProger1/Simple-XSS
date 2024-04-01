@@ -18,6 +18,7 @@ from simplexss.core.transports import (
     BaseClient,
     BaseEvent,
 )
+from simplexss.core.logging import logger
 from simplexss.core.transports.exceptions import TransportError
 from simplexss.utils.theads import thread
 from simplexss.utils.network import (
@@ -120,7 +121,8 @@ class FastAPIServer(BaseHTTPTransportServer):
             self._uvicorn_server = uvicorn.Server(config)
             self._uvicorn_server.run()
 
-        except SystemExit:
+        except SystemExit as e:
+            logger.error(f'Server Error: {e}')
             self._error_queue.put(TransportError(f'Address is already in use: {self._host}:{self._port}'))
 
     async def _run_server(self):
@@ -134,7 +136,10 @@ class FastAPIServer(BaseHTTPTransportServer):
         validate_host(self._host, raise_exceptions=True)
 
     async def run(self, host: str = None, port: int = None) -> BaseTransportAPI:
+        logger.info(f'Starting up FastAPI server on {self._host}:{self._port}')
+
         if self._running:
+            logger.error(f'Server is already running')
             raise TransportError('Server is already running')
 
         self._host = host or self._host
@@ -147,9 +152,11 @@ class FastAPIServer(BaseHTTPTransportServer):
         self._setup_api()
 
         await self._run_server()
+
         return self._api
 
     async def stop(self):
+        logger.info(f'Turning down FastAPI server on {self._host}:{self._port}')
         self._uvicorn_server.should_exit = True
         del self._server_thread
         self._running = False

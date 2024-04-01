@@ -50,7 +50,7 @@ class MessageAreaBox(BaseComponent):
             ft.Text(
                 message,
                 selectable=True,
-                color=COLOR_TABLE.get(color, COLOR_TABLE['DEFAULT']),
+                color=COLOR_TABLE.get(color if isinstance(color, str) else color, COLOR_TABLE[Color.DEFAULT]),
                 size=MESSAGE_FONT_SIZE
             )
         )
