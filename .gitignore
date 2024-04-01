@@ -161,8 +161,9 @@ cython_debug/
 # Linter
 .ruff_cache
 
-
-# settings
+# Settings
 settings.toml
-Simple-XSS.log
+
+# Logfiles
+.log
 
