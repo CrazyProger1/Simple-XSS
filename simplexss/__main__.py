@@ -46,6 +46,7 @@ async def main():
     await CoreChannel.arguments_loaded.publish_async()
 
     set_language(arguments.language)
+    logger.info(f'Language set: {arguments.language}')
 
     settings = load_settings()
     CoreContainer.settings.bind(settings)

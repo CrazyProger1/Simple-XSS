@@ -57,7 +57,6 @@ cover/
 
 # Django stuff:
 *.log
-settings.py
 db.sqlite3
 db.sqlite3-journal
 
@@ -159,8 +158,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
-# Options file
-settings.toml
 
 # Linter
 .ruff_cache
