@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b2690057-8e3b-4453-944a-fcd7e7a5d67b" name="Changes" comment="Fix: typechacked" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Component" />
+        <option value="UML Class" />
+        <option value="JavaScript File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="gui" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2TkVrWySg5Ejvw5MKI6zBa0PCW5" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultPlantUmlFileTemplate": "UML Class",
+    "Python.__main__.executor": "Run",
+    "Python.gui.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.transport.executor": "Run",
+    "Python.types.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Release-V0.3",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/CyberSecirity/MyUtils/Simple-XSS/resources/payloads/cookies",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\resources\payloads\cookies" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\resources\payloads\alert" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\resources\hooks\http-pro" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\simplexss\core\transports\websocket" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\resources\hooks\websocket" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\simplexss\core\transports\http\fastapi" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\simplexss\core" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\tests\utils\packages\packages" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\docs" />
+      <recent name="D:\CyberSecirity\MyUtils\Simple-XSS\resources\images" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.__main__">
+    <configuration name="__main__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="D:\CyberSecirity\MyUtils\Simple-XSS" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/simplexss/__main__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="create_hook" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/create_hook.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/simplexss/core/ui/gui" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/simplexss/core/ui/gui/gui.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\CyberSecirity\MyUtils\Simple-XSS\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_fastapi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/new_features" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/new_features/test_fastapi.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="transport" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="D:\CyberSecirity\MyUtils\Simple-XSS" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/transports/http/transport.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="types" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/simplexss/core/transports" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/simplexss/core/transports/types.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_payload.TestPayload" type="tests" factoryName="Autodetect" nameIsGenerated="true">
+      <module name="Simple-XSS" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_payload.TestPayload&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.create_hook" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.types" />
+      <item itemvalue="Python.transport" />
+      <item itemvalue="Python.gui" />
+      <item itemvalue="Python.__main__" />
+      <item itemvalue="Python.test_fastapi" />
+      <item itemvalue="Python tests.Python tests for test_payload.TestPayload" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.__main__" />
+        <item itemvalue="Python.transport" />
+        <item itemvalue="Python.types" />
+        <item itemvalue="Python.gui" />
+        <item itemvalue="Python.test_fastapi" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-50da183f06c8-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13135.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b2690057-8e3b-4453-944a-fcd7e7a5d67b" name="Changes" comment="" />
+      <created>1691587264876</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1691587264876</updated>
+      <workItem from="1691587266831" duration="15037000" />
+      <workItem from="1691652577860" duration="28976000" />
+      <workItem from="1691736323199" duration="6952000" />
+      <workItem from="1691748691097" duration="19006000" />
+      <workItem from="1691824019768" duration="30066000" />
+      <workItem from="1691857998092" duration="3658000" />
+      <workItem from="1692027678052" duration="4061000" />
+      <workItem from="1692032373634" duration="5137000" />
+      <workItem from="1692084605173" duration="19598000" />
+      <workItem from="1692107975292" duration="1590000" />
+      <workItem from="1692113991847" duration="2000" />
+      <workItem from="1692114152667" duration="1000" />
+      <workItem from="1692114226017" duration="1000" />
+      <workItem from="1692185667317" duration="318000" />
+      <workItem from="1692186403819" duration="4275000" />
+      <workItem from="1692263055384" duration="2673000" />
+      <workItem from="1692344529296" duration="459000" />
+      <workItem from="1692430331536" duration="42000" />
+      <workItem from="1693383308596" duration="503000" />
+      <workItem from="1694957111758" duration="3690000" />
+      <workItem from="1694961019048" duration="4152000" />
+      <workItem from="1696507890672" duration="210000" />
+      <workItem from="1701766440467" duration="2077000" />
+      <workItem from="1701947805570" duration="832000" />
+      <workItem from="1701966527752" duration="803000" />
+      <workItem from="1701968269134" duration="1628000" />
+      <workItem from="1702033924292" duration="142000" />
+      <workItem from="1702041249730" duration="6731000" />
+      <workItem from="1702218769476" duration="67000" />
+      <workItem from="1702218866843" duration="29000" />
+      <workItem from="1702222575145" duration="2859000" />
+      <workItem from="1702297668294" duration="1327000" />
+      <workItem from="1702546176227" duration="25191000" />
+      <workItem from="1702650117378" duration="2032000" />
+      <workItem from="1702847247480" duration="2382000" />
+      <workItem from="1702998603185" duration="59000" />
+      <workItem from="1703098445849" duration="990000" />
+      <workItem from="1703149654320" duration="6244000" />
+      <workItem from="1703235605628" duration="4852000" />
+      <workItem from="1703243273188" duration="16992000" />
+      <workItem from="1703319382344" duration="14806000" />
+      <workItem from="1703409697955" duration="11762000" />
+      <workItem from="1703428132691" duration="556000" />
+      <workItem from="1703428718952" duration="5942000" />
+      <workItem from="1703498623691" duration="1872000" />
+      <workItem from="1703577956043" duration="25111000" />
+      <workItem from="1703664579044" duration="15859000" />
+      <workItem from="1703752922726" duration="16190000" />
+      <workItem from="1703837006843" duration="24430000" />
+      <workItem from="1703925283139" duration="18588000" />
+      <workItem from="1703969052797" duration="152000" />
+      <workItem from="1704187881482" duration="21364000" />
+      <workItem from="1704284950501" duration="11932000" />
+      <workItem from="1704354333034" duration="22897000" />
+      <workItem from="1704385892081" duration="7864000" />
+      <workItem from="1704448105910" duration="7319000" />
+      <workItem from="1704466325916" duration="1256000" />
+      <workItem from="1704531399110" duration="18148000" />
+      <workItem from="1704620621447" duration="11401000" />
+      <workItem from="1704705243280" duration="7596000" />
+      <workItem from="1704786664834" duration="21187000" />
+      <workItem from="1704872298834" duration="26094000" />
+      <workItem from="1704963532747" duration="12221000" />
+      <workItem from="1704988546633" duration="1205000" />
+      <workItem from="1705047794125" duration="19246000" />
+      <workItem from="1705132545359" duration="30347000" />
+      <workItem from="1705215959113" duration="26817000" />
+      <workItem from="1705403172290" duration="1629000" />
+      <workItem from="1705480100689" duration="17148000" />
+      <workItem from="1705498987648" duration="109000" />
+      <workItem from="1705500079165" duration="1000" />
+      <workItem from="1705500987769" duration="63000" />
+      <workItem from="1705501111104" duration="2000" />
+      <workItem from="1705501328966" duration="349000" />
+      <workItem from="1705564953253" duration="3335000" />
+      <workItem from="1705648754230" duration="4261000" />
+      <workItem from="1705740741174" duration="1746000" />
+      <workItem from="1705931560761" duration="611000" />
+      <workItem from="1705998741402" duration="79000" />
+      <workItem from="1710863966863" duration="10425000" />
+      <workItem from="1710924714919" duration="19328000" />
+      <workItem from="1711008365209" duration="11129000" />
+      <workItem from="1711029976702" duration="6878000" />
+      <workItem from="1711099801830" duration="18406000" />
+      <workItem from="1711182100311" duration="24311000" />
+      <workItem from="1711274572897" duration="1468000" />
+      <workItem from="1711356122883" duration="19470000" />
+      <workItem from="1711439279800" duration="17408000" />
+      <workItem from="1711526269331" duration="16480000" />
+      <workItem from="1711617015675" duration="6475000" />
+      <workItem from="1711794855233" duration="552000" />
+      <workItem from="1711960149401" duration="18523000" />
+      <workItem from="1711980876994" duration="1150000" />
+    </task>
+    <task id="LOCAL-00008" summary="Add: events">
+      <created>1691664210454</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1691664210454</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Add: chat payload">
+      <created>1691675529784</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1691675529784</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Add: client app">
+      <created>1691683030134</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1691683030134</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Add: options">
+      <created>1691743198399</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1691743198399</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add: simple cli">
+      <created>1691744325345</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1691744325345</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add: perfect flet interface">
+      <created>1691761462007</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1691761462007</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Add: hook &amp; payload path choosing">
+      <created>1691763158551</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1691763158551</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Add: peeeeeeeeerfeeeect interface">
+      <created>1691763993844</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1691763993844</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Add: loading payload &amp; hook">
+      <created>1691767126205</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1691767126205</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Add: runner">
+      <created>1691833739256</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1691833739256</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fix: server">
+      <created>1691835909895</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1691835909895</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Add: io manager">
+      <created>1691843284855</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1691843284855</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Add: io managers">
+      <created>1691844871034</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1691844871034</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Add: readme instructions">
+      <created>1691846661203</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1691846661203</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Add: ip payload">
+      <created>1691847294819</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1691847294819</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Add: hooks &amp; payload information">
+      <created>1691848414775</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1691848414775</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Add: jinja docs">
+      <created>1691850529616</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1691850529616</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Add: jinja docs">
+      <created>1691850832460</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1691850832460</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Add: almost full readme">
+      <created>1691853390252</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1691853390252</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Test icons">
+      <created>1691853607649</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1691853607649</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Test icons">
+      <created>1691853642409</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1691853642409</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Test icons">
+      <created>1691853686623</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1691853686623</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Add: badges">
+      <created>1691853990013</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1691853990013</updated>
+    </task>
+    <task id="LOCAL-00031" summary="0.1 version release">
+      <created>1691854313902</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1691854313902</updated>
+    </task>
+    <task id="LOCAL-00032" summary="FIX: Simle -&gt; Simple in readme🤦‍♂️">
+      <created>1691855542970</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1691855542970</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Add: commandline help screenshot to readme">
+      <created>1691855911302</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1691855911302</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Add: login payload">
+      <created>1691863149439</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1691863149439</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Fix: login payload">
+      <created>1692029040930</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1692029040930</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Refactor &amp; Fix: whole project">
+      <created>1692031315445</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1692031315445</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Add: hook creation script">
+      <created>1692039639957</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1692039639957</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Add: payload creation script">
+      <created>1692039908792</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1692039908792</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Update: io">
+      <created>1692088359368</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1692088359368</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Add: url validation">
+      <created>1692088769550</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1692088769550</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Add: menu">
+      <created>1692093125548</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1692093125548</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Add: host &amp; port entering">
+      <created>1692094011409</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1692094011409</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Update: readme cli interface image">
+      <created>1692094901563</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1692094901563</updated>
+    </task>
+    <task id="LOCAL-00044" summary="V0.2 Final commit">
+      <created>1692095819976</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1692095819976</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Add: gui guide">
+      <created>1692102357439</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1692102357439</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Add: disclaimer">
+      <created>1692103977821</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1692103977821</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Fix: readme release version">
+      <created>1692104651901</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1692104651901</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Refactor: get_wrapper -&gt; factory">
+      <created>1692186589864</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1692186589864</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Refactor: get_wrapper -&gt; factory">
+      <created>1692189550993</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1692189550993</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Refactor">
+      <created>1692344551668</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1692344551668</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Close commit">
+      <created>1693383803300</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1693383803300</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Refactor: settings -&gt; config">
+      <created>1694957431961</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1694957431962</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Refactor: settings">
+      <created>1694960462006</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1694960462006</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Refactor: wss server">
+      <created>1694960805205</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1694960805205</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Add: gui logging">
+      <created>1694961538646</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1694961538646</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Fix: typechacked">
+      <created>1694964951115</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1694964951115</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="0.1 version release" />
+    <MESSAGE value="FIX: Simle -&gt; Simple in readme‍♂️" />
+    <MESSAGE value="Add: commandline help screenshot to readme" />
+    <MESSAGE value="Add: login payload" />
+    <MESSAGE value="Fix: login payload" />
+    <MESSAGE value="Refactor &amp; Fix: whole project" />
+    <MESSAGE value="Add: hook creation script" />
+    <MESSAGE value="Add: payload creation script" />
+    <MESSAGE value="Update: io" />
+    <MESSAGE value="Add: url validation" />
+    <MESSAGE value="Add: menu" />
+    <MESSAGE value="Add: host &amp; port entering" />
+    <MESSAGE value="Update: readme cli interface image" />
+    <MESSAGE value="V0.2 Final commit" />
+    <MESSAGE value="Add: gui guide" />
+    <MESSAGE value="Add: disclaimer" />
+    <MESSAGE value="Fix: readme release version" />
+    <MESSAGE value="Refactor: get_wrapper -&gt; factory" />
+    <MESSAGE value="Refactor" />
+    <MESSAGE value="Close commit" />
+    <MESSAGE value="Refactor: settings -&gt; config" />
+    <MESSAGE value="Refactor: settings" />
+    <MESSAGE value="Refactor: wss server" />
+    <MESSAGE value="Add: gui logging" />
+    <MESSAGE value="Fix: typechacked" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: typechacked" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/payload_js$gui.coverage" NAME="gui Coverage Results" MODIFIED="1711107849970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/simplexss/core/ui/gui" />
+    <SUITE FILE_PATH="coverage/payload_js$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1704709977642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/new_features" />
+    <SUITE FILE_PATH="coverage/payload_js$.coverage" NAME=" Coverage Results" MODIFIED="1703671521427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/payload_js$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1704203931319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/new_features" />
+    <SUITE FILE_PATH="coverage/payload_js$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1704625577637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/payload_js$client.coverage" NAME="client Coverage Results" MODIFIED="1705158432231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/new_features" />
+    <SUITE FILE_PATH="coverage/Simple_XSS$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1711981959686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:\CyberSecirity\MyUtils\Simple-XSS" />
+    <SUITE FILE_PATH="coverage/payload_js$test.coverage" NAME="test Coverage Results" MODIFIED="1704708583801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/new_features" />
+    <SUITE FILE_PATH="coverage/payload_js$transport.coverage" NAME="transport Coverage Results" MODIFIED="1711448132690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:\CyberSecirity\MyUtils\Simple-XSS" />
+    <SUITE FILE_PATH="coverage/payload_js$main.coverage" NAME="main Coverage Results" MODIFIED="1705751050749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/payload_js$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1711979801349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:\CyberSecirity\MyUtils\Simple-XSS" />
+    <SUITE FILE_PATH="coverage/payload_js$test_fastapi.coverage" NAME="test_fastapi Coverage Results" MODIFIED="1704622112957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/new_features" />
+    <SUITE FILE_PATH="coverage/payload_js$types.coverage" NAME="types Coverage Results" MODIFIED="1711359718652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/simplexss/core/transports" />
+    <SUITE FILE_PATH="coverage/payload_js$create_hook.coverage" NAME="create_hook Coverage Results" MODIFIED="1703098454217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
+  </component>
+</project>
