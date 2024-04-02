@@ -35,9 +35,11 @@
 ![](../resources/images/tutor9.png)
 
 - Client hooked, now you can enter and send text:
+
 ![](../resources/images/tutor10.png)
 
 ![](../resources/images/tutor11.png)
 
 - See alert:
+
 ![](../resources/images/tutor12.png)
