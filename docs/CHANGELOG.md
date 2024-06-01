@@ -15,3 +15,6 @@
 - [x] Added plugin system
 
 - [x] Added i18n
+
+## V0.0.4
+
