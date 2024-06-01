@@ -1,11 +1,7 @@
-from .utils import (
-    inject,
-    async_inject,
-    setup
-)
+from .utils import async_inject, inject, setup
 
 __all__ = [
-    'inject',
-    'async_inject',
-    'setup',
+    "inject",
+    "async_inject",
+    "setup",
 ]

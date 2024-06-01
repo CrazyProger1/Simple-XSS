@@ -1,10 +1,6 @@
 import pytest
 
-from simplexss.utils.events import (
-    EventChannel,
-    Event,
-    AsyncEvent
-)
+from simplexss.utils.events import AsyncEvent, Event, EventChannel
 
 
 def test_event_channel_events_property():

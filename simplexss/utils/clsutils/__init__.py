@@ -1,10 +1,6 @@
-from .generators import (
-    iter_instances,
-    iter_subclasses
-)
-
+from .generators import iter_instances, iter_subclasses
 
 __all__ = [
-    'iter_instances',
-    'iter_subclasses',
+    "iter_instances",
+    "iter_subclasses",
 ]

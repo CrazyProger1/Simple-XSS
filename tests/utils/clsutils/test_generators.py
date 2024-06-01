@@ -1,9 +1,6 @@
 import pytest
 
-from simplexss.utils.clsutils import (
-    iter_instances,
-    iter_subclasses
-)
+from simplexss.utils.clsutils import iter_instances, iter_subclasses
 
 
 class FirstClass:
@@ -25,7 +22,7 @@ def create_instances():
         FirstClass(),
         FirstClass(),
         FirstSubclass(),
-        FirstSubSubClass()
+        FirstSubSubClass(),
     ]
 
 

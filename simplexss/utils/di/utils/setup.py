@@ -1,8 +1,5 @@
+from ...clsutils import iter_subclasses
 from ..types import BaseContainer
-
-from ...clsutils import (
-    iter_subclasses,
-)
 
 
 def setup(base: type[BaseContainer] = BaseContainer):

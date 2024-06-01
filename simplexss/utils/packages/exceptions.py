@@ -1,5 +1,5 @@
 class PackageError(Exception):
-    msg = 'Package error: {package}'
+    msg = "Package error: {package}"
 
     def __init__(self, package: str, msg: str = None):
         self.package = package
@@ -8,7 +8,7 @@ class PackageError(Exception):
 
 
 class PackageNotFoundError(PackageError):
-    msg = 'Package not found: {package}'
+    msg = "Package not found: {package}"
 
 
 class PackageFormatError(PackageError):
@@ -16,8 +16,8 @@ class PackageFormatError(PackageError):
 
 
 class PackageDisabledError(PackageError):
-    msg = 'Package is disabled: {package}'
+    msg = "Package is disabled: {package}"
 
 
 class PackageNotLoadedError(PackageError):
-    msg = 'Package is not loaded: {package}'
+    msg = "Package is not loaded: {package}"

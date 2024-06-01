@@ -1,7 +1,7 @@
 from typing import Callable
 
-from .basic import DependencyBasicFunctionality
 from ..utils import inject_into_kwargs
+from .basic import DependencyBasicFunctionality
 
 
 class Factory(DependencyBasicFunctionality):
@@ -15,7 +15,7 @@ class Factory(DependencyBasicFunctionality):
 
     def _validate_factory(self):
         if not callable(self._factory):
-            raise ValueError('Factory must be callable')
+            raise ValueError("Factory must be callable")
 
     def _create_instance(self):
         return self._factory(

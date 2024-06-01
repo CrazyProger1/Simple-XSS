@@ -1,9 +1,6 @@
 import pytest
 
-from simplexss.utils.di import (
-    containers,
-    dependencies
-)
+from simplexss.utils.di import containers, dependencies
 
 
 def test_singleton():

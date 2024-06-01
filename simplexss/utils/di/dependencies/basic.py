@@ -1,9 +1,6 @@
 from abc import ABC
 
-from ..types import (
-    BaseDependency,
-    BaseContainer
-)
+from ..types import BaseContainer, BaseDependency
 
 
 class DependencyBasicFunctionality(BaseDependency, ABC):
@@ -16,7 +13,7 @@ class DependencyBasicFunctionality(BaseDependency, ABC):
 
     def __set_name__(self, owner: type[BaseContainer], name: str):
         if not issubclass(owner, BaseContainer):
-            raise ValueError('Dependency can only be set to a container')
+            raise ValueError("Dependency can only be set to a container")
 
         self._container = owner
         self._name = name

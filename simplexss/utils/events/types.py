@@ -1,15 +1,12 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
-from typing import Collection, Callable
+from abc import ABC, abstractmethod
+from typing import Callable, Collection
 
 
 class BaseEventChannel(ABC):
     @classmethod
     @property
     @abstractmethod
-    def events(cls) -> Collection['BaseEvent']: ...
+    def events(cls) -> Collection["BaseEvent"]: ...
 
 
 class BaseEvent(ABC):

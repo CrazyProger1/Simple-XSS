@@ -3,7 +3,7 @@ from .factory import Factory
 from .singleton import Singleton
 
 __all__ = [
-    'Dependency',
-    'Factory',
-    'Singleton',
+    "Dependency",
+    "Factory",
+    "Singleton",
 ]

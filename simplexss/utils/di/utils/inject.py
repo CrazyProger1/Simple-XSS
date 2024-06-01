@@ -2,9 +2,7 @@ import inspect
 from functools import wraps
 from typing import Callable
 
-from ..types import (
-    BaseDependency,
-)
+from ..types import BaseDependency
 
 
 def inject_into_kwargs(**kwargs) -> dict:

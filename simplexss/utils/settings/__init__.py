@@ -1,5 +1,3 @@
 from .types import BaseLoader
 
-__all__ = [
-    'BaseLoader'
-]
+__all__ = ["BaseLoader"]

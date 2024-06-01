@@ -5,12 +5,7 @@ from typing import Callable
 
 def thread(target: Callable = None, /, *, daemon: bool = False):
     def wrapper(*args, **kwargs) -> threading.Thread:
-        thr = threading.Thread(
-            target=target,
-            args=args,
-            kwargs=kwargs,
-            daemon=daemon
-        )
+        thr = threading.Thread(target=target, args=args, kwargs=kwargs, daemon=daemon)
         thr.start()
         return thr
 
@@ -22,4 +17,5 @@ def thread(target: Callable = None, /, *, daemon: bool = False):
 
     if callable(target):
         return wraps(target)(wrapper)
+
     return decorator

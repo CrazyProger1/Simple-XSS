@@ -1,7 +1,4 @@
-from simplexss.utils.events import (
-    EventChannel,
-    Event
-)
+from simplexss.utils.events import Event, EventChannel
 
 
 def test_event_subscribe_publish():

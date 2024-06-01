@@ -1,7 +1,4 @@
-from jinja2 import (
-    FileSystemLoader,
-    Environment
-)
+from jinja2 import Environment, FileSystemLoader
 
 
 def render(directory: str, file: str, **context):

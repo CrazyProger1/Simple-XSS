@@ -1,12 +1,8 @@
-from simplexss.utils.di import (
-    inject,
-    containers,
-    dependencies
-)
+from simplexss.utils.di import containers, dependencies, inject
 
 
 def test_inject():
-    value = 'hello, world!'
+    value = "hello, world!"
 
     class Container(containers.Container):
         dep = dependencies.Dependency(value)

@@ -1,7 +1,4 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 from typing import Collection
 
 
@@ -9,7 +6,7 @@ class BaseContainer(ABC):
     @classmethod
     @property
     @abstractmethod
-    def dependencies(cls) -> Collection['BaseDependency']: ...
+    def dependencies(cls) -> Collection["BaseDependency"]: ...
 
     @classmethod
     @abstractmethod

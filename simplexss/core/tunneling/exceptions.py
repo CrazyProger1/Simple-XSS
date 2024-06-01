@@ -1,2 +1,0 @@
-class TunnelingError(Exception):
-    pass
