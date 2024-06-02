@@ -3,7 +3,9 @@ import os
 from dotenv import load_dotenv
 
 from simplexss.core.enums import GraphicMode
+from simplexss.core.logging import configure_logging
 
+# Loading .env file
 load_dotenv()
 
 # App config
@@ -25,3 +27,6 @@ DEFAULT_GRAPHIC_MODE = os.getenv("GRAPHIC_MODE", GraphicMode.DESKTOP)
 
 # i18n config
 DEFAULT_LANGUAGE = os.getenv("LANGUAGE", "en")
+
+# Calling premain procedures
+configure_logging(LOGGING_CONFIG_FILE)

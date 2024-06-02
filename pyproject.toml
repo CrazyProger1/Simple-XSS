@@ -26,6 +26,7 @@ flet = "^0.21.2"
 pyperclip = "^1.8.2"
 websockets = "^12.0"
 python-dotenv = "^1.0.1"
+pyvents = "^0.0.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.3"
