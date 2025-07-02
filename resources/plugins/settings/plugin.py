@@ -1,5 +1,5 @@
-from simplexss.api import BasePlugin, CoreChannel, CoreContainer
-from simplexss.utils.di import inject
+from src.api import BasePlugin, CoreChannel, CoreContainer
+from src.utils.di import inject
 
 
 class Plugin(BasePlugin):

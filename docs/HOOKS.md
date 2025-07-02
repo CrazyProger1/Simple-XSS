@@ -13,7 +13,7 @@ See [io](PAYLOADS.md/#io-api) - same as payload.
 ```python
 # hook.py
 
-from simplexss.api.hooks import BaseHook
+from src.api.hooks import BaseHook
 
 
 class Hook(BaseHook):
@@ -35,7 +35,7 @@ class Hook(BaseHook):
 ```python
 # hook.py
 
-from simplexss.api.hooks import BaseHook
+from src.api.hooks import BaseHook
 
 
 class Hook(BaseHook):

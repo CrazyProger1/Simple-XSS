@@ -1,4 +1,4 @@
-from simplexss.api.hooks import BaseHook
+from src.api.hooks import BaseHook
 
 
 class Hook(BaseHook):

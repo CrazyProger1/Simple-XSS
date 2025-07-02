@@ -1,4 +1,4 @@
-from simplexss.api import BaseClient, BaseEvent, BasePayload, render
+from src.api import BaseClient, BaseEvent, BasePayload, render
 
 
 class Payload(BasePayload):

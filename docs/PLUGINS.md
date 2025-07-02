@@ -10,7 +10,7 @@ system, where container stores all dependencies.
 Any dependency can be injected into a function/method using the ```@inject``` decorator:
 
 ```python
-from simplexss.utils.di import inject
+from src.utils.di import inject
 
 
 @inject
@@ -176,9 +176,9 @@ To add transport or tunneling service you can just implement service interface o
 ### Transport
 
 ```python
-from simplexss.api import BasePlugin
+from src.api import BasePlugin
 
-from simplexss.core.transports import BaseTransportService, BaseSession
+from src.core.transports import BaseTransportService, BaseSession
 
 
 class MyService(BaseTransportService):
@@ -201,9 +201,9 @@ class Plugin(BasePlugin):
 ### Tunneling
 
 ```python
-from simplexss.api import BasePlugin
+from src.api import BasePlugin
 
-from simplexss.core.tunneling import BaseTunnelingService, BaseSession
+from src.core.tunneling import BaseTunnelingService, BaseSession
 
 
 class MyService(BaseTunnelingService):
@@ -229,13 +229,13 @@ class Plugin(BasePlugin):
 ## Examples
 
 ```python
-from simplexss.api import (
+from src.api import (
     BasePlugin,
     CoreChannel,
     CoreContainer
 )
 
-from simplexss.utils.di import inject
+from src.utils.di import inject
 
 
 class Plugin(BasePlugin):

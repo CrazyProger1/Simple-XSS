@@ -15,11 +15,11 @@ cleancode:
 
 .PHONY: translations
 translations:
-	poetry run python -m i18n simplexss/__init__.py simplexss.pot
+	poetry run python -m i18n src/__init__.py simplexss.pot
 
 
 .PHONY: build
 build:
-	poetry run pyinstaller -F --name Simple-XSS --icon "resources/images/logo.ico" simplexss/__main__.py
+	poetry run pyinstaller -F --name Simple-XSS --icon "resources/images/logo.ico" main.py
 
 
